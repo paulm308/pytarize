@@ -1,0 +1,6 @@
+test_logs/
+*.log
+*.err
+venv/
+*ZoneIdentifier*
+src/__pycache__/*.pyc

@@ -1,2 +1,4 @@
 # pytarize
 TODO
+
+pandas, pathlib
