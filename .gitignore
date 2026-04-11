@@ -3,4 +3,5 @@ test_logs/
 *.err
 venv/
 *ZoneIdentifier*
-src/__pycache__/*.pyc
+__pycache__
+*.pyc

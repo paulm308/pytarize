@@ -1,4 +1,9 @@
 # pytarize
 TODO
 
-pandas, pathlib
+pandas, pathlib, typer
+
+pipeline: 
+1. argument Parsing: 
+> read default values -> read config -> overwrite with cli
+2. TODO
