@@ -1,26 +1,28 @@
-import src.core.pipeline as pipeline
+from src.core.pipeline import run_pipeline
+from src.cli.configbuilder import build_config
+from src.core.configuration_data import PlotType
 import typer
-from dataclasses import dataclass
-from pathlib import Path
+from typing import Annotated, Optional
 
 app = typer.Typer()
 
 
-@dataclass
-class CFG:
-    zummarize_path: Path
-    log_path: Path
-
-
-@dataclass
-class BasePlot(CFG):
-    color: str
-
-
 @app.command()
-def base(zummarize_path: str,
-         log_path: str):
-    cfg = BasePlot(zummarize_path=Path(zummarize_path),
-                   log_path=Path(log_path),
-                   color="red")  # dummy
-    pipeline.run_pipeline(cfg)
+def base(zummarizepath: Annotated[Optional[str], typer.Option()] = None,
+         logpath: Annotated[Optional[str], typer.Option()] = None,
+         configpath: Annotated[Optional[str], typer.Option()] = None,
+         color: Annotated[Optional[str], typer.Option()] = None):
+
+    # set defaults:
+    raw = {
+        "zummarize_path": zummarizepath,
+        "log_path": logpath,
+        "config_path": configpath,
+        "atr": {
+            "color": color
+        }
+    }
+
+    cfg = build_config(raw, PlotType.BasePlot)
+
+    run_pipeline(cfg)

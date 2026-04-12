@@ -1,7 +1,7 @@
 # pytarize
 TODO
 
-pandas, pathlib, typer
+pandas, pathlib, typer, pyyaml
 
 pipeline: 
 1. argument Parsing: 

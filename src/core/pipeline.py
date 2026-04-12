@@ -2,7 +2,6 @@ from src.core.normalize import normalize
 import src.core.validate as val
 from src.core.load_data import read_zummary
 from src.core.recompute import generate_zummary
-from dataclasses import dataclass
 import pandas as pd
 
 
@@ -13,4 +12,5 @@ def run_pipeline(cfg):
         val.validate_zummarize_path(ncfg)
         generate_zummary(ncfg)
     df: pd.DataFrame = read_zummary(ncfg)
+    print(ncfg)
     print(df.loc[0:5])

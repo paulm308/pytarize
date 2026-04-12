@@ -1,14 +1,9 @@
-import src.cli.commands as commands
-from pathlib import Path
-from dataclasses import dataclass
-
 
 def normalize(cfg):
     # convert rellative paths to absolute paths
-    cfg.zummarize_path = cfg.zummarize_path.resolve()
-    cfg.log_path = cfg.log_path.resolve()
-
-    if type(cfg) is commands.BasePlot:
-        cfg.color = "red"  # dummy
-
+    if cfg.zummarize_path is not None:
+        cfg.zummarize_path = cfg.zummarize_path.expanduser().resolve()
+    cfg.log_path = cfg.log_path.expanduser().resolve()
+    cfg.base_config_path = cfg.base_config_path.expanduser().resolve()
+    cfg.plot_config_path = cfg.base_config_path.expanduser().resolve()
     return cfg
