@@ -11,7 +11,7 @@ class PlotType(Enum):
 class CFG:
     plot_type: PlotType
     zummarize_path: Path | None
-    log_path: Path | None
+    log_paths: list[Path] | None
     base_config_path: Path
     plot_config_path: Path
     atr: dict = field(default_factory=dict)

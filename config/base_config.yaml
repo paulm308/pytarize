@@ -1,2 +1,6 @@
 ---
   "zummarize_path": "../zummarize/zummarize"
+  "log_paths":
+    - "test_logs/c24"
+    - "test_logs/c25"
+    - "test_logs/k24"

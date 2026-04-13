@@ -1,5 +1,10 @@
 import pandas as pd
 
 
-def read_zummary(cfg) -> pd.DataFrame:
-    return pd.read_csv((cfg.log_path / "zummary"), delimiter=' ')
+def read_zummary(cfg) -> list[pd.DataFrame]:
+    res = []
+    for log_path in cfg.log_paths:
+        zummary_path = log_path / "zummary"
+        df = pd.read_csv(zummary_path, delimiter=' ')
+        res.append(df)
+    return res

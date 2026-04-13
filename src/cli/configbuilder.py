@@ -1,6 +1,7 @@
 import src.core.configuration_data as config_data
 from src.cli.load_config import read_config
 from src.cli.validate_config import validate_config_path
+from src.cli.dictmerger import merge_dicts
 from pathlib import Path
 
 
@@ -16,27 +17,11 @@ def set_defaults(plot_type: config_data.PlotType):
 
     defaults = config_data.CFG(plot_type=plot_type,
                                zummarize_path=None,
-                               log_path=None,
+                               log_paths=None,
                                base_config_path=base_config_path,
                                plot_config_path=plot_config_path,
                                atr=atr)
     return defaults
-
-
-def merge_dicts(base: dict, override: dict) -> dict:
-    result = base.copy()
-
-    for key, value in override.items():
-        if (
-            key in result
-            and isinstance(result[key], dict)
-            and isinstance(value, dict)
-        ):
-            result[key] = merge_dicts(result[key], value)
-        elif value is not None:
-            result[key] = value
-
-    return result
 
 
 def build_config(raw, plot_type: config_data.PlotType):
@@ -57,8 +42,8 @@ def build_config(raw, plot_type: config_data.PlotType):
     # apply cli:
     if raw["zummarize_path"] is not None:
         cfg.zummarize_path = Path(raw["zummarize_path"])
-    if raw["log_path"] is not None:
-        cfg.log_path = Path(raw["log_path"])
+    if raw["log_paths"] is not None:
+        cfg.log_paths = [Path(log_path) for log_path in raw["log_paths"]]
     cfg.atr = merge_dicts(cfg.atr, raw["atr"])
 
     return cfg

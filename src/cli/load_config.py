@@ -1,3 +1,4 @@
+from src.cli.dictmerger import merge_dicts
 import yaml
 from pathlib import Path
 
@@ -10,9 +11,9 @@ def read_config(config_path, cfg):
         if "zummarize_path" in data.keys():
             cfg.zummarize_path = Path(data["zummarize_path"])
             del data["zummarize_path"]
-        if "log_path" in data.keys():
-            cfg.log_path = Path(data["log_path"])
-            del data["log_path"]
+        if "log_paths" in data.keys():
+            cfg.log_paths = [Path(log_path) for log_path in data["log_paths"]]
+            del data["log_paths"]
 
-        cfg.atr = cfg.atr | data
+        cfg.atr = merge_dicts(cfg.atr, data)
     return cfg

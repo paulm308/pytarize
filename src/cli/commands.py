@@ -9,14 +9,14 @@ app = typer.Typer()
 
 @app.command()
 def base(zummarizepath: Annotated[Optional[str], typer.Option()] = None,
-         logpath: Annotated[Optional[str], typer.Option()] = None,
+         logpaths: Annotated[Optional[list[str]], typer.Option()] = None,
          configpath: Annotated[Optional[str], typer.Option()] = None,
          color: Annotated[Optional[str], typer.Option()] = None):
 
     # set defaults:
     raw = {
         "zummarize_path": zummarizepath,
-        "log_path": logpath,
+        "log_paths": logpaths,
         "config_path": configpath,
         "atr": {
             "color": color

@@ -1,9 +1,9 @@
 import subprocess
 
 
-def generate_zummary(ncfg):
+def generate_zummary(zummarize_path, log_path):
     try:
-        result = subprocess.run([ncfg.zummarize_path, ncfg.log_path])
+        result = subprocess.run([zummarize_path, log_path])
         print(result)
     except subprocess.CalledProcessError as e:
         print("The program exited with an error:")
