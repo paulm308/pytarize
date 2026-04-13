@@ -18,6 +18,7 @@ def set_defaults(plot_type: config_data.PlotType):
     defaults = config_data.CFG(plot_type=plot_type,
                                zummarize_path=None,
                                log_paths=None,
+                               r_log_paths=None,
                                base_config_path=base_config_path,
                                plot_config_path=plot_config_path,
                                atr=atr)
@@ -44,6 +45,8 @@ def build_config(raw, plot_type: config_data.PlotType):
         cfg.zummarize_path = Path(raw["zummarize_path"])
     if raw["log_paths"] is not None:
         cfg.log_paths = [Path(log_path) for log_path in raw["log_paths"]]
+    if raw["r_log_paths"] is not None:
+        cfg.r_log_paths = [Path(r_log_path) for r_log_path in raw["r_log_paths"]]
     cfg.atr = merge_dicts(cfg.atr, raw["atr"])
 
     return cfg

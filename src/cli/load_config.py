@@ -14,6 +14,8 @@ def read_config(config_path, cfg):
         if "log_paths" in data.keys():
             cfg.log_paths = [Path(log_path) for log_path in data["log_paths"]]
             del data["log_paths"]
-
+        if "r_log_paths" in data.keys():
+            cfg.r_log_paths = [Path(r_log_path) for r_log_path in data["r_log_paths"]]
+            del data["r_log_paths"]
         cfg.atr = merge_dicts(cfg.atr, data)
     return cfg

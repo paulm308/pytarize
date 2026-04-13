@@ -10,6 +10,7 @@ app = typer.Typer()
 @app.command()
 def base(zummarizepath: Annotated[Optional[str], typer.Option()] = None,
          logpaths: Annotated[Optional[list[str]], typer.Option()] = None,
+         rlogpaths: Annotated[Optional[list[str]], typer.Option()] = None,
          configpath: Annotated[Optional[str], typer.Option()] = None,
          color: Annotated[Optional[str], typer.Option()] = None):
 
@@ -17,6 +18,7 @@ def base(zummarizepath: Annotated[Optional[str], typer.Option()] = None,
     raw = {
         "zummarize_path": zummarizepath,
         "log_paths": logpaths,
+        "r_log_paths": rlogpaths,
         "config_path": configpath,
         "atr": {
             "color": color
