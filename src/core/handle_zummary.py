@@ -1,12 +1,13 @@
 from src.core.validate import validate_zummarize_path
-from src.core.recompute_zummary import generate_zummary
+from src.core.handle_zummarize import call_zummarize
 
 
 def enshure_zummary(cfg):
-    zummize_path_validated = False
+    paths_without_zummary = []
     for log_path in cfg.log_paths:
         if (log_path / "zummary").exists():
             continue
-        if not zummize_path_validated:
-            validate_zummarize_path(cfg.zummarize_path)
-        generate_zummary(cfg.zummarize_path, log_path)
+        paths_without_zummary.append(log_path)
+    if paths_without_zummary != []:
+        validate_zummarize_path(cfg.zummarize_path)
+        call_zummarize(cfg)

@@ -13,8 +13,6 @@ def normalize(cfg):
     cfg.base_config_path = cfg.base_config_path.expanduser().resolve()
     cfg.plot_config_path = cfg.base_config_path.expanduser().resolve()
 
-    return cfg
-
 
 def normalize_r_log_paths(cfg):
     # convert rellative paths to absolute paths
