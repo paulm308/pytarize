@@ -25,7 +25,7 @@ def pre_validate_log_paths(cfg):
 
 def validate_zummarize_path(cfg):
     if cfg.zummarize_path is None:
-        raise ValueError(f"Path to zummarize is not specified but required because no zummary exists in the log directoy. Path: {zummarize_path}")
+        raise ValueError(f"Path to zummarize is not specified but required because no zummary exists in the log directoy. Path: {cfg.zummarize_path}")
     if not cfg.zummarize_path.exists():
         raise FileNotFoundError(f"zummarize binary does not exist. Path: {cfg.zummarize_path}")
     if not os.access(cfg.zummarize_path, os.X_OK):

@@ -16,6 +16,7 @@ def run_pipeline(cfg):
     # enshure_zummary(cfg)
     call_zummarize(cfg)
     data = read_zummary(cfg)
+
     print(cfg)
     for df in data:
         print(df.loc[0:5])

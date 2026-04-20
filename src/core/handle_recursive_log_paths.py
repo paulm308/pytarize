@@ -7,6 +7,8 @@ def is_log_dir(path: Path) -> bool:
 
 def find_log_dirs(base: Path) -> list[Path]:
     res = []
+    if base.is_dir() and is_log_dir(base):
+        res.append(base)
 
     for path in base.rglob("*"):
         if path.is_dir() and is_log_dir(path):

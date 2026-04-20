@@ -3,7 +3,7 @@ import yaml
 from pathlib import Path
 
 
-def read_config(config_path, cfg):
+def apply_config(config_path, cfg):
     with open(config_path, "r") as file:
         data = yaml.safe_load(file)
         if data is None:
