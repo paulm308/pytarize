@@ -10,3 +10,12 @@ def call_zummarize(cfg):
         print(e.stderr)
     except Exception as e:
         print(f"Unexpected error: {e}")
+
+
+def zummarize_required(cfg):
+    if cfg.zummarize_cli != []:
+        return True
+    for path in cfg.log_paths:
+        if not (path / "zummary").exists():
+            return True
+    return False
