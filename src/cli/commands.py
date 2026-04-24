@@ -86,5 +86,5 @@ def lineplot(color: Annotated[Optional[str], typer.Option()] = None):
         }
     }
 
-    cfg = build_config(raw, PlotType.BasePlot)
+    cfg = build_config(raw, PlotType.LinePlot)
     run_pipeline(cfg)

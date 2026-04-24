@@ -12,7 +12,7 @@ def set_defaults(plot_type: PlotType):
     atr = {}
 
     match plot_type:
-        case PlotType.BasePlot:
+        case PlotType.LinePlot:
             plot_config_path = Path("config/plot_configs/baseplot.yaml")
             atr = {"color": "red"}  # dummy
 

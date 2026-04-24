@@ -4,7 +4,7 @@ from pathlib import Path
 
 
 class PlotType(Enum):
-    BasePlot = 1
+    LinePlot = 1
 
 
 @dataclass
