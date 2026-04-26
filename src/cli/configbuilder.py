@@ -49,7 +49,6 @@ def build_config(raw, plot_type: PlotType):
     if raw["base_raw"]["log_paths"] is not None:
         cfg.log_paths = [Path(log_path) for log_path in raw["base_raw"]["log_paths"]]
     if raw["base_raw"]["r_log_paths"] is not None:
-        print("test")
         cfg.r_log_paths = [Path(r_log_path) for r_log_path in raw["base_raw"]["r_log_paths"]]
     cfg.atr = merge_dicts(cfg.atr, raw["atr"])
     cfg.zummarize_cli = create_zummarize_options(raw["zummarize_specific_raw"])

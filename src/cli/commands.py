@@ -3,6 +3,7 @@ from src.cli.configbuilder import build_config
 from src.core.configuration_data import PlotType
 import typer
 from typing import Annotated, Optional
+import shlex
 
 app = typer.Typer()
 
@@ -34,8 +35,8 @@ zummarize_specific_raw: dict[str, bool] = {
 
 @app.callback()
 def base(zummarizepath: Annotated[Optional[str], typer.Option()] = None,
-         logpaths: Annotated[Optional[list[str]], typer.Option()] = None,
-         rlogpaths: Annotated[Optional[list[str]], typer.Option()] = None,
+         logpaths: Annotated[Optional[str], typer.Option()] = None,
+         rlogpaths: Annotated[Optional[str], typer.Option()] = None,
          configpath: Annotated[Optional[str], typer.Option()] = None,
          force: bool = typer.Option(False, "--force", "-f"),
          no_warnings: bool = typer.Option(False, "--no-warnings", "-n"),
@@ -54,8 +55,8 @@ def base(zummarizepath: Annotated[Optional[str], typer.Option()] = None,
          force_time: bool = typer.Option(False, "--force-time")):
 
     base_raw["zummarize_path"] = zummarizepath
-    base_raw["log_paths"] = logpaths
-    base_raw["r_log_paths"] = rlogpaths
+    base_raw["log_paths"] = None if logpaths is None else shlex.split(logpaths)
+    base_raw["r_log_paths"] = None if rlogpaths is None else shlex.split(rlogpaths)
     base_raw["config_path"] = configpath
 
     zummarize_specific_raw["force"] = force
@@ -82,7 +83,7 @@ def lineplot(color: Annotated[Optional[str], typer.Option()] = None):
         "base_raw": base_raw,
         "zummarize_specific_raw": zummarize_specific_raw,
         "atr": {
-            "color": color
+            "color": None if color is None else shlex.split(color)
         }
     }
 

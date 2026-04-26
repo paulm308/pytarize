@@ -18,7 +18,8 @@ class LinePlot(BasePlot):
         fig, ax = plt.subplots()
 
         for folder_name in data.keys():
-            ax.plot(data[folder_name], range(1, len(data[folder_name]) + 1), label=folder_name)
+            ax.plot(data[folder_name], range(1, len(data[folder_name]) + 1),
+                    label=folder_name)
 
         ax.legend()
         plt.tight_layout()
