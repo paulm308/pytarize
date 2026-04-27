@@ -8,17 +8,25 @@ from matplotlib import pyplot as plt
 
 class LinePlot(BasePlot):
 
-    def transform_data(self, data: dict[str, pd.DataFrame], cfg: CFG) -> dict[str, list[float]]:
-        transformed = {}
-        for folder_name in data.keys():
-            transformed[folder_name] = np.sort(data[folder_name]["time"].to_numpy())
+    def transform_data(self, data: dict[str, pd.DataFrame], cfg: CFG) -> list[tuple[str, list[float]]]:
+        transformed = []
+        for folder_name, values in data.items():
+            tup = (folder_name, np.sort(values["time"].to_numpy()))
+            transformed.append(tup)
+
+        # sort the data so that the best run is first in the list
+        min_length = min([len(x[1]) for x in transformed])
+        if min_length != 0:
+            transformed = sorted(transformed,
+                                 key=lambda x: x[1][min_length - 1])
+
         return transformed
 
-    def create_plot(self, data: dict[str, list[float]], cfg: CFG):
+    def create_plot(self, data: list[tuple[str, list[float]]], cfg: CFG):
         fig, ax = plt.subplots()
 
-        for folder_name in data.keys():
-            ax.plot(data[folder_name], range(1, len(data[folder_name]) + 1),
+        for folder_name, values in data:
+            ax.plot(values, range(1, len(values) + 1),
                     label=folder_name)
 
         ax.legend()
