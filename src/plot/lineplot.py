@@ -6,6 +6,8 @@ import numpy as np
 from typing import Generic, TypeVar
 from matplotlib import pyplot as plt
 from cycler import cycler
+from math import lcm
+from itertools import cycle, islice
 
 
 class LinePlot(BasePlot):
@@ -24,11 +26,17 @@ class LinePlot(BasePlot):
 
     def create_plot(self, data: list[tuple[str, list[float]]], cfg: CFG):
 
-        # line color:
-        color_cycle = cycler(color=utils.initialize_color(cfg.atr["color"]))
-        plt.rcParams["axes.prop_cycle"] = color_cycle
-
         fig, ax = plt.subplots()
+
+        # line styles:
+        # create marker and color cycle:
+        n = lcm(len(cfg.atr["colors"]), len(cfg.atr["markers"]))
+        color_cycle = utils.initialize_color(cfg.atr["colors"])
+        combined = cycler(
+            color=list(islice(cycle(color_cycle), n)),
+            marker=list(islice(cycle(cfg.atr["markers"]), n)),
+        )
+        ax.set_prop_cycle(combined)
 
         for folder_name, values in data:
             ax.plot(values, range(1, len(values) + 1),

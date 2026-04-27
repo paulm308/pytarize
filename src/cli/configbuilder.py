@@ -14,7 +14,8 @@ def set_defaults(plot_type: PlotType):
     match plot_type:
         case PlotType.LinePlot:
             plot_config_path = Path("config/plot_configs/lineplot_config.yaml")
-            atr = {"color": ["black"]}  # dummy
+            atr = {"color": ["black"],
+                   "marker": ["x"]}  # dummy
 
     defaults = CFG(plot_type=plot_type,
                    zummarize_path=None,
