@@ -5,3 +5,4 @@ venv/
 *ZoneIdentifier*
 __pycache__
 *.pyc
+*.png

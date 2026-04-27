@@ -13,8 +13,8 @@ def set_defaults(plot_type: PlotType):
 
     match plot_type:
         case PlotType.LinePlot:
-            plot_config_path = Path("config/plot_configs/baseplot.yaml")
-            atr = {"color": "red"}  # dummy
+            plot_config_path = Path("config/plot_configs/lineplot_config.yaml")
+            atr = {"color": ["black"]}  # dummy
 
     defaults = CFG(plot_type=plot_type,
                    zummarize_path=None,
@@ -36,12 +36,12 @@ def build_config(raw, plot_type: PlotType):
     cfg = apply_config(cfg.base_config_path, cfg)
 
     # specific confics:
-    # if raw["base_raw"]["config_path"] is not None:
-    #     path = Path(raw["base_raw"]["config_path"])
-    #     validate_config_path(path)
-    #     cfg = read_config(path, cfg)
-    # else:
-    #     cfg = read_config(cfg.plot_config_path, cfg)
+    if raw["base_raw"]["config_path"] is not None:
+        path = Path(raw["base_raw"]["config_path"])
+        validate_config_path(path)
+        cfg = apply_config(path, cfg)
+    else:
+        cfg = apply_config(cfg.plot_config_path, cfg)
 
     # apply cli:
     if raw["base_raw"]["zummarize_path"] is not None:
