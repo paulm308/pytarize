@@ -39,8 +39,12 @@ class LinePlot(BasePlot):
         ax.set_prop_cycle(combined)
 
         for folder_name, values in data:
-            ax.plot(values, range(1, len(values) + 1),
-                    label=folder_name)
+            xs = values
+            ys = range(1, len(values) + 1)
+            if cfg.atr["cactus"]:
+                xs = range(1, len(values) + 1)
+                ys = values
+            ax.plot(xs, ys, label=folder_name)
 
         ax.legend()
         plt.tight_layout()

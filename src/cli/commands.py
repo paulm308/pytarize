@@ -78,14 +78,16 @@ def base(zummarizepath: Annotated[Optional[str], typer.Option()] = None,
 
 @app.command()
 def lineplot(colors: Annotated[Optional[str], typer.Option()] = None,
-             markers: Annotated[Optional[str], typer.Option()] = None):
+             markers: Annotated[Optional[str], typer.Option()] = None,
+             cactus: bool = typer.Option(False, "--cactus")):
 
     raw = {
         "base_raw": base_raw,
         "zummarize_specific_raw": zummarize_specific_raw,
         "atr": {
             "colors": None if colors is None else shlex.split(colors),
-            "markers": None if markers is None else shlex.split(markers)
+            "markers": None if markers is None else shlex.split(markers),
+            "cactus": cactus
         }
     }
 
