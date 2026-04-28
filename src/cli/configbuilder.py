@@ -18,7 +18,11 @@ def set_defaults(plot_type: PlotType):
                    "marker": ["x"],
                    "cactus": False,
                    "show_solved": False,
-                   "center": False}
+                   "center": False,
+                   "ymin": None,
+                   "xmin": None,
+                   "ymax": None,
+                   "xmax": None}
 
     defaults = CFG(plot_type=plot_type,
                    zummarize_path=None,

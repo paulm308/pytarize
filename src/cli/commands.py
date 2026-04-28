@@ -81,7 +81,11 @@ def lineplot(colors: Annotated[Optional[str], typer.Option()] = None,
              markers: Annotated[Optional[str], typer.Option()] = None,
              cactus: bool = typer.Option(False, "--cactus"),
              show_solved: bool = typer.Option(False, "--show-solved"),
-             center: bool = typer.Option(False, "--center")):
+             center: bool = typer.Option(False, "--center"),
+             ymin: Annotated[Optional[float], typer.Option()] = None,
+             xmin: Annotated[Optional[float], typer.Option()] = None,
+             ymax: Annotated[Optional[float], typer.Option()] = None,
+             xmax: Annotated[Optional[float], typer.Option()] = None):
 
     raw = {
         "base_raw": base_raw,
@@ -91,7 +95,11 @@ def lineplot(colors: Annotated[Optional[str], typer.Option()] = None,
             "markers": None if markers is None else shlex.split(markers),
             "cactus": cactus,
             "show_solved": show_solved,
-            "center": center
+            "center": center,
+            "ymin": ymin,
+            "xmin": xmin,
+            "ymax": ymax,
+            "xmax": xmax
         }
     }
 

@@ -51,6 +51,10 @@ class LinePlot(BasePlot):
                 ys = values
             ax.plot(xs, ys, label=folder_name)
 
+        # limit axes:
+        plt.xlim(cfg.atr["xmin"], cfg.atr["xmax"])
+        plt.ylim(cfg.atr["ymin"], cfg.atr["ymax"])
+        print(f"cfg.atr['ymax']: {cfg.atr['ymax']}")
         # create legend:
         legend_orientation = 0
         if cfg.atr["center"]:
