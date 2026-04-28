@@ -51,6 +51,14 @@ class LinePlot(BasePlot):
                 ys = values
             ax.plot(xs, ys, label=folder_name)
 
-        ax.legend()
+        # create legend:
+        legend_orientation = 0
+        if cfg.atr["center"]:
+            if cfg.atr["cactus"]:
+                legend_orientation = 6
+            else:
+                legend_orientation = 7
+        ax.legend(loc=legend_orientation)
+
         plt.tight_layout()
         plt.savefig("plot.png")

@@ -80,7 +80,8 @@ def base(zummarizepath: Annotated[Optional[str], typer.Option()] = None,
 def lineplot(colors: Annotated[Optional[str], typer.Option()] = None,
              markers: Annotated[Optional[str], typer.Option()] = None,
              cactus: bool = typer.Option(False, "--cactus"),
-             show_solved: bool = typer.Option(False, "--show-solved")):
+             show_solved: bool = typer.Option(False, "--show-solved"),
+             center: bool = typer.Option(False, "--center")):
 
     raw = {
         "base_raw": base_raw,
@@ -89,7 +90,8 @@ def lineplot(colors: Annotated[Optional[str], typer.Option()] = None,
             "colors": None if colors is None else shlex.split(colors),
             "markers": None if markers is None else shlex.split(markers),
             "cactus": cactus,
-            "show_solved": show_solved
+            "show_solved": show_solved,
+            "center": center
         }
     }
 

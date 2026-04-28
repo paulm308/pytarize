@@ -17,7 +17,8 @@ def set_defaults(plot_type: PlotType):
             atr = {"color": ["black"],
                    "marker": ["x"],
                    "cactus": False,
-                   "show_solved": False}
+                   "show_solved": False,
+                   "center": False}
 
     defaults = CFG(plot_type=plot_type,
                    zummarize_path=None,
