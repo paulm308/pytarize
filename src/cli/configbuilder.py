@@ -16,7 +16,8 @@ def set_defaults(plot_type: PlotType):
             plot_config_path = Path("config/plot_configs/lineplot_config.yaml")
             atr = {"color": ["black"],
                    "marker": ["x"],
-                   "cactus": False}
+                   "cactus": False,
+                   "show_solved": False}
 
     defaults = CFG(plot_type=plot_type,
                    zummarize_path=None,

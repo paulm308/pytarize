@@ -38,6 +38,11 @@ class LinePlot(BasePlot):
         )
         ax.set_prop_cycle(combined)
 
+        # show solved count in legend:
+        if cfg.atr["show_solved"]:
+            data = utils.add_solved_to_folder_name(data)
+
+        # plot data:
         for folder_name, values in data:
             xs = values
             ys = range(1, len(values) + 1)
