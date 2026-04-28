@@ -55,14 +55,19 @@ class LinePlot(BasePlot):
         plt.xlim(cfg.atr["xmin"], cfg.atr["xmax"])
         plt.ylim(cfg.atr["ymin"], cfg.atr["ymax"])
         print(f"cfg.atr['ymax']: {cfg.atr['ymax']}")
+
         # create legend:
-        legend_orientation = 0
+        legend_kwargs = {}
         if cfg.atr["center"]:
             if cfg.atr["cactus"]:
-                legend_orientation = 6
+                legend_kwargs["loc"] = "center left"
             else:
-                legend_orientation = 7
-        ax.legend(loc=legend_orientation)
+                legend_kwargs["loc"] = "center right"
+        if cfg.atr["xlegend"] is not None or cfg.atr["ylegend"] is not None:
+            xlegend = 0.5 if cfg.atr["xlegend"] is None else cfg.atr["xlegend"]
+            ylegend = 0.5 if cfg.atr["ylegend"] is None else cfg.atr["ylegend"]
+            legend_kwargs["bbox_to_anchor"] = (xlegend, ylegend)
+        ax.legend(**legend_kwargs)
 
         plt.tight_layout()
         plt.savefig("plot.png")

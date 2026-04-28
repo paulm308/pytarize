@@ -22,7 +22,9 @@ def set_defaults(plot_type: PlotType):
                    "ymin": None,
                    "xmin": None,
                    "ymax": None,
-                   "xmax": None}
+                   "xmax": None,
+                   "xlegend": None,
+                   "ylegend": None}
 
     defaults = CFG(plot_type=plot_type,
                    zummarize_path=None,

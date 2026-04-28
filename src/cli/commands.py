@@ -85,7 +85,9 @@ def lineplot(colors: Annotated[Optional[str], typer.Option()] = None,
              ymin: Annotated[Optional[float], typer.Option()] = None,
              xmin: Annotated[Optional[float], typer.Option()] = None,
              ymax: Annotated[Optional[float], typer.Option()] = None,
-             xmax: Annotated[Optional[float], typer.Option()] = None):
+             xmax: Annotated[Optional[float], typer.Option()] = None,
+             xlegend: Annotated[Optional[float], typer.Option()] = None,
+             ylegend: Annotated[Optional[float], typer.Option()] = None):
 
     raw = {
         "base_raw": base_raw,
@@ -99,7 +101,9 @@ def lineplot(colors: Annotated[Optional[str], typer.Option()] = None,
             "ymin": ymin,
             "xmin": xmin,
             "ymax": ymax,
-            "xmax": xmax
+            "xmax": xmax,
+            "xlegend": xlegend,
+            "ylegend": ylegend
         }
     }
 
