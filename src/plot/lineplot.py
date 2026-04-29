@@ -51,10 +51,13 @@ class LinePlot(BasePlot):
                 ys = values
             ax.plot(xs, ys, label=folder_name)
 
+        # draw limit line:
+        if cfg.atr["limit"] is not None:
+            plt.axhline(y=cfg.atr["limit"], color='blue', linestyle='-')
+
         # limit axes:
         plt.xlim(cfg.atr["xmin"], cfg.atr["xmax"])
         plt.ylim(cfg.atr["ymin"], cfg.atr["ymax"])
-        print(f"cfg.atr['ymax']: {cfg.atr['ymax']}")
 
         # create legend:
         legend_kwargs = {}
