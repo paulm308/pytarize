@@ -42,6 +42,10 @@ class LinePlot(BasePlot):
         if cfg.atr["show_solved"]:
             data = utils.add_solved_to_folder_name(data)
 
+        # log scale:
+        if cfg.atr["log"]:
+            plt.yscale("log")
+
         # plot data:
         for folder_name, values in data:
             xs = values
