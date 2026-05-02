@@ -79,7 +79,4 @@ class LinePlot(BasePlot):
         plt.tight_layout()
 
         # save plot
-        if cfg.atr["output"] is not None:
-            plt.savefig(cfg.atr["output"])
-        else:
-            plt.savefig("plot.png")
+        plt.savefig(cfg.atr["output"])
