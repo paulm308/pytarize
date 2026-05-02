@@ -76,6 +76,10 @@ class LinePlot(BasePlot):
             legend_kwargs["bbox_to_anchor"] = (xlegend, ylegend)
         ax.legend(**legend_kwargs)
 
+        # title:
+        if cfg.atr["title"] is not None:
+            plt.title(cfg.atr["title"])
+
         plt.tight_layout()
 
         # save plot

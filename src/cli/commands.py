@@ -90,7 +90,8 @@ def lineplot(colors: Annotated[Optional[str], typer.Option()] = None,
              ylegend: Annotated[Optional[float], typer.Option()] = None,
              limit: Annotated[Optional[float], typer.Option()] = None,
              log: bool = typer.Option(False, "--log", "-l"),
-             output: Annotated[Optional[str], typer.Option("--output", "-o")] = None):
+             output: Annotated[Optional[str], typer.Option("--output", "-o")] = None,
+             title: Annotated[Optional[str], typer.Option("--titel", "-t")] = None):
 
     raw = {
         "base_raw": base_raw,
@@ -109,7 +110,8 @@ def lineplot(colors: Annotated[Optional[str], typer.Option()] = None,
             "ylegend": ylegend,
             "limit": limit,
             "log": log,
-            "output": output
+            "output": output,
+            "title": title
         }
     }
 
