@@ -14,7 +14,8 @@ base_raw: dict[str, Optional[str] | Optional[list[str]]] = {
     "config_path": None
 }
 
-zummarize_specific_raw: dict[str, bool] = {
+zummarize_specific_raw: dict[str, bool | Optional[int]] = {
+    "verbose": None,
     "force": False,
     "ignore": False,
     "just": False,
@@ -40,6 +41,7 @@ def base(zummarizepath: Annotated[Optional[str], typer.Option()] = None,
          logpaths: Annotated[Optional[str], typer.Option()] = None,
          rlogpaths: Annotated[Optional[str], typer.Option()] = None,
          configpath: Annotated[Optional[str], typer.Option()] = None,
+         verbose: Annotated[Optional[int], typer.Option("-v")] = None,
          force: bool = typer.Option(False, "--force", "-f"),
          ignore: bool = typer.Option(False, "--ignore", "-i"),
          just: bool = typer.Option(False, "--just", "-j"),
@@ -63,6 +65,7 @@ def base(zummarizepath: Annotated[Optional[str], typer.Option()] = None,
     base_raw["r_log_paths"] = None if rlogpaths is None else shlex.split(rlogpaths)
     base_raw["config_path"] = configpath
 
+    zummarize_specific_raw["verbose"] = verbose
     zummarize_specific_raw["force"] = force
     zummarize_specific_raw["ignore"] = ignore
     zummarize_specific_raw["just"] = just
