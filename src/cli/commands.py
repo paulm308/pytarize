@@ -16,6 +16,8 @@ base_raw: dict[str, Optional[str] | Optional[list[str]]] = {
 
 zummarize_specific_raw: dict[str, bool] = {
     "force": False,
+    "ignore": False,
+    "just": False,
     "no-warnings": False,
     "all": False,
     "sat": False,
@@ -39,6 +41,8 @@ def base(zummarizepath: Annotated[Optional[str], typer.Option()] = None,
          rlogpaths: Annotated[Optional[str], typer.Option()] = None,
          configpath: Annotated[Optional[str], typer.Option()] = None,
          force: bool = typer.Option(False, "--force", "-f"),
+         ignore: bool = typer.Option(False, "--ignore", "-i"),
+         just: bool = typer.Option(False, "--just", "-j"),
          no_warnings: bool = typer.Option(False, "--no-warnings", "-n"),
          all: bool = typer.Option(False, "--all", "-a"),
          sat: bool = typer.Option(False, "--sat", "-s"),
@@ -60,6 +64,8 @@ def base(zummarizepath: Annotated[Optional[str], typer.Option()] = None,
     base_raw["config_path"] = configpath
 
     zummarize_specific_raw["force"] = force
+    zummarize_specific_raw["ignore"] = ignore
+    zummarize_specific_raw["just"] = just
     zummarize_specific_raw["no-warnings"] = no_warnings
     zummarize_specific_raw["all"] = all
     zummarize_specific_raw["sat"] = sat
