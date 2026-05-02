@@ -77,4 +77,9 @@ class LinePlot(BasePlot):
         ax.legend(**legend_kwargs)
 
         plt.tight_layout()
-        plt.savefig("plot.png")
+
+        # save plot
+        if cfg.atr["output"] is not None:
+            plt.savefig(cfg.atr["output"])
+        else:
+            plt.savefig("plot.png")
