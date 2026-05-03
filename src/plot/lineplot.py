@@ -26,6 +26,9 @@ class LinePlot(BasePlot):
 
     def create_plot(self, data: list[tuple[str, list[float]]], cfg: CFG):
 
+        if cfg.atr["latex"]:
+            plt.rcParams['text.usetex'] = True
+
         fig, ax = plt.subplots()
 
         # line styles:
