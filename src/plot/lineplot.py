@@ -26,8 +26,10 @@ class LinePlot(BasePlot):
 
     def create_plot(self, data: list[tuple[str, list[float]]], cfg: CFG):
 
-        if cfg.atr["latex"]:
-            plt.rcParams['text.usetex'] = True
+        plt.rcParams['text.usetex'] = cfg.atr["latex"]
+        plt.rcParams["font.family"] = cfg.atr["font_family"]
+        if cfg.atr["latex_preamble"] is not None:
+            plt.rcParams["text.latex.preamble"] = cfg.atr["latex_preamble"]
 
         fig, ax = plt.subplots()
 

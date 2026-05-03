@@ -17,7 +17,8 @@ def set_defaults(plot_type: PlotType):
             atr = {
                 "color": ["black"],
                 "marker": ["x"],
-                "output": "plot.png"
+                "output": "plot.png",
+                "font_family": "serif"
             }
 
     defaults = CFG(plot_type=plot_type,

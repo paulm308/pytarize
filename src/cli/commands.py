@@ -101,7 +101,9 @@ def lineplot(colors: Annotated[Optional[str], typer.Option()] = None,
              log: bool = typer.Option(False, "--log", "-l"),
              output: Annotated[Optional[str], typer.Option("--output", "-o")] = None,
              title: Annotated[Optional[str], typer.Option("--titel", "-t")] = None,
-             latex: bool = typer.Option(False, "--latex")):
+             latex: bool = typer.Option(False, "--latex", help="Enable latex text rendering."),
+             font_family: Annotated[Optional[str], typer.Option("--font-family", help="Change latex font-family, default is 'serif', options: 'serif', 'sans-serif', 'monospace', 'cursive'...")] = None,
+             latex_preamble: Annotated[Optional[str], typer.Option("--latex-preamble", help="Use this to import packages, example: '\\usepackage{helvet}\\usepackage{sfmath}'")] = None):
 
     raw = {
         "base_raw": base_raw,
@@ -122,7 +124,9 @@ def lineplot(colors: Annotated[Optional[str], typer.Option()] = None,
             "log": log,
             "output": output,
             "title": title,
-            "latex": latex
+            "latex": latex,
+            "font_family": font_family,
+            "latex_preamble": latex_preamble
         }
     }
 
