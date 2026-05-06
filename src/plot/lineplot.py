@@ -20,7 +20,8 @@ class LinePlot(BasePlot):
 
         # sort the data so that the best run is first in the list
         transformed = sorted(transformed,
-                             key=lambda x: x[1][len(x[1]) - 1])
+                             key=lambda x: x[1][len(x[1]) - 1],
+                             reverse=True)
 
         return transformed
 
@@ -79,6 +80,7 @@ class LinePlot(BasePlot):
             xlegend = 0.5 if cfg.atr["xlegend"] is None else cfg.atr["xlegend"]
             ylegend = 0.5 if cfg.atr["ylegend"] is None else cfg.atr["ylegend"]
             legend_kwargs["bbox_to_anchor"] = (xlegend, ylegend)
+        legend_kwargs["reverse"] = True
         ax.legend(**legend_kwargs)
 
         # title:
