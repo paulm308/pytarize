@@ -1,5 +1,4 @@
 # pytarize
-TODO
 
 pandas, pathlib, typer, pyyaml
 
