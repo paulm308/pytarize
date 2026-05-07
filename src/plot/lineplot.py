@@ -73,7 +73,9 @@ class LinePlot(BasePlot):
         return legend_kwargs
 
     def handle_axis(self, cfg: CFG):
-        if cfg.atr["log"]:
+        if cfg.atr["xlog"]:
+            plt.xscale("log")
+        if cfg.atr["ylog"]:
             plt.yscale("log")
         plt.xlim(cfg.atr["xmin"], cfg.atr["xmax"])
         plt.ylim(cfg.atr["ymin"], cfg.atr["ymax"])
