@@ -25,51 +25,40 @@ class LinePlot(BasePlot):
 
         return transformed
 
-    def create_plot(self, data: list[tuple[str, list[float]]], cfg: CFG):
-
-        plt.rcParams['text.usetex'] = cfg.atr["latex"]
-        plt.rcParams["font.family"] = cfg.atr["font_family"]
-        if cfg.atr["latex_preamble"] is not None:
-            plt.rcParams["text.latex.preamble"] = cfg.atr["latex_preamble"]
-
-        fig, ax = plt.subplots()
-
-        # line styles:
+    def create_style_cycle(self, cfg: CFG):
         # create marker and color cycle:
         n = lcm(len(cfg.atr["colors"]), len(cfg.atr["markers"]))
         color_cycle = utils.initialize_color(cfg.atr["colors"])
         combined = cycler(
-            color=list(islice(cycle(color_cycle), n)),
-            marker=list(islice(cycle(cfg.atr["markers"]), n)),
+            color=list(islice(cycle(reversed(color_cycle)), n)),
+            marker=list(islice(cycle(reversed(cfg.atr["markers"])), n)),
         )
-        ax.set_prop_cycle(combined)
+        return combined
+
+    def create_individual_plot_args(self, folder_name: str, values: list[float], cfg: CFG):
+        kwargs = {}
+        kwargs["label"] = folder_name
+        if "solver_style" in cfg.atr.keys() and folder_name in cfg.atr["solver_style"].keys():
+            if "color" in cfg.atr["solver_style"][folder_name].keys():
+                kwargs["color"] = cfg.atr["solver_style"][folder_name]["color"]
+            if "marker" in cfg.atr["solver_style"][folder_name].keys():
+                kwargs["marker"] = cfg.atr["solver_style"][folder_name]["marker"]
+            if "label" in cfg.atr["solver_style"][folder_name].keys():
+                kwargs["label"] = cfg.atr["solver_style"][folder_name]["label"]
 
         # show solved count in legend:
         if cfg.atr["show_solved"]:
-            data = utils.add_solved_to_folder_name(data)
+            kwargs["label"] = f"{len(values)} {kwargs['label']}"
+        xs = values
+        ys = range(1, len(values) + 1)
+        if cfg.atr["cactus"]:
+            xs = range(1, len(values) + 1)
+            ys = values
+        args = (xs, ys)
 
-        # log scale:
-        if cfg.atr["log"]:
-            plt.yscale("log")
+        return {"args": args, "kwargs": kwargs}
 
-        # plot data:
-        for folder_name, values in data:
-            xs = values
-            ys = range(1, len(values) + 1)
-            if cfg.atr["cactus"]:
-                xs = range(1, len(values) + 1)
-                ys = values
-            ax.plot(xs, ys, label=folder_name)
-
-        # draw limit line:
-        if cfg.atr["limit"] is not None:
-            plt.axhline(y=cfg.atr["limit"], color='blue', linestyle='-')
-
-        # limit axes:
-        plt.xlim(cfg.atr["xmin"], cfg.atr["xmax"])
-        plt.ylim(cfg.atr["ymin"], cfg.atr["ymax"])
-
-        # create legend:
+    def create_legend_args(self, cfg: CFG):
         legend_kwargs = {}
         if cfg.atr["center"]:
             if cfg.atr["cactus"]:
@@ -81,7 +70,38 @@ class LinePlot(BasePlot):
             ylegend = 0.5 if cfg.atr["ylegend"] is None else cfg.atr["ylegend"]
             legend_kwargs["bbox_to_anchor"] = (xlegend, ylegend)
         legend_kwargs["reverse"] = True
+        return legend_kwargs
+
+    def handle_axis(self, cfg: CFG):
+        if cfg.atr["log"]:
+            plt.yscale("log")
+        plt.xlim(cfg.atr["xmin"], cfg.atr["xmax"])
+        plt.ylim(cfg.atr["ymin"], cfg.atr["ymax"])
+
+    def create_plot(self, data: list[tuple[str, list[float]]], cfg: CFG):
+
+        plt.rcParams['text.usetex'] = cfg.atr["latex"]
+        plt.rcParams["font.family"] = cfg.atr["font_family"]
+        if cfg.atr["latex_preamble"] is not None:
+            plt.rcParams["text.latex.preamble"] = cfg.atr["latex_preamble"]
+
+        fig, ax = plt.subplots()
+
+        ax.set_prop_cycle(self.create_style_cycle(cfg))
+
+        for folder_name, values in data:
+            plot_args = self.create_individual_plot_args(folder_name, values, cfg)
+            ax.plot(*plot_args["args"], **plot_args["kwargs"])
+
+        # draw limit line:
+        if cfg.atr["limit"] is not None:
+            plt.axhline(y=cfg.atr["limit"], color='blue', linestyle='-')
+
+        # create legend:
+        legend_kwargs = self.create_legend_args(cfg)
         ax.legend(**legend_kwargs)
+
+        self.handle_axis(cfg)
 
         # title:
         if cfg.atr["title"] is not None:
