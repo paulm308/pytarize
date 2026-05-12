@@ -4,7 +4,8 @@ from pathlib import Path
 
 
 class PlotType(Enum):
-    LinePlot = 1
+    LinePlot = 1,
+    ScatterPlot = 2
 
 
 @dataclass

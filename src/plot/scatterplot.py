@@ -11,8 +11,15 @@ from itertools import cycle, islice
 
 
 class ScatterPlot(BasePlot):
-    def transform_data(self, data: dict[str, pd.DataFrame], cfg: CFG) -> list[tuple[str, list[float]]]:
-        pass
+    def transform_data(self, data: dict[str, pd.DataFrame], cfg: CFG) -> tuple[list[str], pd.DataFrame]:
+        folder_names = list(data.keys())
+        for folder_name in folder_names:
+            data[folder_name].loc[data[folder_name]["result"] == 2, "real"] = data[folder_name]["rlim"]
+            data[folder_name].drop(columns=["time", "space", "tlim", "slim"])
+        merged = pd.merge(data[folder_names[0]], data[folder_names[1]], on='Unnamed: 0', how="inner")
+        print(merged.iloc[:5])
+        return (folder_names, merged)
 
-    def create_plot(self, data: list[tuple[str, list[float]]], cfg: CFG):
-        pass
+    def create_plot(self, data: tuple[list[str], pd.DataFrame], cfg: CFG):
+        plt.scatter(data[1]["real_x"], data[1]["real_y"], marker="x")
+        plt.savefig("scatter.png")

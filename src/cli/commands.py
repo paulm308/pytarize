@@ -134,3 +134,16 @@ def lineplot(colors: Annotated[Optional[str], typer.Option()] = None,
 
     cfg = build_config(raw, PlotType.LinePlot)
     run_pipeline(cfg)
+
+
+@app.command()
+def scatterplot():
+
+    raw = {
+        "base_raw": base_raw,
+        "zummarize_specific_raw": zummarize_specific_raw,
+        "atr": {}
+    }
+
+    cfg = build_config(raw, PlotType.ScatterPlot)
+    run_pipeline(cfg)
