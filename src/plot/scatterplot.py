@@ -1,13 +1,7 @@
 from src.plot.baseplot import BasePlot
 from src.core.configuration_data import CFG
-import src.plot.plot_utils as utils
 import pandas as pd
-import numpy as np
-from typing import Generic, TypeVar
 from matplotlib import pyplot as plt
-from cycler import cycler
-from math import lcm
-from itertools import cycle, islice
 
 
 class ScatterPlot(BasePlot):
@@ -43,5 +37,10 @@ class ScatterPlot(BasePlot):
 
         # unsolved:
         plt.scatter(data[1][2]["real_x"], data[1][2]["real_y"], marker="+")
+
+        plt.xscale("log")
+        plt.yscale("log")
+
+        plt.tight_layout()
 
         plt.savefig("scatter.png")
