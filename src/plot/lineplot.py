@@ -13,6 +13,10 @@ from itertools import cycle, islice
 class LinePlot(BasePlot):
 
     def transform_data(self, data: dict[str, pd.DataFrame], cfg: CFG) -> list[tuple[str, list[float]]]:
+
+        for folder_name in data.keys():
+            data[folder_name] = data[folder_name][data[folder_name]["result"].isin([10, 20])]
+
         transformed = []
         for folder_name, values in data.items():
             tup = (folder_name, np.sort(values["time"].to_numpy()))
