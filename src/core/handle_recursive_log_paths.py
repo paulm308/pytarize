@@ -10,7 +10,7 @@ def find_log_dirs(base: Path) -> list[Path]:
     if base.is_dir() and is_log_dir(base):
         res.append(base)
 
-    for path in base.rglob("*"):
+    for path in sorted(base.rglob("*")):
         if path.is_dir() and is_log_dir(path):
             res.append(path)
 

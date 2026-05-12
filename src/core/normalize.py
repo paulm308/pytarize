@@ -9,7 +9,13 @@ def normalize(cfg):
             paths.append(log_path.expanduser().resolve())
 
         # remove duplicates:
-        cfg.log_paths = list(set(paths))
+        seen = set()
+        cfg.log_paths = []
+        for path in paths:
+            if path not in seen:
+                seen.add(path)
+                cfg.log_paths.append(path)
+
     cfg.base_config_path = cfg.base_config_path.expanduser().resolve()
     cfg.plot_config_path = cfg.base_config_path.expanduser().resolve()
 
