@@ -160,23 +160,24 @@ def scatterplot(colors: Annotated[Optional[str], typer.Option()] = None,
         "base_raw": base_raw,
         "zummarize_specific_raw": zummarize_specific_raw,
         "atr": {
-            "colors": None if colors is None else shlex.split(colors),  #
-            "markers": None if markers is None else shlex.split(markers),   #
+            "colors": None if colors is None else shlex.split(colors),
+            "markers": None if markers is None else shlex.split(markers),
+            "show_solved": show_solved,
             "center": center,
-            "ymin": ymin,   #
-            "xmin": xmin,   #
-            "ymax": ymax,   #
-            "xmax": xmax,   #
+            "ymin": ymin,
+            "xmin": xmin,
+            "ymax": ymax,
+            "xmax": xmax,
             "xlegend": xlegend,
             "ylegend": ylegend,
             "limit": limit,
-            "xlog": xlog,   #
-            "ylog": ylog,   #
-            "output": output,   #
-            "title": title,     #
-            "latex": latex,     #
-            "font_family": font_family,     #
-            "latex_preamble": latex_preamble        #
+            "xlog": xlog,
+            "ylog": ylog,
+            "output": output,
+            "title": title,
+            "latex": latex,
+            "font_family": font_family,
+            "latex_preamble": latex_preamble
         }
     }
 

@@ -7,6 +7,8 @@ from itertools import cycle
 
 
 class ScatterPlot(BasePlot):
+    ninstances: dict[str, int] = {}
+
     def transform_data(self, data: dict[str, pd.DataFrame], cfg: CFG) -> tuple[list[str], dict[str, pd.DataFrame]]:
         # order folder names
         folder_names = []
@@ -21,6 +23,13 @@ class ScatterPlot(BasePlot):
         # merge zummarys by benchmark name
         merged = pd.merge(data[folder_names[0]], data[folder_names[1]], on='Unnamed: 0', how="inner")
 
+        # calculate number of sat, unsat and unsolved instances
+        if cfg.atr["show_solved"]:
+            combined = pd.concat([data[folder_names[0]], data[folder_names[1]]], ignore_index=True)
+            self.ninstances["sat"] = combined.loc[combined.iloc[:, 1] == 10, combined.columns[0]].nunique()
+            self.ninstances["unsat"] = combined.loc[combined.iloc[:, 1] == 20, combined.columns[0]].nunique()
+            self.ninstances["unsolved"] = combined.loc[combined.iloc[:, 1] < 10, combined.columns[0]].nunique()
+
         # split table is satisfiable, unsatisfiable and unsolved tables
         sat = merged[(merged["result_x"] == 10) | (merged["result_y"] == 10)]
         unsat = merged[(merged["result_x"] == 20) | (merged["result_y"] == 20)]
@@ -32,31 +41,43 @@ class ScatterPlot(BasePlot):
             "unsolved": unsolved
         }
 
-        # print(f"original: {data[folder_name].shape[0]}, merged: {merged.shape[0]}, sat: {sat.shape[0]}, unsat: {unsat.shape[0]}, unsolved: {unsolved.shape[0]}")
-        # print(merged.iloc[:5])
         return (folder_names, res)
 
     def create_individual_plot_args(self, label: str, style_cycle, values: pd.DataFrame, cfg: CFG):
         kwargs = {}
 
         style = next(style_cycle)
-        color = style["color"]
-        marker = style["marker"]
+        kwargs["color"] = style["color"]
+        kwargs["marker"] = style["marker"]
+        kwargs["label"] = label.upper()
 
         if "sat_style" in cfg.atr.keys() and label in cfg.atr["sat_style"].keys():
             if "color" in cfg.atr["sat_style"][label].keys():
-                color = cfg.atr["sat_style"][label]["color"]
+                kwargs["color"] = cfg.atr["sat_style"][label]["color"]
             if "marker" in cfg.atr["sat_style"][label].keys():
-                marker = cfg.atr["sat_style"][label]["marker"]
+                kwargs["marker"] = cfg.atr["sat_style"][label]["marker"]
+            if "label" in cfg.atr["sat_style"][label].keys():
+                kwargs["label"] = cfg.atr["sat_style"][label]["label"]
 
-        kwargs["color"] = color
-        kwargs["marker"] = marker
+        if cfg.atr["show_solved"]:
+            kwargs["label"] = f"{self.ninstances[label]} {kwargs['label']}"
 
         xs = values["real_x"]
         ys = values["real_y"]
         args = (xs, ys)
 
         return {"args": args, "kwargs": kwargs}
+
+    def create_legend_args(self, cfg: CFG):
+        legend_kwargs = {}
+        if cfg.atr["center"]:
+            legend_kwargs["loc"] = "center right"
+        if cfg.atr["xlegend"] is not None or cfg.atr["ylegend"] is not None:
+            xlegend = 0.5 if cfg.atr["xlegend"] is None else cfg.atr["xlegend"]
+            ylegend = 0.5 if cfg.atr["ylegend"] is None else cfg.atr["ylegend"]
+            legend_kwargs["bbox_to_anchor"] = (xlegend, ylegend)
+        legend_kwargs["reverse"] = True
+        return legend_kwargs
 
     def create_plot(self, data: tuple[list[str], dict[str, pd.DataFrame]], cfg: CFG):
 
@@ -70,6 +91,10 @@ class ScatterPlot(BasePlot):
         for label in ["sat", "unsat", "unsolved"]:
             plot_args = self.create_individual_plot_args(label, style_cycle, data[1][label], cfg)
             ax.scatter(*plot_args["args"], **plot_args["kwargs"])
+
+        # create legend:
+        legend_kwargs = self.create_legend_args(cfg)
+        ax.legend(**legend_kwargs)
 
         # handle axis scale and bounds
         utils.handle_axis(cfg)

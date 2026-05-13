@@ -3,9 +3,12 @@
     "sat":
       "marker": "x"
       "color": "purple"
+      "label": "SAT"
     "unsat":
       "marker": "o"
       "color": "black"
+      "label": "UNSAT"
     "unsolved":
       "marker": "+"
       "color": "red"
+      "label": "UNSOLVED"
