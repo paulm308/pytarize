@@ -137,12 +137,47 @@ def lineplot(colors: Annotated[Optional[str], typer.Option()] = None,
 
 
 @app.command()
-def scatterplot():
+def scatterplot(colors: Annotated[Optional[str], typer.Option()] = None,
+                markers: Annotated[Optional[str], typer.Option()] = None,
+                show_solved: bool = typer.Option(False, "--show-solved"),
+                center: bool = typer.Option(False, "--center"),
+                ymin: Annotated[Optional[float], typer.Option()] = None,
+                xmin: Annotated[Optional[float], typer.Option()] = None,
+                ymax: Annotated[Optional[float], typer.Option()] = None,
+                xmax: Annotated[Optional[float], typer.Option()] = None,
+                xlegend: Annotated[Optional[float], typer.Option()] = None,
+                ylegend: Annotated[Optional[float], typer.Option()] = None,
+                limit: Annotated[Optional[float], typer.Option()] = None,
+                xlog: bool = typer.Option(False, "--xlog"),
+                ylog: bool = typer.Option(False, "--ylog"),
+                output: Annotated[Optional[str], typer.Option("--output", "-o")] = None,
+                title: Annotated[Optional[str], typer.Option("--titel", "-t")] = None,
+                latex: bool = typer.Option(False, "--latex", help="Enable latex text rendering."),
+                font_family: Annotated[Optional[str], typer.Option("--font-family", help="Change latex font-family, default is 'serif', options: 'serif', 'sans-serif', 'monospace', 'cursive'...")] = None,
+                latex_preamble: Annotated[Optional[str], typer.Option("--latex-preamble", help="Use this to import packages, example: '\\usepackage{helvet}\\usepackage{sfmath}'")] = None):
 
     raw = {
         "base_raw": base_raw,
         "zummarize_specific_raw": zummarize_specific_raw,
-        "atr": {}
+        "atr": {
+            "colors": None if colors is None else shlex.split(colors),  #
+            "markers": None if markers is None else shlex.split(markers),   #
+            "center": center,
+            "ymin": ymin,   #
+            "xmin": xmin,   #
+            "ymax": ymax,   #
+            "xmax": xmax,   #
+            "xlegend": xlegend,
+            "ylegend": ylegend,
+            "limit": limit,
+            "xlog": xlog,   #
+            "ylog": ylog,   #
+            "output": output,   #
+            "title": title,     #
+            "latex": latex,     #
+            "font_family": font_family,     #
+            "latex_preamble": latex_preamble        #
+        }
     }
 
     cfg = build_config(raw, PlotType.ScatterPlot)

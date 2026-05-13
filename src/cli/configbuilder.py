@@ -15,14 +15,19 @@ def set_defaults(plot_type: PlotType):
         case PlotType.LinePlot:
             plot_config_path = Path("config/plot_configs/lineplot_config.yaml")
             atr = {
-                "color": ["black"],
-                "marker": ["x"],
+                "colors": ["red"],
+                "markers": ["x"],
                 "output": "plot.png",
                 "font_family": "serif"
             }
         case PlotType.ScatterPlot:
             plot_config_path = Path("config/plot_configs/scatterplot_config.yaml")
-            atr = {}
+            atr = {
+                "colors": ["red"],
+                "markers": ["x"],
+                "output": "plot.png",
+                "font_family": "serif"
+            }
 
     defaults = CFG(plot_type=plot_type,
                    zummarize_path=None,

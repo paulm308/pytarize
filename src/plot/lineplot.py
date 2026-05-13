@@ -29,16 +29,6 @@ class LinePlot(BasePlot):
 
         return transformed
 
-    def create_style_cycle(self, cfg: CFG):
-        # create marker and color cycle:
-        n = lcm(len(cfg.atr["colors"]), len(cfg.atr["markers"]))
-        color_cycle = utils.initialize_color(cfg.atr["colors"])
-        combined = cycler(
-            color=list(islice(cycle(reversed(color_cycle)), n)),
-            marker=list(islice(cycle(reversed(cfg.atr["markers"])), n)),
-        )
-        return combined
-
     def create_individual_plot_args(self, folder_name: str, values: list[float], cfg: CFG):
         kwargs = {}
         kwargs["label"] = folder_name
@@ -76,24 +66,15 @@ class LinePlot(BasePlot):
         legend_kwargs["reverse"] = True
         return legend_kwargs
 
-    def handle_axis(self, cfg: CFG):
-        if cfg.atr["xlog"]:
-            plt.xscale("log")
-        if cfg.atr["ylog"]:
-            plt.yscale("log")
-        plt.xlim(cfg.atr["xmin"], cfg.atr["xmax"])
-        plt.ylim(cfg.atr["ymin"], cfg.atr["ymax"])
-
     def create_plot(self, data: list[tuple[str, list[float]]], cfg: CFG):
 
-        plt.rcParams['text.usetex'] = cfg.atr["latex"]
-        plt.rcParams["font.family"] = cfg.atr["font_family"]
-        if cfg.atr["latex_preamble"] is not None:
-            plt.rcParams["text.latex.preamble"] = cfg.atr["latex_preamble"]
+        # handle latex text rendering
+        utils.handle_latex(cfg)
 
         fig, ax = plt.subplots()
 
-        ax.set_prop_cycle(self.create_style_cycle(cfg))
+        # create style cycle (markers and colors)
+        ax.set_prop_cycle(utils.create_style_cycle(cfg))
 
         for folder_name, values in data:
             plot_args = self.create_individual_plot_args(folder_name, values, cfg)
@@ -107,7 +88,8 @@ class LinePlot(BasePlot):
         legend_kwargs = self.create_legend_args(cfg)
         ax.legend(**legend_kwargs)
 
-        self.handle_axis(cfg)
+        # handle axis scale and bounds
+        utils.handle_axis(cfg)
 
         # title:
         if cfg.atr["title"] is not None:

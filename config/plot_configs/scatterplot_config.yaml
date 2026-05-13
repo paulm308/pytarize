@@ -1,2 +1,11 @@
 ---
-# TODO
+  "sat_style":
+    "sat":
+      "marker": "x"
+      "color": "purple"
+    "unsat":
+      "marker": "o"
+      "color": "black"
+    "unsolved":
+      "marker": "+"
+      "color": "red"
