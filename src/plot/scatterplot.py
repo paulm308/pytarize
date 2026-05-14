@@ -9,11 +9,11 @@ from itertools import cycle
 class ScatterPlot(BasePlot):
     ninstances: dict[str, int] = {}
 
-    def transform_data(self, data: dict[str, pd.DataFrame], cfg: CFG) -> tuple[list[str], dict[str, pd.DataFrame]]:
+    def transform_data(self, data: dict[str, pd.DataFrame]) -> tuple[list[str], dict[str, pd.DataFrame]]:
         # order folder names
         folder_names = []
-        if cfg.log_paths is not None:
-            folder_names = [path.name for path in cfg.log_paths]
+        if self.cfg.log_paths is not None:
+            folder_names = [path.name for path in self.cfg.log_paths]
 
         # remove unnessecary columns and set realtime to the time limit if the benchmark was not solved
         for folder_name in folder_names:
@@ -24,7 +24,7 @@ class ScatterPlot(BasePlot):
         merged = pd.merge(data[folder_names[0]], data[folder_names[1]], on='Unnamed: 0', how="inner")
 
         # calculate number of sat, unsat and unsolved instances
-        if cfg.atr["show_solved"]:
+        if self.cfg.atr["show_solved"]:
             combined = pd.concat([data[folder_names[0]], data[folder_names[1]]], ignore_index=True)
             self.ninstances["sat"] = combined.loc[combined.iloc[:, 1] == 10, combined.columns[0]].nunique()
             self.ninstances["unsat"] = combined.loc[combined.iloc[:, 1] == 20, combined.columns[0]].nunique()
@@ -43,7 +43,7 @@ class ScatterPlot(BasePlot):
 
         return (folder_names, res)
 
-    def create_individual_plot_args(self, label: str, style_cycle, values: pd.DataFrame, cfg: CFG):
+    def create_individual_plot_args(self, label: str, style_cycle, values: pd.DataFrame):
         kwargs = {}
 
         style = next(style_cycle)
@@ -51,15 +51,15 @@ class ScatterPlot(BasePlot):
         kwargs["marker"] = style["marker"]
         kwargs["label"] = label.upper()
 
-        if "sat_style" in cfg.atr.keys() and label in cfg.atr["sat_style"].keys():
-            if "color" in cfg.atr["sat_style"][label].keys():
-                kwargs["color"] = cfg.atr["sat_style"][label]["color"]
-            if "marker" in cfg.atr["sat_style"][label].keys():
-                kwargs["marker"] = cfg.atr["sat_style"][label]["marker"]
-            if "label" in cfg.atr["sat_style"][label].keys():
-                kwargs["label"] = cfg.atr["sat_style"][label]["label"]
+        if "sat_style" in self.cfg.atr.keys() and label in self.cfg.atr["sat_style"].keys():
+            if "color" in self.cfg.atr["sat_style"][label].keys():
+                kwargs["color"] = self.cfg.atr["sat_style"][label]["color"]
+            if "marker" in self.cfg.atr["sat_style"][label].keys():
+                kwargs["marker"] = self.cfg.atr["sat_style"][label]["marker"]
+            if "label" in self.cfg.atr["sat_style"][label].keys():
+                kwargs["label"] = self.cfg.atr["sat_style"][label]["label"]
 
-        if cfg.atr["show_solved"]:
+        if self.cfg.atr["show_solved"]:
             kwargs["label"] = f"{self.ninstances[label]} {kwargs['label']}"
 
         xs = values["real_x"]
@@ -68,42 +68,58 @@ class ScatterPlot(BasePlot):
 
         return {"args": args, "kwargs": kwargs}
 
-    def create_legend_args(self, cfg: CFG):
+    def create_legend_args(self):
         legend_kwargs = {}
-        if cfg.atr["center"]:
+        if self.cfg.atr["center"]:
             legend_kwargs["loc"] = "center right"
-        if cfg.atr["xlegend"] is not None or cfg.atr["ylegend"] is not None:
-            xlegend = 0.5 if cfg.atr["xlegend"] is None else cfg.atr["xlegend"]
-            ylegend = 0.5 if cfg.atr["ylegend"] is None else cfg.atr["ylegend"]
+        if self.cfg.atr["xlegend"] is not None or self.cfg.atr["ylegend"] is not None:
+            xlegend = 0.5 if self.cfg.atr["xlegend"] is None else self.cfg.atr["xlegend"]
+            ylegend = 0.5 if self.cfg.atr["ylegend"] is None else self.cfg.atr["ylegend"]
             legend_kwargs["bbox_to_anchor"] = (xlegend, ylegend)
         legend_kwargs["reverse"] = True
         return legend_kwargs
 
-    def create_plot(self, data: tuple[list[str], dict[str, pd.DataFrame]], cfg: CFG):
+    def handle_axis_special(self, folder_names: list[str], ax):
+        xlabel: None | str = None
+        ylabel: None | str = None
+        if "solver_style" in self.cfg.atr.keys():
+            if folder_names[0] in self.cfg.atr["solver_style"].keys() and "label" in self.cfg.atr["solver_style"][folder_names[0]].keys():
+                xlabel = self.cfg.atr["solver_style"][folder_names[0]]["label"]
+            if folder_names[1] in self.cfg.atr["solver_style"].keys() and "label" in self.cfg.atr["solver_style"][folder_names[1]].keys():
+                ylabel = self.cfg.atr["solver_style"][folder_names[1]]["label"]
+        if self.cfg.atr["xlabel"] is not None:
+            xlabel = self.cfg.atr["xlabel"]
+        if self.cfg.atr["ylabel"] is not None:
+            ylabel = self.cfg.atr["ylabel"]
+        ax.set_xlabel(xlabel)
+        ax.set_ylabel(ylabel)
+
+    def create_plot(self, data: tuple[list[str], dict[str, pd.DataFrame]]):
 
         # handle latex text rendering
-        utils.handle_latex(cfg)
+        utils.handle_latex(self.cfg)
 
         fig, ax = plt.subplots()
 
-        style_cycle = iter(utils.create_style_cycle(cfg))
+        style_cycle = cycle(utils.create_style_cycle(self.cfg))
 
         for label in ["sat", "unsat", "unsolved"]:
-            plot_args = self.create_individual_plot_args(label, style_cycle, data[1][label], cfg)
+            plot_args = self.create_individual_plot_args(label, style_cycle, data[1][label])
             ax.scatter(*plot_args["args"], **plot_args["kwargs"])
 
         # create legend:
-        legend_kwargs = self.create_legend_args(cfg)
+        legend_kwargs = self.create_legend_args()
         ax.legend(**legend_kwargs)
 
         # handle axis scale and bounds
-        utils.handle_axis(cfg)
+        utils.handle_axis(self.cfg, ax)
+        self.handle_axis_special(data[0], ax)
 
         # title:
-        if cfg.atr["title"] is not None:
-            plt.title(cfg.atr["title"])
+        if self.cfg.atr["title"] is not None:
+            plt.title(self.cfg.atr["title"])
 
         plt.tight_layout()
 
         # save plot
-        plt.savefig(cfg.atr["output"])
+        plt.savefig(self.cfg.atr["output"])

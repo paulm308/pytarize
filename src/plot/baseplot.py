@@ -7,15 +7,19 @@ T = TypeVar("T")
 
 
 class BasePlot(ABC, Generic[T]):
+    cfg: CFG
+
+    def __init__(self, cfg: CFG):
+        self.cfg = cfg
 
     @abstractmethod
-    def transform_data(self, data: list[pd.DataFrame], cfg: CFG) -> T:
+    def transform_data(self, data: list[pd.DataFrame]) -> T:
         pass
 
     @abstractmethod
-    def create_plot(self, data: T, cfg: CFG):
+    def create_plot(self, data: T):
         pass
 
-    def run(self, data: list[pd.DataFrame], cfg: CFG):
-        transformed_data = self.transform_data(data, cfg)
-        self.create_plot(transformed_data, cfg)
+    def run(self, data: list[pd.DataFrame]):
+        transformed_data = self.transform_data(data)
+        self.create_plot(transformed_data)

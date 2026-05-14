@@ -38,10 +38,10 @@ def handle_latex(cfg: CFG):
         plt.rcParams["text.latex.preamble"] = cfg.atr["latex_preamble"]
 
 
-def handle_axis(cfg: CFG):
+def handle_axis(cfg: CFG, ax):
     if cfg.atr["xlog"]:
-        plt.xscale("log")
+        ax.set_xscale("log")
     if cfg.atr["ylog"]:
-        plt.yscale("log")
-    plt.xlim(cfg.atr["xmin"], cfg.atr["xmax"])
-    plt.ylim(cfg.atr["ymin"], cfg.atr["ymax"])
+        ax.set_yscale("log")
+    ax.set_xlim(cfg.atr["xmin"], cfg.atr["xmax"])
+    ax.set_ylim(cfg.atr["ymin"], cfg.atr["ymax"])

@@ -7,7 +7,7 @@ from src.core.configuration_data import PlotType
 def run_plots(data, cfg):
     match cfg.plot_type:
         case PlotType.LinePlot:
-            plot = LinePlot()
+            plot = LinePlot(cfg)
         case PlotType.ScatterPlot:
-            plot = ScatterPlot()
-    plot.run(data, cfg)
+            plot = ScatterPlot(cfg)
+    plot.run(data)
