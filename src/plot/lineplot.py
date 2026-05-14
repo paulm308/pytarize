@@ -93,7 +93,8 @@ class LinePlot(BasePlot):
         ax.legend(**legend_kwargs)
 
         # handle axis scale and bounds
-        utils.handle_axis(self.cfg, ax)
+        utils.handle_axis_basic(self.cfg, ax)
+        utils.handle_axis_advanced(self.cfg, ax)
         self.handle_axis_special(ax)
 
         # title:
