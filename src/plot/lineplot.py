@@ -62,6 +62,7 @@ class LinePlot(BasePlot):
         if self.cfg.atr["xlegend"] is not None or self.cfg.atr["ylegend"] is not None:
             xlegend = 0.5 if self.cfg.atr["xlegend"] is None else self.cfg.atr["xlegend"]
             ylegend = 0.5 if self.cfg.atr["ylegend"] is None else self.cfg.atr["ylegend"]
+            legend_kwargs["loc"] = "center"
             legend_kwargs["bbox_to_anchor"] = (xlegend, ylegend)
         legend_kwargs["reverse"] = True
         return legend_kwargs

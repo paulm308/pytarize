@@ -4,16 +4,22 @@ import src.plot.plot_utils as utils
 import pandas as pd
 from matplotlib import pyplot as plt
 from itertools import cycle
+from typing import Optional
 
 
 class ScatterPlot(BasePlot):
     ninstances: dict[str, int] = {}
+    limits: tuple[Optional[float], Optional[float]] = (None, None)
 
     def transform_data(self, data: dict[str, pd.DataFrame]) -> tuple[list[str], dict[str, pd.DataFrame]]:
         # order folder names
         folder_names = []
         if self.cfg.log_paths is not None:
             folder_names = [path.name for path in self.cfg.log_paths]
+
+        # save limits for "limit" option
+        if self.cfg.atr["limit"]:
+            self.limits = (data[folder_names[0]]["rlim"][0], data[folder_names[1]]["rlim"][0])
 
         # remove unnessecary columns and set realtime to the time limit if the benchmark was not solved
         for folder_name in folder_names:
@@ -75,6 +81,7 @@ class ScatterPlot(BasePlot):
         if self.cfg.atr["xlegend"] is not None or self.cfg.atr["ylegend"] is not None:
             xlegend = 0.5 if self.cfg.atr["xlegend"] is None else self.cfg.atr["xlegend"]
             ylegend = 0.5 if self.cfg.atr["ylegend"] is None else self.cfg.atr["ylegend"]
+            legend_kwargs["loc"] = "center"
             legend_kwargs["bbox_to_anchor"] = (xlegend, ylegend)
         legend_kwargs["reverse"] = True
         return legend_kwargs
@@ -106,6 +113,9 @@ class ScatterPlot(BasePlot):
         for label in ["sat", "unsat", "unsolved"]:
             plot_args = self.create_individual_plot_args(label, style_cycle, data[1][label])
             ax.scatter(*plot_args["args"], **plot_args["kwargs"])
+
+        if self.cfg.atr["limit"]:
+            ax.plot([0, self.limits[0], self.limits[0]], [self.limits[1], self.limits[1], 0], color="red")  # type:ignore
 
         # create legend:
         legend_kwargs = self.create_legend_args()
