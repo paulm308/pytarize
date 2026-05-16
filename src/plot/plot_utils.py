@@ -3,6 +3,7 @@ from matplotlib import pyplot as plt
 from cycler import cycler
 from math import lcm
 from itertools import cycle, islice
+from matplotlib.ticker import ScalarFormatter
 
 
 def initialize_color(colors: list[str]) -> list[str]:
@@ -47,6 +48,13 @@ def handle_axis_basic(cfg: CFG, ax):
     ax.set_ylim(cfg.atr["ymin"], cfg.atr["ymax"])
 
 
-def handle_axis_advanced(cfg: CFG, ax):
-    if cfg.atr["square_box"]:
-        ax.set_aspect('equal', adjustable='box')
+def change_boundingbox_shape_to_square(ax):
+    ax.set_aspect('equal', adjustable='box')
+
+
+def change_tick_notation_to_plain(ax):
+    formatter = ScalarFormatter()
+    formatter.set_scientific(False)
+    formatter.set_useOffset(False)
+    ax.xaxis.set_major_formatter(formatter)
+    ax.yaxis.set_major_formatter(formatter)

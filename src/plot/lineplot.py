@@ -67,9 +67,12 @@ class LinePlot(BasePlot):
         legend_kwargs["reverse"] = True
         return legend_kwargs
 
-    def handle_axis_special(self, ax):
+    def handle_axis(self, ax):
+        utils.handle_axis_basic(self.cfg, ax)
         ax.set_xlabel(self.cfg.atr["xlabel"])
         ax.set_ylabel(self.cfg.atr["ylabel"])
+        if self.cfg.atr["plain"]:
+            utils.change_tick_notation_to_plain(ax)
 
     def create_plot(self, data: list[tuple[str, list[float]]]):
 
@@ -94,8 +97,7 @@ class LinePlot(BasePlot):
         ax.legend(**legend_kwargs)
 
         # handle axis scale and bounds
-        utils.handle_axis_basic(self.cfg, ax)
-        self.handle_axis_special(ax)
+        self.handle_axis(ax)
 
         # title:
         if self.cfg.atr["title"] is not None:

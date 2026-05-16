@@ -86,9 +86,13 @@ class ScatterPlot(BasePlot):
         legend_kwargs["reverse"] = True
         return legend_kwargs
 
-    def handle_axis_special(self, folder_names: list[str], ax):
-        xlabel: None | str = None
-        ylabel: None | str = None
+    def handle_axis(self, folder_names: list[str], ax):
+        utils.handle_axis_basic(self.cfg, ax)
+        if self.cfg.atr["square_box"]:
+            utils.change_boundingbox_shape_to_square(ax)
+
+        xlabel: Optional[str] = None
+        ylabel: Optional[str] = None
         if "solver_style" in self.cfg.atr.keys():
             if folder_names[0] in self.cfg.atr["solver_style"].keys() and "label" in self.cfg.atr["solver_style"][folder_names[0]].keys():
                 xlabel = self.cfg.atr["solver_style"][folder_names[0]]["label"]
@@ -100,6 +104,8 @@ class ScatterPlot(BasePlot):
             ylabel = self.cfg.atr["ylabel"]
         ax.set_xlabel(xlabel)
         ax.set_ylabel(ylabel)
+        if self.cfg.atr["plain"]:
+            utils.change_tick_notation_to_plain(ax)
 
     def create_plot(self, data: tuple[list[str], dict[str, pd.DataFrame]]):
 
@@ -121,14 +127,16 @@ class ScatterPlot(BasePlot):
         legend_kwargs = self.create_legend_args()
         ax.legend(**legend_kwargs)
 
-        # handle axis scale and bounds
-        utils.handle_axis_basic(self.cfg, ax)
-        utils.handle_axis_advanced(self.cfg, ax)
-        self.handle_axis_special(data[0], ax)
+        # handle axis scale and bounds labels, ticks
+        self.handle_axis(data[0], ax)
 
         # title:
         if self.cfg.atr["title"] is not None:
             plt.title(self.cfg.atr["title"])
+
+        # change notation:
+        if self.cfg.atr["plain"]:
+            ax.ticklabel_format(style='plain', axis='both')
 
         plt.tight_layout()
 
