@@ -1,4 +1,3 @@
-from src.plot.baseplot import BasePlot
 from src.plot.lineplot import LinePlot
 from src.plot.scatterplot import ScatterPlot
 from src.core.configuration_data import PlotType

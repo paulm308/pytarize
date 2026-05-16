@@ -5,6 +5,7 @@ import pandas as pd
 from matplotlib import pyplot as plt
 from itertools import cycle
 from typing import Optional
+from matplotlib.markers import MarkerStyle
 
 
 class ScatterPlot(BasePlot):
@@ -53,17 +54,30 @@ class ScatterPlot(BasePlot):
         kwargs = {}
 
         style = next(style_cycle)
-        kwargs["color"] = style["color"]
+        color = style["color"]
         kwargs["marker"] = style["marker"]
         kwargs["label"] = label.upper()
 
+        if kwargs["marker"] not in MarkerStyle.filled_markers:
+            kwargs["facecolors"] = style["color"]
+
         if "sat_style" in self.cfg.atr.keys() and label in self.cfg.atr["sat_style"].keys():
             if "color" in self.cfg.atr["sat_style"][label].keys():
-                kwargs["color"] = self.cfg.atr["sat_style"][label]["color"]
+                color = self.cfg.atr["sat_style"][label]["color"]
             if "marker" in self.cfg.atr["sat_style"][label].keys():
                 kwargs["marker"] = self.cfg.atr["sat_style"][label]["marker"]
             if "label" in self.cfg.atr["sat_style"][label].keys():
                 kwargs["label"] = self.cfg.atr["sat_style"][label]["label"]
+
+        # create holow markers
+        if kwargs["marker"] not in MarkerStyle.filled_markers or not self.cfg.atr["hollow"]:
+            kwargs.pop("edgecolors", None)
+            kwargs.pop("facecolors", None)
+            kwargs["color"] = color
+        elif kwargs["marker"] in MarkerStyle.filled_markers and self.cfg.atr["hollow"]:
+            kwargs.pop("color", None)
+            kwargs["edgecolors"] = color
+            kwargs["facecolors"] = "none"
 
         if self.cfg.atr["show_solved"]:
             kwargs["label"] = f"{self.ninstances[label]} {kwargs['label']}"

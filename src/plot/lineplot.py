@@ -1,13 +1,10 @@
 from src.plot.baseplot import BasePlot
-from src.core.configuration_data import CFG
 import src.plot.plot_utils as utils
 import pandas as pd
 import numpy as np
-from typing import Generic, TypeVar
 from matplotlib import pyplot as plt
-from cycler import cycler
-from math import lcm
-from itertools import cycle, islice
+from itertools import cycle
+from matplotlib.markers import MarkerStyle
 
 
 class LinePlot(BasePlot):
@@ -29,16 +26,31 @@ class LinePlot(BasePlot):
 
         return transformed
 
-    def create_individual_plot_args(self, folder_name: str, values: list[float]):
+    def create_individual_plot_args(self, folder_name: str, style_cycle, values: list[float]):
         kwargs = {}
+
+        style = next(style_cycle)
+        color = style["color"]
+        kwargs["marker"] = style["marker"]
         kwargs["label"] = folder_name
+
         if "solver_style" in self.cfg.atr.keys() and folder_name in self.cfg.atr["solver_style"].keys():
             if "color" in self.cfg.atr["solver_style"][folder_name].keys():
-                kwargs["color"] = self.cfg.atr["solver_style"][folder_name]["color"]
+                color = self.cfg.atr["solver_style"][folder_name]["color"]
             if "marker" in self.cfg.atr["solver_style"][folder_name].keys():
                 kwargs["marker"] = self.cfg.atr["solver_style"][folder_name]["marker"]
             if "label" in self.cfg.atr["solver_style"][folder_name].keys():
                 kwargs["label"] = self.cfg.atr["solver_style"][folder_name]["label"]
+
+        # create holow markers
+        if kwargs["marker"] not in MarkerStyle.filled_markers or not self.cfg.atr["hollow"]:
+            kwargs.pop("markeredgecolor", None)
+            kwargs.pop("markerfacecolor", None)
+            kwargs["color"] = color
+        elif kwargs["marker"] in MarkerStyle.filled_markers and self.cfg.atr["hollow"]:
+            kwargs.pop("color", None)
+            kwargs["markeredgecolor"] = color
+            kwargs["markerfacecolor"] = "none"
 
         # show solved count in legend:
         if self.cfg.atr["show_solved"]:
@@ -82,10 +94,10 @@ class LinePlot(BasePlot):
         fig, ax = plt.subplots()
 
         # create style cycle (markers and colors)
-        ax.set_prop_cycle(utils.create_style_cycle(self.cfg))
+        style_cycle = cycle(utils.create_style_cycle(self.cfg))
 
         for folder_name, values in data:
-            plot_args = self.create_individual_plot_args(folder_name, values)
+            plot_args = self.create_individual_plot_args(folder_name, style_cycle, values)
             ax.plot(*plot_args["args"], **plot_args["kwargs"])
 
         # draw limit line:
