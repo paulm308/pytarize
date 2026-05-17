@@ -4,6 +4,8 @@ from cycler import cycler
 from math import lcm
 from itertools import cycle, islice
 from matplotlib.ticker import ScalarFormatter
+import numpy as np
+from typing import Optional
 
 
 def initialize_color(colors: list[str]) -> list[str]:
@@ -58,3 +60,8 @@ def change_tick_notation_to_plain(ax):
     formatter.set_useOffset(False)
     ax.xaxis.set_major_formatter(formatter)
     ax.yaxis.set_major_formatter(formatter)
+
+
+def plot_lines(data, ax):
+    for line in data:
+        ax.axline(*line["axline_args"], **line["axline_kwargs"])

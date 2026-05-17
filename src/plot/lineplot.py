@@ -104,6 +104,10 @@ class LinePlot(BasePlot):
         if self.cfg.atr["limit"] is not None:
             plt.axhline(y=self.cfg.atr["limit"], color='blue', linestyle='-')
 
+        # draw indicator lines:
+        if self.cfg.atr["lines"] and "indicator_lines" in self.cfg.atr.keys():
+            utils.plot_lines(self.cfg.atr["indicator_lines"], ax)
+
         # create legend:
         legend_kwargs = self.create_legend_args()
         ax.legend(**legend_kwargs)

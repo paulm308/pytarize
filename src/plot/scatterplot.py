@@ -135,7 +135,7 @@ class ScatterPlot(BasePlot):
             ax.scatter(*plot_args["args"], **plot_args["kwargs"])
 
         if self.cfg.atr["limit"]:
-            ax.plot([0, self.limits[0], self.limits[0]], [self.limits[1], self.limits[1], 0], color="red")  # type:ignore
+            ax.plot([0, self.limits[0], self.limits[0]], [self.limits[1], self.limits[1], 0], color="red", zorder=0)  # type:ignore
 
         # create legend:
         legend_kwargs = self.create_legend_args()
@@ -143,6 +143,10 @@ class ScatterPlot(BasePlot):
 
         # handle axis scale and bounds labels, ticks
         self.handle_axis(data[0], ax)
+
+        # draw indicator lines:
+        if self.cfg.atr["lines"] and "indicator_lines" in self.cfg.atr.keys():
+            utils.plot_lines(self.cfg.atr["indicator_lines"], ax)
 
         # title:
         if self.cfg.atr["title"] is not None:
