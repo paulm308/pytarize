@@ -50,3 +50,9 @@
       "axline_kwargs":
         "color": "#7FCBFF"
         "zorder": 0
+  "grid_kwargs":
+    "which": "major"
+    "color": "gray"
+    "linestyle": ":"
+    "linewidth": 0.7
+    "alpha": 0.7

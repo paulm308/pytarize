@@ -115,6 +115,10 @@ class LinePlot(BasePlot):
         # handle axis scale and bounds
         self.handle_axis(ax)
 
+        # draw grid:
+        if self.cfg.atr["grid"] and "grid_kwargs" in self.cfg.atr.keys() and self.cfg.atr["grid_kwargs"] is not None:
+            ax.grid(**self.cfg.atr["grid_kwargs"])
+
         # title:
         if self.cfg.atr["title"] is not None:
             plt.title(self.cfg.atr["title"])

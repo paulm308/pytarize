@@ -145,8 +145,12 @@ class ScatterPlot(BasePlot):
         self.handle_axis(data[0], ax)
 
         # draw indicator lines:
-        if self.cfg.atr["lines"] and "indicator_lines" in self.cfg.atr.keys():
+        if self.cfg.atr["lines"] and "indicator_lines" in self.cfg.atr.keys() and self.cfg.atr["indicator_lines"] is not None:
             utils.plot_lines(self.cfg.atr["indicator_lines"], ax)
+
+        # draw grid:
+        if self.cfg.atr["grid"] and "grid_kwargs" in self.cfg.atr.keys() and self.cfg.atr["grid_kwargs"] is not None:
+            ax.grid(**self.cfg.atr["grid_kwargs"])
 
         # title:
         if self.cfg.atr["title"] is not None:
