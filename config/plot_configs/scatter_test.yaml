@@ -1,0 +1,94 @@
+center: false
+colors:
+- red
+font_family: serif
+grid: true
+grid_kwargs:
+  alpha: 0.7
+  color: gray
+  linestyle: ':'
+  linewidth: 0.7
+  which: major
+hollow: true
+indicator_lines:
+- axline_args:
+  - - 0.0
+    - 0.0
+  - - 10.0
+    - 100.0
+  axline_kwargs:
+    color: '#C9B800'
+    zorder: 0
+- axline_args:
+  - - 0.0
+    - 0.0
+  - - 10.0
+    - 20.0
+  axline_kwargs:
+    color: '#996515'
+    zorder: 0
+- axline_args:
+  - - 0.0
+    - 0.0
+  - - 10.0
+    - 10.0
+  axline_kwargs:
+    color: '#00A88A'
+    zorder: 0
+- axline_args:
+  - - 0.0
+    - 0.0
+  - - 10.0
+    - 5.0
+  axline_kwargs:
+    color: '#3FA0FF'
+    zorder: 0
+- axline_args:
+  - - 0.0
+    - 0.0
+  - - 10.0
+    - 1.0
+  axline_kwargs:
+    color: '#7FCBFF'
+    zorder: 0
+latex: true
+latex_preamble: \usepackage{lmodern}
+limit: true
+lines: true
+markers:
+- x
+output: scatter_TEST2.pdf
+plain: true
+sat_style:
+  sat:
+    color: purple
+    label: SAT
+    marker: x
+  unsat:
+    color: black
+    label: UNSAT
+    marker: o
+  unsolved:
+    color: blue
+    label: UNSOLVED
+    marker: +
+show_solved: true
+solver_style:
+  c24:
+    label: Cadical24
+  c25:
+    label: Cadical25
+  k24:
+    label: Kissat24
+square_box: true
+title: \textbf{Scatter Demo}
+xlabel: \textbf{Cadical24}
+xlegend: null
+xlog: true
+xmax: 7000.0
+xmin: 1.0
+ylabel: \textbf{Kissat24}
+ylegend: null
+ylog: true
+ymax: 7000.0
+ymin: 1.0

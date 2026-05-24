@@ -9,7 +9,16 @@ def merge_dicts(base: dict, override: dict) -> dict:
             and isinstance(value, dict)
         ):
             result[key] = merge_dicts(result[key], value)
-        elif key not in result.keys() or value is not None:
+        elif (
+            key in result
+            and isinstance(result[key], bool)
+            and isinstance(value, bool)
+        ):
+            result[key] ^= value
+        elif (
+            key not in result.keys()
+            or value is not None
+        ):
             result[key] = value
 
     return result

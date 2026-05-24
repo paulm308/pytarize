@@ -10,7 +10,7 @@
       "label": "UNSAT"
     "unsolved":
       "marker": "+"
-      "color": "red"
+      "color": "blue"
       "label": "UNSOLVED"
   "solver_style":
     "c24":

@@ -17,4 +17,5 @@ class CFG:
     base_config_path: Path
     plot_config_path: Path
     zummarize_cli: list[str]
+    save_config: Path | None
     atr: dict = field(default_factory=dict)
