@@ -1,6 +1,7 @@
 from src.cli.dictmerger import merge_dicts
 import yaml
 from pathlib import Path
+from src.core.configuration_data import PlotType
 
 
 def apply_config(config_path, cfg):
@@ -17,5 +18,25 @@ def apply_config(config_path, cfg):
         if "r_log_paths" in data.keys():
             cfg.r_log_paths = [Path(r_log_path) for r_log_path in data["r_log_paths"]]
             del data["r_log_paths"]
+        set_default_plot_config_path(cfg, data)
         cfg.atr = merge_dicts(cfg.atr, data)
     return cfg
+
+
+def set_default_plot_config_path(cfg, data):
+    if "config_paths" in data.keys() and data["config_paths"] is not None:
+        if (
+            cfg.plot_type == PlotType.LinePlot
+            and "lineplot" in data["config_paths"].keys()
+            and data["config_paths"]["lineplot"] is not None
+        ):
+            cfg.plot_config_path = data["config_paths"]["lineplot"]
+        elif (
+            cfg.plot_type == PlotType.ScatterPlot and
+            "scatterplot" in data["config_paths"].keys()
+            and data["config_paths"]["scatterplot"] is not None
+        ):
+            cfg.plot_config_path = data["config_paths"]["scatterplot"]
+        # +-------------------+
+        # | Add new plottypes |
+        # +-------------------+

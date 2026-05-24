@@ -57,7 +57,7 @@ limit: true
 lines: true
 markers:
 - x
-output: scatter_TEST2.pdf
+output: scatter_plot.pdf
 plain: true
 sat_style:
   sat:

@@ -8,12 +8,11 @@ from pathlib import Path
 
 def set_defaults(plot_type: PlotType):
     base_config_path = Path("config/base_config.yaml")
-    plot_config_path = Path("")
+    plot_config_path = None
     atr = {}
 
     match plot_type:
         case PlotType.LinePlot:
-            plot_config_path = Path("config/plot_configs/lineplot_config.yaml")
             atr = {
                 "colors": ["red"],
                 "markers": ["x"],
@@ -21,7 +20,6 @@ def set_defaults(plot_type: PlotType):
                 "font_family": "serif"
             }
         case PlotType.ScatterPlot:
-            plot_config_path = Path("config/plot_configs/scatterplot_config.yaml")
             atr = {
                 "colors": ["red"],
                 "markers": ["x"],
@@ -54,7 +52,7 @@ def build_config(raw, plot_type: PlotType):
         path = Path(raw["base_raw"]["config_path"])
         validate_config_path(path)
         cfg = apply_config(path, cfg)
-    else:
+    elif cfg.plot_config_path is not None:
         cfg = apply_config(cfg.plot_config_path, cfg)
 
     # apply cli:
