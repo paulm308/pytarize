@@ -40,3 +40,5 @@ def set_default_plot_config_path(cfg, data):
         # +-------------------+
         # | Add new plottypes |
         # +-------------------+
+
+        del data["config_paths"]
