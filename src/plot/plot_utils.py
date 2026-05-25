@@ -46,8 +46,6 @@ def handle_axis_basic(cfg: CFG, ax):
         ax.set_xscale("log")
     if cfg.atr["ylog"]:
         ax.set_yscale("log")
-    ax.set_xlim(cfg.atr["xmin"], cfg.atr["xmax"])
-    ax.set_ylim(cfg.atr["ymin"], cfg.atr["ymax"])
 
 
 def change_boundingbox_shape_to_square(ax):
