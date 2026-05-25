@@ -11,6 +11,8 @@ from matplotlib.markers import MarkerStyle
 class ScatterPlot(BasePlot):
     ninstances: dict[str, int] = {}
     limits: tuple[Optional[float], Optional[float]] = (None, None)
+    timeouts: tuple[Optional[float], Optional[float]] = (None, None)
+    max_achsvalues: tuple[Optional[float], Optional[float]] = (None, None)
 
     def transform_data(self, data: dict[str, pd.DataFrame]) -> tuple[list[str], dict[str, pd.DataFrame]]:
         # order folder names
@@ -19,13 +21,16 @@ class ScatterPlot(BasePlot):
             folder_names = [path.name for path in self.cfg.log_paths]
 
         # save limits for "limit" option
-        if self.cfg.atr["limit"]:
+        if self.cfg.atr["limit"] or self.cfg.atr["extend"] is not None:
             self.limits = (data[folder_names[0]]["rlim"][0], data[folder_names[1]]["rlim"][0])
 
+        self.timeouts = self.compute_timeouts_and_max_achsvalues((data[folder_names[0]]["rlim"][0], data[folder_names[1]]["rlim"][0]))
+        print(self.timeouts)
+
         # remove unnessecary columns and set realtime to the time limit if the benchmark was not solved
-        for folder_name in folder_names:
-            data[folder_name].loc[data[folder_name]["result"] == 2, "real"] = data[folder_name]["rlim"]
-            data[folder_name].drop(columns=["time", "space", "tlim", "slim"])
+        for idx, folder_name in enumerate(folder_names):
+            data[folder_name].loc[data[folder_name]["result"] < 10, "real"] = self.timeouts[idx]
+            data[folder_name].drop(columns=["time", "space", "tlim", "slim"], inplace=True)
 
         # merge zummarys by benchmark name
         merged = pd.merge(data[folder_names[0]], data[folder_names[1]], on='Unnamed: 0', how="inner")
@@ -49,6 +54,31 @@ class ScatterPlot(BasePlot):
         }
 
         return (folder_names, res)
+
+    def compute_timeouts_and_max_achsvalues(self, limits: tuple[float, float]) -> tuple[float, float]:
+        if self.cfg.atr["extend"] is not None:
+            xmin = self.cfg.atr["xmin"]
+            xmax = self.cfg.atr["xmax"]
+            ymin = self.cfg.atr["ymin"]
+            ymax = self.cfg.atr["ymax"]
+
+            if (xmin is not None and xmax is not None and ymin is not None and ymax is not None):
+                f = self.cfg.atr["extend"]
+                xmax_new = xmin + (xmax - xmin) / f
+                ymax_new = ymin + (ymax - ymin) / f
+                if self.cfg.atr["xlog"]:
+                    xmax_new = xmin * (xmax / xmin) ** (1 / f)
+                if self.cfg.atr["ylog"]:
+                    ymax_new = ymin * (ymax / ymin) ** (1 / f)
+                xtimeout = (xmax_new - limits[0]) / 2 + limits[0]
+                ytimeout = (ymax_new - limits[1]) / 2 + limits[1]
+
+                self.max_achsvalues = (xmax_new, ymax_new)
+                return (xtimeout, ytimeout)
+            else:
+                print(f"extend requires that xmin, xmax, ymin and ymax have been set. xmin: {xmin}, xmax: {xmax}, ymin: {ymin}, ymax: {ymax}")
+        self.max_achsvalues = (self.cfg.atr["xmax"], self.cfg.atr["xmax"])
+        return limits
 
     def create_individual_plot_args(self, label: str, style_cycle, values: pd.DataFrame):
         kwargs = {}
@@ -102,6 +132,8 @@ class ScatterPlot(BasePlot):
 
     def handle_axis(self, folder_names: list[str], ax):
         utils.handle_axis_basic(self.cfg, ax)
+        ax.set_xlim(self.cfg.atr["xmin"], self.max_achsvalues[0])
+        ax.set_ylim(self.cfg.atr["ymin"], self.max_achsvalues[1])
         if self.cfg.atr["square_box"]:
             utils.change_boundingbox_shape_to_square(ax)
 
@@ -134,8 +166,13 @@ class ScatterPlot(BasePlot):
             plot_args = self.create_individual_plot_args(label, style_cycle, data[1][label])
             ax.scatter(*plot_args["args"], **plot_args["kwargs"])
 
+        # create limit lines:
         if self.cfg.atr["limit"]:
-            ax.plot([0, self.limits[0], self.limits[0]], [self.limits[1], self.limits[1], 0], color="red", zorder=0)  # type:ignore
+            ax.plot([0, self.limits[0], self.limits[0]], [self.limits[1], self.limits[1], 0], color="black", linestyle="--", zorder=0)  # type:ignore
+
+        # plot extended timout line
+        if self.cfg.atr["extend"]:
+            ax.plot([0, self.timeouts[0], self.timeouts[0]], [self.timeouts[1], self.timeouts[1], 0], color="red", zorder=0)  # type:ignore
 
         # create legend:
         legend_kwargs = self.create_legend_args()
