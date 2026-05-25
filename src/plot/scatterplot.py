@@ -25,7 +25,6 @@ class ScatterPlot(BasePlot):
             self.limits = (data[folder_names[0]]["rlim"][0], data[folder_names[1]]["rlim"][0])
 
         self.timeouts = self.compute_timeouts_and_max_achsvalues((data[folder_names[0]]["rlim"][0], data[folder_names[1]]["rlim"][0]))
-        print(self.timeouts)
 
         # remove unnessecary columns and set realtime to the time limit if the benchmark was not solved
         for idx, folder_name in enumerate(folder_names):
@@ -132,6 +131,8 @@ class ScatterPlot(BasePlot):
 
     def handle_axis(self, folder_names: list[str], ax):
         utils.handle_axis_basic(self.cfg, ax)
+        if self.cfg.atr["extend"] is not None:
+            utils.disable_ticks_after_threshold(ax, self.limits)  # type: ignore
         ax.set_xlim(self.cfg.atr["xmin"], self.max_achsvalues[0])
         ax.set_ylim(self.cfg.atr["ymin"], self.max_achsvalues[1])
         if self.cfg.atr["square_box"]:
@@ -192,10 +193,6 @@ class ScatterPlot(BasePlot):
         # title:
         if self.cfg.atr["title"] is not None:
             plt.title(self.cfg.atr["title"])
-
-        # change notation:
-        if self.cfg.atr["plain"]:
-            ax.ticklabel_format(style='plain', axis='both')
 
         plt.tight_layout()
 
