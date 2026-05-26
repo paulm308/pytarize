@@ -1,6 +1,7 @@
 center: false
 colors:
 - red
+extend: 0.9
 font_family: serif
 grid: true
 grid_kwargs:
@@ -10,6 +11,47 @@ grid_kwargs:
   linewidth: 0.7
   which: major
 hollow: true
+indicator_line_segments:
+- plot_args:
+  - - 0.0
+    - 500.0
+  - - 0.0
+    - 5000.0
+  plot_kwargs:
+    color: '#C9B800'
+    zorder: 0
+- plot_args:
+  - - 0.0
+    - 2500.0
+  - - 0.0
+    - 5000.0
+  plot_kwargs:
+    color: '#996515'
+    zorder: 0
+- plot_args:
+  - - 0.0
+    - 5000.0
+  - - 0.0
+    - 5000.0
+  plot_kwargs:
+    color: '#00A88A'
+    zorder: 0
+- plot_args:
+  - - 0.0
+    - 5000.0
+  - - 0.0
+    - 2500.0
+  plot_kwargs:
+    color: '#3FA0FF'
+    zorder: 0
+- plot_args:
+  - - 0.0
+    - 5000.0
+  - - 0.0
+    - 500.0
+  plot_kwargs:
+    color: '#7FCBFF'
+    zorder: 0
 indicator_lines:
 - axline_args:
   - - 0.0
@@ -54,7 +96,8 @@ indicator_lines:
 latex: true
 latex_preamble: \usepackage{lmodern}
 limit: true
-lines: true
+line_segments: true
+lines: false
 markers:
 - x
 output: scatter_plot.pdf
@@ -71,7 +114,7 @@ sat_style:
   unsolved:
     color: blue
     label: UNSOLVED
-    marker: +
+    marker: s
 show_solved: true
 solver_style:
   c24:
@@ -86,9 +129,9 @@ xlabel: \textbf{Cadical24}
 xlegend: null
 xlog: true
 xmax: 7000.0
-xmin: 1.0
+xmin: 0.1
 ylabel: \textbf{Kissat24}
 ylegend: null
 ylog: true
 ymax: 7000.0
-ymin: 1.0
+ymin: 0.1

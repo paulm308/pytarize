@@ -57,6 +57,11 @@ def plot_lines(data, ax):
         ax.axline(*line["axline_args"], **line["axline_kwargs"])
 
 
+def plot_line_segments(data, ax):
+    for lineseg in data:
+        ax.plot(*lineseg["plot_args"], **lineseg["plot_kwargs"])
+
+
 def disable_ticks_after_threshold(ax, threshold: tuple[float, float]):
     xmajor_ticks = list(ax.get_xticks())
     ymajor_ticks = list(ax.get_yticks())
@@ -83,10 +88,10 @@ def disable_ticks_after_threshold(ax, threshold: tuple[float, float]):
     ax.set_yticks(yminor_ticks, minor=True)
 
 
-def change_tick_notation_label(ax, timeouts: tuple[float, float], label: Optional[str], cfg: CFG):
+def change_tick_notation_label(ax, timeouts: Optional[tuple[float, float]], label: Optional[str], cfg: CFG):
 
     def formatter(y, pos):
-        if np.isclose(y, timeouts[1]) and cfg.atr["extend"] is not None and label is not None:
+        if timeouts is not None and np.isclose(y, timeouts[1]) and cfg.atr["extend"] is not None and label is not None:
             return label
         elif cfg.atr["plain"]:
             return f"{y:g}"

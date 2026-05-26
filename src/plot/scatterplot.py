@@ -174,7 +174,7 @@ class ScatterPlot(BasePlot):
 
         # plot extended timout line
         if self.cfg.atr["extend"]:
-            ax.plot([0, self.timeouts[0], self.timeouts[0]], [self.timeouts[1], self.timeouts[1], 0], color="red", zorder=0)  # type:ignore  
+            ax.plot([0, self.timeouts[0], self.timeouts[0]], [self.timeouts[1], self.timeouts[1], 0], color="red", zorder=0)  # type:ignore
 
         # create legend:
         legend_kwargs = self.create_legend_args()
@@ -186,6 +186,10 @@ class ScatterPlot(BasePlot):
         # draw indicator lines:
         if self.cfg.atr["lines"] and "indicator_lines" in self.cfg.atr.keys() and self.cfg.atr["indicator_lines"] is not None:
             utils.plot_lines(self.cfg.atr["indicator_lines"], ax)
+
+        # draw indicator line segments
+        if self.cfg.atr["line_segments"] and "indicator_line_segments" in self.cfg.atr.keys() and self.cfg.atr["indicator_line_segments"] is not None:
+            utils.plot_line_segments(self.cfg.atr["indicator_line_segments"], ax)
 
         # draw grid:
         if self.cfg.atr["grid"] and "grid_kwargs" in self.cfg.atr.keys() and self.cfg.atr["grid_kwargs"] is not None:

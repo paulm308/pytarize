@@ -86,7 +86,7 @@ class LinePlot(BasePlot):
         ax.set_xlabel(self.cfg.atr["xlabel"])
         ax.set_ylabel(self.cfg.atr["ylabel"])
         if self.cfg.atr["plain"]:
-            utils.change_tick_notation_to_plain(ax)
+            utils.change_tick_notation_label(ax, None, None, self.cfg)
 
     def create_plot(self, data: list[tuple[str, list[float]]]):
 
@@ -109,6 +109,10 @@ class LinePlot(BasePlot):
         # draw indicator lines:
         if self.cfg.atr["lines"] and "indicator_lines" in self.cfg.atr.keys():
             utils.plot_lines(self.cfg.atr["indicator_lines"], ax)
+
+        # draw indicator line segments
+        if self.cfg.atr["line_segments"] and "indicator_line_segments" in self.cfg.atr.keys() and self.cfg.atr["indicator_line_segments"] is not None:
+            utils.plot_line_segments(self.cfg.atr["indicator_line_segments"], ax)
 
         # create legend:
         legend_kwargs = self.create_legend_args()
