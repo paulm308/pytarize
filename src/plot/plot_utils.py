@@ -3,7 +3,9 @@ from matplotlib import pyplot as plt
 from cycler import cycler
 from math import lcm
 from itertools import cycle, islice
-from matplotlib.ticker import ScalarFormatter, FuncFormatter
+from matplotlib.ticker import FuncFormatter
+import numpy as np
+from typing import Optional
 
 
 def initialize_color(colors: list[str]) -> list[str]:
@@ -50,15 +52,6 @@ def change_boundingbox_shape_to_square(ax):
     ax.set_aspect('equal', adjustable='box')
 
 
-def change_tick_notation_to_plain(ax):
-    formatter = FuncFormatter(
-        lambda x, pos: f"{x:g}"
-    )
-
-    ax.xaxis.set_major_formatter(formatter)
-    ax.yaxis.set_major_formatter(formatter)
-
-
 def plot_lines(data, ax):
     for line in data:
         ax.axline(*line["axline_args"], **line["axline_kwargs"])
@@ -88,3 +81,28 @@ def disable_ticks_after_threshold(ax, threshold: tuple[float, float]):
 
     ax.set_xticks(xminor_ticks, minor=True)
     ax.set_yticks(yminor_ticks, minor=True)
+
+
+def change_tick_notation_label(ax, timeouts: tuple[float, float], label: Optional[str], cfg: CFG):
+
+    def formatter(y, pos):
+        if np.isclose(y, timeouts[1]) and cfg.atr["extend"] is not None and label is not None:
+            return label
+        elif cfg.atr["plain"]:
+            return f"{y:g}"
+        else:
+            return y
+
+    ax.xaxis.set_major_formatter(FuncFormatter(formatter))
+    ax.yaxis.set_major_formatter(FuncFormatter(formatter))
+
+
+def append_major_tick(p: tuple[float, float], ax):
+    xmajor_ticks = list(ax.get_xticks())
+    ymajor_ticks = list(ax.get_yticks())
+
+    xmajor_ticks.append(p[0])
+    ymajor_ticks.append(p[1])
+
+    ax.set_xticks(xmajor_ticks)
+    ax.set_yticks(ymajor_ticks)

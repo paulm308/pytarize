@@ -133,6 +133,7 @@ class ScatterPlot(BasePlot):
         utils.handle_axis_basic(self.cfg, ax)
         if self.cfg.atr["extend"] is not None:
             utils.disable_ticks_after_threshold(ax, self.limits)  # type: ignore
+            utils.append_major_tick(self.timeouts, ax)  # type: ignore
         ax.set_xlim(self.cfg.atr["xmin"], self.max_achsvalues[0])
         ax.set_ylim(self.cfg.atr["ymin"], self.max_achsvalues[1])
         if self.cfg.atr["square_box"]:
@@ -152,7 +153,7 @@ class ScatterPlot(BasePlot):
         ax.set_xlabel(xlabel)
         ax.set_ylabel(ylabel)
         if self.cfg.atr["plain"]:
-            utils.change_tick_notation_to_plain(ax)
+            utils.change_tick_notation_label(ax, self.timeouts, "TO", self.cfg)  # type: ignore
 
     def create_plot(self, data: tuple[list[str], dict[str, pd.DataFrame]]):
 
@@ -173,7 +174,7 @@ class ScatterPlot(BasePlot):
 
         # plot extended timout line
         if self.cfg.atr["extend"]:
-            ax.plot([0, self.timeouts[0], self.timeouts[0]], [self.timeouts[1], self.timeouts[1], 0], color="red", zorder=0)  # type:ignore
+            ax.plot([0, self.timeouts[0], self.timeouts[0]], [self.timeouts[1], self.timeouts[1], 0], color="red", zorder=0)  # type:ignore  
 
         # create legend:
         legend_kwargs = self.create_legend_args()
