@@ -1,4 +1,5 @@
 from src.plot.baseplot import BasePlot
+from src.plot.lineplot import LinePlot
 import numpy as np
 import pandas as pd
 
@@ -18,9 +19,7 @@ class CombinedPlot(BasePlot):
         for i, df in enumerate(dfs[1:], start=1):
             merged = merged.merge(df, on="Unnamed: 0", suffixes=(None, f"_{i}"))
 
-        print(merged[:5])
-
-        events = [[]]
+        events = [[] for _ in range(len(folder_names))]
         sota_events = []
 
         for _, row in merged.iterrows():
@@ -29,10 +28,12 @@ class CombinedPlot(BasePlot):
             invalid = []
             valid = []
             for i in range(len(folder_names)):
-                if row[f"result_{i}"] in [10, 20]:
-                    valid.append((i, float(row[f"time_{i}"])))
+                time_label = f"real_{i}" if i >= 1 else "real"
+                status_label = f"result_{i}" if i >= 1 else "result"
+                if row[status_label] in [10, 20]:
+                    valid.append((i, float(row[time_label])))
                 else:
-                    invalid.append((i, float(row[f"time_{i}"])))
+                    invalid.append((i, float(row[time_label])))
 
             if not valid:
                 continue
@@ -88,7 +89,7 @@ class CombinedPlot(BasePlot):
         return res
 
     def event_to_curve(self, events: list[tuple[float, float]]) -> tuple[list[float], list[float]]:
-        evs = np.asarray(events)
+        evs = np.asarray(events, dtype=float).reshape(-1, 2)
         times = evs[:, 0]
         deltas = evs[:, 1]
 
@@ -105,5 +106,6 @@ class CombinedPlot(BasePlot):
 
         return (xs.tolist(), ys.tolist())
 
-    def create_plot(self, data: tuple[list[str], dict[str, pd.DataFrame]]):
-        pass
+    def create_plot(self, data: list[tuple[str, list[float], list[float]]]):
+        lineplot = LinePlot(self.cfg)
+        lineplot.create_plot(data)

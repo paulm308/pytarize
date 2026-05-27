@@ -9,20 +9,23 @@ from matplotlib.markers import MarkerStyle
 
 class LinePlot(BasePlot):
 
-    def transform_data(self, data: dict[str, pd.DataFrame]) -> list[tuple[str, list[float]]]:
+    def transform_data(self, data: dict[str, pd.DataFrame]) -> list[tuple[str, list[float], list[float]]]:
 
         for folder_name in data.keys():
             data[folder_name] = data[folder_name][data[folder_name]["result"].isin([10, 20])]
 
         transformed = []
         for folder_name, values in data.items():
-            tup = (folder_name, list(range(1, len(values) + 1)), np.sort(values["time"].to_numpy()))
+            tup = (folder_name, np.sort(values["time"].to_numpy()), list(range(1, len(values) + 1)))
             transformed.append(tup)
 
         # sort the data so that the best run is first in the list
         transformed = sorted(transformed,
-                             key=lambda x: x[2][len(x[2]) - 1],
+                             key=lambda x: x[1][len(x[1]) - 1],
                              reverse=True)
+
+        if self.cfg.atr["cactus"]:
+            transformed = [(tup[0], tup[2], tup[1]) for tup in transformed]
 
         return transformed
 
@@ -55,10 +58,7 @@ class LinePlot(BasePlot):
         # show solved count in legend:
         if self.cfg.atr["show_solved"]:
             kwargs["label"] = f"{len(ys)} {kwargs['label']}"
-        _xs, _ys = ys, xs
-        if self.cfg.atr["cactus"]:
-            _xs, _ys = xs, ys
-        args = (_xs, _ys)
+        args = (xs, ys)
 
         return {"args": args, "kwargs": kwargs}
 

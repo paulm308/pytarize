@@ -13,13 +13,13 @@ class BasePlot(ABC, Generic[T]):
         self.cfg = cfg
 
     @abstractmethod
-    def transform_data(self, data: list[pd.DataFrame]) -> T:
+    def transform_data(self, data: dict[str, pd.DataFrame]) -> T:
         pass
 
     @abstractmethod
     def create_plot(self, data: T):
         pass
 
-    def run(self, data: list[pd.DataFrame]):
+    def run(self, data: dict[str, pd.DataFrame]):
         transformed_data = self.transform_data(data)
         self.create_plot(transformed_data)
