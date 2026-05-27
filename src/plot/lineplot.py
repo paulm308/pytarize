@@ -16,17 +16,17 @@ class LinePlot(BasePlot):
 
         transformed = []
         for folder_name, values in data.items():
-            tup = (folder_name, np.sort(values["time"].to_numpy()))
+            tup = (folder_name, list(range(1, len(values) + 1)), np.sort(values["time"].to_numpy()))
             transformed.append(tup)
 
         # sort the data so that the best run is first in the list
         transformed = sorted(transformed,
-                             key=lambda x: x[1][len(x[1]) - 1],
+                             key=lambda x: x[2][len(x[2]) - 1],
                              reverse=True)
 
         return transformed
 
-    def create_individual_plot_args(self, folder_name: str, style_cycle, values: list[float]):
+    def create_individual_plot_args(self, folder_name: str, style_cycle, xs: list[float], ys: list[float]):
         kwargs = {}
 
         style = next(style_cycle)
@@ -54,13 +54,11 @@ class LinePlot(BasePlot):
 
         # show solved count in legend:
         if self.cfg.atr["show_solved"]:
-            kwargs["label"] = f"{len(values)} {kwargs['label']}"
-        xs = values
-        ys = range(1, len(values) + 1)
+            kwargs["label"] = f"{len(ys)} {kwargs['label']}"
+        _xs, _ys = ys, xs
         if self.cfg.atr["cactus"]:
-            xs = range(1, len(values) + 1)
-            ys = values
-        args = (xs, ys)
+            _xs, _ys = xs, ys
+        args = (_xs, _ys)
 
         return {"args": args, "kwargs": kwargs}
 
@@ -88,7 +86,7 @@ class LinePlot(BasePlot):
         if self.cfg.atr["plain"]:
             utils.change_tick_notation_label(ax, None, None, self.cfg)
 
-    def create_plot(self, data: list[tuple[str, list[float]]]):
+    def create_plot(self, data: list[tuple[str, list[float], list[float]]]):
 
         # handle latex text rendering
         utils.handle_latex(self.cfg)
@@ -98,8 +96,8 @@ class LinePlot(BasePlot):
         # create style cycle (markers and colors)
         style_cycle = cycle(utils.create_style_cycle(self.cfg))
 
-        for folder_name, values in data:
-            plot_args = self.create_individual_plot_args(folder_name, style_cycle, values)
+        for folder_name, xs, ys in data:
+            plot_args = self.create_individual_plot_args(folder_name, style_cycle, xs, ys)
             ax.plot(*plot_args["args"], **plot_args["kwargs"])
 
         # draw limit line:

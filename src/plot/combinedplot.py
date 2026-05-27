@@ -1,5 +1,6 @@
 from src.plot.baseplot import BasePlot
 import numpy as np
+import pandas as pd
 
 
 class CombinedPlot(BasePlot):
