@@ -26,7 +26,16 @@ def set_defaults(plot_type: PlotType):
                 "output": "plot.png",
                 "font_family": "serif"
             }
-
+        case PlotType.CombinedPlot:
+            atr = {
+                "colors": ["red"],
+                "markers": ["x"],
+                "output": "plot.png",
+                "font_family": "serif"
+            }
+        # +------------------------------------+
+        # | Add default values for new options |
+        # +------------------------------------+
     defaults = CFG(plot_type=plot_type,
                    zummarize_path=None,
                    log_paths=None,

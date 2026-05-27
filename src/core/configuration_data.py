@@ -5,7 +5,11 @@ from pathlib import Path
 
 class PlotType(Enum):
     LinePlot = 1,
-    ScatterPlot = 2
+    ScatterPlot = 2,
+    CombinedPlot = 3
+    # +---------------------+
+    # | Add new plot option |
+    # +---------------------+
 
 
 @dataclass

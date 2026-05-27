@@ -217,3 +217,70 @@ def scatterplot(colors: Annotated[Optional[str], typer.Option()] = None,
 
     cfg = build_config(raw, PlotType.ScatterPlot)
     run_pipeline(cfg)
+
+
+@app.command()
+def combinedplot(colors: Annotated[Optional[str], typer.Option()] = None,
+                 markers: Annotated[Optional[str], typer.Option()] = None,
+                 hollow: bool = typer.Option(False, "--hollow", help="create hollow markers"),
+                 show_solved: bool = typer.Option(False, "--show-solved"),
+                 center: bool = typer.Option(False, "--center"),
+                 ymin: Annotated[Optional[float], typer.Option()] = None,
+                 xmin: Annotated[Optional[float], typer.Option()] = None,
+                 ymax: Annotated[Optional[float], typer.Option()] = None,
+                 xmax: Annotated[Optional[float], typer.Option()] = None,
+                 xlegend: Annotated[Optional[float], typer.Option()] = None,
+                 ylegend: Annotated[Optional[float], typer.Option()] = None,
+                 lines: bool = typer.Option(False, "--lines", help="Plot the indicator lines specified by 'indicator_lines' in the config"),
+                 line_segments: bool = typer.Option(False, "--line-segments", help="Plot the indicator line segments specified by 'indicator_line_segments' in the config. This can also be used to create small plots."),
+                 grid: bool = typer.Option(False, "--grid", help="Plot the grid specified by 'grid_kwargs' in the config"),
+                 xlog: bool = typer.Option(False, "--xlog"),
+                 ylog: bool = typer.Option(False, "--ylog"),
+                 xlabel: Annotated[Optional[str], typer.Option()] = None,
+                 ylabel: Annotated[Optional[str], typer.Option()] = None,
+                 plain: bool = typer.Option(False, "--plain", help="Disable scientific notation"),
+                 square_box: bool = typer.Option(False, "--square-box"),
+                 output: Annotated[Optional[str], typer.Option("--output", "-o")] = None,
+                 title: Annotated[Optional[str], typer.Option("--titel", "-t")] = None,
+                 latex: bool = typer.Option(False, "--latex", help="Enable latex text rendering."),
+                 font_family: Annotated[Optional[str], typer.Option("--font-family", help="Change latex font-family, default is 'serif', options: 'serif', 'sans-serif', 'monospace', 'cursive'...")] = None,
+                 latex_preamble: Annotated[Optional[str], typer.Option("--latex-preamble", help="Use this to import packages, example: '\\usepackage{helvet}\\usepackage{sfmath}'")] = None):
+
+    raw = {
+        "base_raw": base_raw,
+        "zummarize_specific_raw": zummarize_specific_raw,
+        "atr": {
+            "colors": None if colors is None else shlex.split(colors),
+            "markers": None if markers is None else shlex.split(markers),
+            "hollow": hollow,
+            "show_solved": show_solved,
+            "center": center,
+            "ymin": ymin,
+            "xmin": xmin,
+            "ymax": ymax,
+            "xmax": xmax,
+            "xlegend": xlegend,
+            "ylegend": ylegend,
+            "lines": lines,
+            "line_segments": line_segments,
+            "grid": grid,
+            "xlog": xlog,
+            "ylog": ylog,
+            "xlabel": xlabel,
+            "ylabel": ylabel,
+            "plain": plain,
+            "square_box": square_box,
+            "output": output,
+            "title": title,
+            "latex": latex,
+            "font_family": font_family,
+            "latex_preamble": latex_preamble
+        }
+    }
+
+    cfg = build_config(raw, PlotType.CombinedPlot)
+    run_pipeline(cfg)
+
+# +---------------------+
+# | Add new plot option |
+# +---------------------+

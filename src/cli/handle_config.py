@@ -37,6 +37,12 @@ def set_default_plot_config_path(cfg, data):
             and data["config_paths"]["scatterplot"] is not None
         ):
             cfg.plot_config_path = data["config_paths"]["scatterplot"]
+        elif (
+            cfg.plot_type == PlotType.CombinedPlot and
+            "combinedplot" in data["config_paths"].keys()
+            and data["config_paths"]["combinedplot"] is not None
+        ):
+            cfg.plot_config_path = data["config_paths"]["combinedplot"]
         # +-------------------+
         # | Add new plottypes |
         # +-------------------+
