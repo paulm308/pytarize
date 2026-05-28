@@ -54,6 +54,7 @@ class LinePlot(BasePlot):
             kwargs.pop("color", None)
             kwargs["markeredgecolor"] = color
             kwargs["markerfacecolor"] = "none"
+            kwargs["color"] = color
 
         # show solved count in legend:
         if self.cfg.atr["show_solved"]:
