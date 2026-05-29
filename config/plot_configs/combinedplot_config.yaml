@@ -1,29 +1,58 @@
----
-  solver_style:
-   c24:
-     color: "#ff0000"
-     marker: "."
-     label: "Cadical24"
-   c25:
-     color: "#00ff00"
-     marker: "+"
-     label: "Cadical25"
-   k24:
-     color: "#0000ff"
-     marker: "d"
-     label: "Kissat24"
-  colors:
-    - "#9400d3"
-    - "#009e73"
-    - "#56b4e9"
-    - "#e69f00"
-    - "#f0e442"
-    - "#0072b2"
-    - "#e51e10"
-    - "#000000"
-  markers:
-    - "."
-    - "^"
-    - "+"
-    - "x"
-    - "d"
+center: false
+colors:
+- '#9400d3'
+- '#009e73'
+- '#56b4e9'
+- '#e69f00'
+- '#f0e442'
+- '#0072b2'
+- '#e51e10'
+- '#000000'
+font_family: serif
+grid: false
+hollow: true
+horse: false
+latex: true
+latex_preamble: \usepackage{lmodern}
+limit: null
+line_segments: false
+lines: false
+markers:
+- .
+- ^
+- +
+- x
+- d
+output: combined_plot.pdf
+plain: false
+relative: false
+show_solved: false
+solver_style:
+  c24:
+    color: purple
+    label: Cadical24
+    marker: x
+  c25:
+    color: blue
+    label: Cadical25
+    marker: +
+  k24:
+    color: black
+    label: Kissat24
+    marker: o
+sota: false
+square_box: false
+stable: false
+time: false
+title: \textbf{Combined Demo}
+unique: false
+xlabel: \textbf{time}
+xlegend: null
+xlog: false
+xmax: null
+xmin: null
+ylabel: null
+ylegend: null
+ylog: false
+ymax: null
+ymin: null
