@@ -22,13 +22,17 @@ class CombinedPlot(BasePlot):
         events = [[] for _ in range(len(folder_names))]
         sota_events = []
 
+        pref = "real"
+        if self.cfg.atr["time"]:
+            pref = "time"
+
         for _, row in merged.iterrows():
 
-            # determin all solvers that solved the benchmark
             invalid = []
             valid = []
+
             for i in range(len(folder_names)):
-                time_label = f"real_{i}" if i >= 1 else "real"
+                time_label = f"{pref}_{i}" if i >= 1 else pref
                 status_label = f"result_{i}" if i >= 1 else "result"
                 if row[status_label] in [10, 20]:
                     valid.append((i, float(row[time_label])))
