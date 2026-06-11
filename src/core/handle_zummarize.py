@@ -14,7 +14,12 @@ def call_zummarize(cfg):
 
 
 def zummarize_required(cfg):
-    if cfg.zummarize_cli != []:
+    copy_cli = cfg.zummarize_cli[:]
+    if "--sat" in copy_cli:
+        copy_cli.remove("--sat")
+    if "--unsat" in copy_cli:
+        copy_cli.remove("--unsat")
+    if copy_cli != []:
         return True
     for path in cfg.log_paths:
         if not (path / "zummary").exists():
