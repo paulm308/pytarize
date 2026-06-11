@@ -1,7 +1,7 @@
 center: false
 colors:
 - red
-extend: 0.9
+# extend: 0.9
 font_family: serif
 grid: true
 grid_kwargs:

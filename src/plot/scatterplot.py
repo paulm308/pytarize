@@ -6,6 +6,7 @@ from matplotlib import pyplot as plt
 from itertools import cycle
 from typing import Optional
 from matplotlib.markers import MarkerStyle
+from math import sqrt
 
 
 class ScatterPlot(BasePlot):
@@ -57,21 +58,22 @@ class ScatterPlot(BasePlot):
     def compute_timeouts_and_max_achsvalues(self, limits: tuple[float, float]) -> tuple[float, float]:
         if self.cfg.atr["extend"] is not None:
             xmin = self.cfg.atr["xmin"]
-            xmax = self.cfg.atr["xmax"]
+            xmax = limits[0]
             ymin = self.cfg.atr["ymin"]
-            ymax = self.cfg.atr["ymax"]
+            ymax = limits[1]
 
             if (xmin is not None and xmax is not None and ymin is not None and ymax is not None):
                 f = self.cfg.atr["extend"]
                 xmax_new = xmin + (xmax - xmin) / f
                 ymax_new = ymin + (ymax - ymin) / f
-                if self.cfg.atr["xlog"]:
-                    xmax_new = xmin * (xmax / xmin) ** (1 / f)
-                if self.cfg.atr["ylog"]:
-                    ymax_new = ymin * (ymax / ymin) ** (1 / f)
                 xtimeout = (xmax_new - limits[0]) / 2 + limits[0]
                 ytimeout = (ymax_new - limits[1]) / 2 + limits[1]
-
+                if self.cfg.atr["xlog"]:
+                    xmax_new = xmin * (xmax / xmin) ** (1 / f)
+                    xtimeout = sqrt(limits[0] * xmax_new)
+                if self.cfg.atr["ylog"]:
+                    ymax_new = ymin * (ymax / ymin) ** (1 / f)
+                    ytimeout = sqrt(limits[1] * ymax_new)
                 self.max_achsvalues = (xmax_new, ymax_new)
                 return (xtimeout, ytimeout)
             else:
