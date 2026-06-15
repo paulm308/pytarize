@@ -326,6 +326,9 @@ y_major_ticks:
 - 50.0
 - 100.0
 - 150.0
+y_tick_kwargs:
+  pad: 6
+y_tick_rotation: 90
 ylabel: null
 ylegend: 0.24
 ylog: false

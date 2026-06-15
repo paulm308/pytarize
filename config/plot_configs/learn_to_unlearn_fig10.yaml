@@ -313,6 +313,14 @@ xlegend: null
 xlog: false
 xmax: 9500.0
 xmin: null
+y_major_ticks:
+- 260.0
+- 280.0
+- 300.0
+- 320.0
+y_tick_kwargs:
+  pad: 6
+y_tick_rotation: 90
 ylabel: null
 ylegend: null
 ylog: false

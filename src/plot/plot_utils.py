@@ -47,6 +47,8 @@ def handle_axis_basic(cfg: CFG, ax):
     if cfg.atr["ylog"]:
         ax.set_yscale("log")
     set_ticks(cfg, ax)
+    set_tick_rotation(cfg, ax)
+    handle_tick_kwargs(cfg, ax)
 
 
 def change_boundingbox_shape_to_square(ax):
@@ -123,3 +125,23 @@ def set_ticks(cfg: CFG, ax):
         ax.set_xticks(cfg.atr["x_minor_ticks"], minor=True)
     if "y_minor_ticks" in cfg.atr.keys():
         ax.set_yticks(cfg.atr["y_minor_ticks"], minor=True)
+
+
+def set_tick_rotation(cfg: CFG, ax):
+    if "x_tick_rotation" in cfg.atr.keys():
+        for label in ax.get_xticklabels():
+            label.set_rotation(cfg.atr["x_tick_rotation"])
+            label.set_verticalalignment('center')
+            label.set_horizontalalignment('center')
+    if "y_tick_rotation" in cfg.atr.keys():
+        for label in ax.get_yticklabels():
+            label.set_rotation(cfg.atr["y_tick_rotation"])
+            label.set_verticalalignment('center')
+            label.set_horizontalalignment('center')
+
+
+def handle_tick_kwargs(cfg: CFG, ax):
+    if "x_tick_kwargs" in cfg.atr.keys():
+        ax.xaxis.set_tick_params(**cfg.atr["x_tick_kwargs"])
+    if "y_tick_kwargs" in cfg.atr.keys():
+        ax.yaxis.set_tick_params(**cfg.atr["y_tick_kwargs"])
