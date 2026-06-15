@@ -46,6 +46,7 @@ def handle_axis_basic(cfg: CFG, ax):
         ax.set_xscale("log")
     if cfg.atr["ylog"]:
         ax.set_yscale("log")
+    set_ticks(cfg, ax)
 
 
 def change_boundingbox_shape_to_square(ax):
@@ -111,3 +112,14 @@ def append_major_tick(p: tuple[float, float], ax):
 
     ax.set_xticks(xmajor_ticks)
     ax.set_yticks(ymajor_ticks)
+
+
+def set_ticks(cfg: CFG, ax):
+    if "x_major_ticks" in cfg.atr.keys():
+        ax.set_xticks(cfg.atr["x_major_ticks"])
+    if "y_major_ticks" in cfg.atr.keys():
+        ax.set_yticks(cfg.atr["y_major_ticks"])
+    if "x_minor_ticks" in cfg.atr.keys():
+        ax.set_xticks(cfg.atr["x_minor_ticks"], minor=True)
+    if "y_minor_ticks" in cfg.atr.keys():
+        ax.set_yticks(cfg.atr["y_minor_ticks"], minor=True)
