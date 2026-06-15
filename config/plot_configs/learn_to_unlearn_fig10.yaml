@@ -1,0 +1,142 @@
+cactus: false
+center: false
+colors:
+- '#9400d3'
+- '#009e73'
+- '#56b4e9'
+- '#e69f00'
+- '#f0e442'
+- '#0072b2'
+- '#e51e10'
+- '#000000'
+solver_style:
+  '4.0.2':
+    label: 'competition'
+    color: 'black'
+    marker: 'o'
+  '4.0.2-cr-base-2-keep-size10+used2':
+    label: 'critical@size<=10 + used + anotherchance'
+    color: '#df526b'
+    marker: '^'
+  '4.0.2-cr-base-2-keep-size10+used':
+    label: 'critical@size<=10 + used'
+    color: '#60d04f'
+    marker: '+'
+  '4.0.2-cr-base-2-rank-glue+used':
+    label: 'rank@lbd=50% + used'
+    color: '#2196e6'
+    marker: 'x'
+  '4.0.2-cr-base-2-keep-size6-reducetarget=75':
+    label: 'critical@size<=6 + rank@size=75%'
+    color: '#28e1e4'
+    marker: 'D'
+  '4.0.2-cr-base-2-keep-glue3+used2':
+    label: 'critical@lbd<=3 + used + anotherchance'
+    color: '#cd0abb'
+    marker: 's'
+  '4.0.2-cr-base-2-keep-glue3+used':
+    label: 'critical@lbd<=3 + used'
+    color: '#cd0abb'
+    marker: 'v'
+  '4.0.2-cr-base-2-keep-size10-reducetarget=75':
+    label: 'critical@size<=10 + rank@size=75%'
+    color: '#9e9e9e'
+    marker: '*'
+  '4.0.2-cr-base-2-rank-size+used':
+    label: 'rank@size=50% + used'
+  '4.0.2-cr-base-2-keep-size6+used-reducetarget=75':
+    label: 'critical@size<=6 + rank@size=75% + used'
+  '4.0.2-cr-base-2-keep-size6+used':
+    label: 'critical@size<=6 + used'
+  '4.0.2-cr-base-2-keep-size10':
+    label: 'critical@size<=10'
+  '4.0.2-cr-base-2-keep-glue2-reducetarget=75':
+    label: 'critical@lbd<=2 + rank@lbd=75%'
+  '4.0.2-cr-base-2-keep-glue2+used':
+    label: 'critical@lbd<=2 + used'
+  '4.0.2-cr-base-2-keep-size6':
+    label: 'critical@size<=6'
+  '4.0.2-cr-base-2-keep-glue3-reducetarget=75':
+    label: 'critical@lbd<=3 + rank@lbd=75%'
+  '4.0.2-cr-base-2-keep-dynamic2-size+used':
+    label: 'critical@size<=dynamic + used'
+  '4.0.2-cr-base-2':
+    label: 'base'
+  '4.0.2-cr-base-2-rank-glue+used-reducetarget=75':
+    label: 'rank@lbd=75% + used'
+  '4.0.2-cr-base-2-keep-dynamic2+used':
+    label: 'critical@lbd<=dynamic + used'
+  '4.0.2-cr-base-2-rank-size+used-reducetarget=75':
+    label: 'rank@size=75% + used'
+  '4.0.2-cr-base-2-keep-size15':
+    label: 'critical@size<=15'
+  '4.0.2-cr-base-2-keep-glue3':
+    label: 'critical@lbd<=3'
+  '4.0.2-cr-base-2-keep-glue7':
+    label: 'critical@lbd<=7'
+  '4.0.2-cr-base-2-keep-glue2':
+    label: 'critical@lbd<=2'
+  '4.0.2-cr-base-2-rank-glue':
+    label: 'rank@lbd=50%'
+  '4.0.2-cr-base-2-keep-glue4':
+    label: 'critical@lbd<=4'
+  '4.0.2-cr-base-2-rank-size':
+    label: 'rank@size=50%'
+  '4.0.2-cr-base-2-rank-size-reducetarget=75':
+    label: 'rank@size=75%'
+  '4.0.2-cr-base-2-keep-glue5':
+    label: 'critical@lbd<=5'
+  '4.0.2-cr-base-2-keep-glue6':
+    label: 'critical@lbd<=6'
+  '4.0.2-cr-base-2-keep-dynamic2-size':
+    label: 'critical@size<=dynamic'
+  '4.0.2-cr-base-2-keep-dynamic2':
+    label: 'critical@lbd<=dynamic'
+  '4.0.2-cr-base-2-keep-size21':
+    label: 'critical@size<=21'
+  '4.0.2-cr-base-2-rank-glue-reducetarget=75':
+    label: 'rank@lbd=75%'
+  '4.0.2-cr-base-2-keep-used2':
+    label: 'used + anotherchance'
+  '4.0.2-cr-base-2-keep-glue1':
+    label: 'critical@lbd<=1'
+  '4.0.2-cr-base-2-keep-used':
+    label: 'used'
+  '4.0.2-cr-base-2-activity+used':
+    label: 'activity + used'
+  '4.0.2-cr-base-2-activity':
+    label: 'activity'
+  '4.0.2-cr-base-2-keep-size3':
+    label: 'critical@size<=3'
+  '4.0.2-cr-base-1-no-reduce':
+    label: 'no−unlearn'
+  '4.0.2-cr-base-2-reduce-all':
+    label: 'unlearn-all'
+font_family: serif
+grid: false
+hollow: true
+latex: false
+latex_preamble: null
+limit: null
+line_segments: false
+lines: false
+markers:
+- .
+- ^
+- +
+- x
+- d
+output: learn_to_unlearn_fig10.pdf
+plain: false
+show_solved: true
+title: null
+xlabel: null
+xlegend: null
+xlog: false
+xmax: null
+xmin: null
+ylabel: null
+ylegend: null
+ylog: false
+ymax: null
+ymin: null

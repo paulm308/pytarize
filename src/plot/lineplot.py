@@ -21,8 +21,10 @@ class LinePlot(BasePlot):
 
         # sort the data so that the best run is first in the list
         transformed = sorted(transformed,
-                             key=lambda x: x[1][len(x[1]) - 1],
-                             reverse=True)
+                             key=lambda x: len(x[1]))
+
+        # for tup in reversed(transformed):
+        #     print(f"{len(tup[1])}   {tup[0]}")
 
         if self.cfg.atr["cactus"]:
             transformed = [(tup[0], tup[2], tup[1]) for tup in transformed]
@@ -40,21 +42,20 @@ class LinePlot(BasePlot):
         if "solver_style" in self.cfg.atr.keys() and folder_name in self.cfg.atr["solver_style"].keys():
             if "color" in self.cfg.atr["solver_style"][folder_name].keys():
                 color = self.cfg.atr["solver_style"][folder_name]["color"]
+                self.cfg.atr["solver_style"][folder_name].pop("color", None)
             if "marker" in self.cfg.atr["solver_style"][folder_name].keys():
                 kwargs["marker"] = self.cfg.atr["solver_style"][folder_name]["marker"]
+                self.cfg.atr["solver_style"][folder_name].pop("marker", None)
             if "label" in self.cfg.atr["solver_style"][folder_name].keys():
                 kwargs["label"] = self.cfg.atr["solver_style"][folder_name]["label"]
+                self.cfg.atr["solver_style"][folder_name].pop("label", None)
+            kwargs.update(self.cfg.atr["solver_style"][folder_name])
 
         # create holow markers
-        if kwargs["marker"] not in MarkerStyle.filled_markers or not self.cfg.atr["hollow"]:
-            kwargs.pop("markeredgecolor", None)
-            kwargs.pop("markerfacecolor", None)
-            kwargs["color"] = color
-        elif kwargs["marker"] in MarkerStyle.filled_markers and self.cfg.atr["hollow"]:
-            kwargs.pop("color", None)
+        if kwargs["marker"] in MarkerStyle.filled_markers and self.cfg.atr["hollow"]:
             kwargs["markeredgecolor"] = color
             kwargs["markerfacecolor"] = "none"
-            kwargs["color"] = color
+        kwargs["color"] = color
 
         # show solved count in legend:
         if self.cfg.atr["show_solved"]:

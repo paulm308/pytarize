@@ -1,9 +1,11 @@
 ---
-#  "solver_style":
-#    "c24":
-#      "color": "#ff0000"
-#      "marker": "."
-#      "label": "Cadical24"
+  solver_style:
+    "c24":
+      color: "blue"
+      marker: 'o'
+      markerfacecolor: 'none'
+      markeredgecolor: 'blue'
+      label: "Cadical24"
 #    "c25":
 #      "color": "#00ff00"
 #      "marker": "+"
