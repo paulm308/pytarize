@@ -66,6 +66,8 @@ class LinePlot(BasePlot):
 
     def create_legend_args(self):
         legend_kwargs = {}
+        if "legend_kwargs" in self.cfg.atr.keys():
+            legend_kwargs = self.cfg.atr["legend_kwargs"]
         if self.cfg.atr["center"]:
             if self.cfg.atr["cactus"]:
                 legend_kwargs["loc"] = "center left"
@@ -93,7 +95,11 @@ class LinePlot(BasePlot):
         # handle latex text rendering
         utils.handle_latex(self.cfg)
 
-        fig, ax = plt.subplots()
+        subplots_kwargs = {}
+        if "subplots_kwargs" in self.cfg.atr.keys():
+            subplots_kwargs = self.cfg.atr["subplots_kwargs"]
+
+        fig, ax = plt.subplots(**subplots_kwargs)
 
         # create style cycle (markers and colors)
         style_cycle = cycle(utils.create_style_cycle(self.cfg))

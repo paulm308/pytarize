@@ -99,16 +99,13 @@ class ScatterPlot(BasePlot):
                 kwargs["marker"] = self.cfg.atr["sat_style"][label]["marker"]
             if "label" in self.cfg.atr["sat_style"][label].keys():
                 kwargs["label"] = self.cfg.atr["sat_style"][label]["label"]
+            kwargs.update(self.cfg.atr["sat_style"][label])
 
         # create holow markers
-        if kwargs["marker"] not in MarkerStyle.filled_markers or not self.cfg.atr["hollow"]:
-            kwargs.pop("edgecolors", None)
-            kwargs.pop("facecolors", None)
-            kwargs["color"] = color
-        elif kwargs["marker"] in MarkerStyle.filled_markers and self.cfg.atr["hollow"]:
-            kwargs.pop("color", None)
-            kwargs["edgecolors"] = color
-            kwargs["facecolors"] = "none"
+        if kwargs["marker"] in MarkerStyle.filled_markers and self.cfg.atr["hollow"]:
+            kwargs["markeredgecolor"] = color
+            kwargs["markerfacecolor"] = "none"
+        kwargs["color"] = color
 
         if self.cfg.atr["show_solved"]:
             kwargs["label"] = f"{self.ninstances[label]} {kwargs['label']}"
@@ -162,7 +159,11 @@ class ScatterPlot(BasePlot):
         # handle latex text rendering
         utils.handle_latex(self.cfg)
 
-        fig, ax = plt.subplots()
+        subplots_kwargs = {}
+        if "subplots_kwargs" in self.cfg.atr.keys():
+            subplots_kwargs = self.cfg.atr["subplots_kwargs"]
+
+        fig, ax = plt.subplots(**subplots_kwargs)
 
         style_cycle = cycle(utils.create_style_cycle(self.cfg))
 
