@@ -17,6 +17,9 @@ latex_preamble: \usepackage{lmodern}
 legend_kwargs:
   fontsize: 8
   markerscale: 1.0
+  edgecolor: 'black'
+  framealpha: 0.7
+  fancybox: false
 limit: null
 line_segments: false
 lines: false

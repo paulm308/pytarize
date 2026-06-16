@@ -73,6 +73,8 @@ class LinePlot(BasePlot):
                 legend_kwargs["loc"] = "center left"
             else:
                 legend_kwargs["loc"] = "center right"
+        elif self.cfg.atr["legendloc"] is not None:
+            legend_kwargs["loc"] = self.cfg.atr["legendloc"]
         if self.cfg.atr["xlegend"] is not None or self.cfg.atr["ylegend"] is not None:
             xlegend = 0.5 if self.cfg.atr["xlegend"] is None else self.cfg.atr["xlegend"]
             ylegend = 0.5 if self.cfg.atr["ylegend"] is None else self.cfg.atr["ylegend"]

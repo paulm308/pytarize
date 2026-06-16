@@ -13,13 +13,14 @@ font_family: serif
 grid: false
 hollow: false
 latex: true
-latex_preamble: '\usepackage{lmodern}'
+latex_preamble: \usepackage{lmodern}
 legend_kwargs:
   fontsize: 8
   markerscale: 1.0
   edgecolor: 'black'
   framealpha: 1.0
   fancybox: false
+legendloc: lower right
 limit: null
 line_segments: false
 lines: false
@@ -29,7 +30,7 @@ markers:
 - +
 - x
 - d
-output: learn_to_unlearn_fig10.pdf
+output: learn_to_unlearn_fig8.pdf
 plain: false
 show_solved: true
 solver_style:
@@ -85,7 +86,6 @@ solver_style:
     color: '#df526b'
     label: critical@size\textless=dynamic + used
     marker: D
-    markersize: 5
   4.0.2-cr-base-2-keep-glue1:
     color: '#5de8ea'
     label: critical@lbd\textless=1
@@ -309,23 +309,30 @@ solver_style:
 subplots_kwargs:
   figsize:
   - 7
-  - 8
+  - 2.25
 title: null
+x_major_ticks:
+- 0.0
+- 1000.0
+- 2000.0
+- 3000.0
+- 4000.0
+- 5000.0
 xlabel: null
-xlegend: null
+xlegend: 0.821
 xlog: false
-xmax: 9500.0
-xmin: null
+xmax: 5300.0
+xmin: -150.0
 y_major_ticks:
-- 260.0
-- 280.0
+- 150.0
+- 200.0
+- 250.0
 - 300.0
-- 320.0
 y_tick_kwargs:
   pad: 6
 y_tick_rotation: 90
 ylabel: null
-ylegend: null
+ylegend: 0.325
 ylog: false
-ymax: 335.0
-ymin: 245.0
+ymax: 345.0
+ymin: 143.0

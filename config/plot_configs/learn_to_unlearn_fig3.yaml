@@ -17,6 +17,9 @@ latex_preamble: \usepackage{lmodern}
 legend_kwargs:
   fontsize: 8
   markerscale: 1.0
+  edgecolor: 'black'
+  framealpha: 1.0
+  fancybox: false
 limit: null
 line_segments: false
 lines: false
@@ -315,7 +318,7 @@ x_major_ticks:
 - 4000.0
 - 5000.0
 xlabel: null
-xlegend: 0.9156
+xlegend: 0.917
 xlog: false
 xmax: 5250.0
 xmin: -150.0
@@ -330,7 +333,7 @@ y_tick_kwargs:
   pad: 6
 y_tick_rotation: 90
 ylabel: null
-ylegend: 0.24
+ylegend: 0.235
 ylog: false
 ymax: 340.0
 ymin: 90.0
