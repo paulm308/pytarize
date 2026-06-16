@@ -11,7 +11,7 @@ colors:
 - '#000000'
 font_family: serif
 grid: false
-hollow: true
+hollow: false
 latex: true
 latex_preamble: \usepackage{lmodern}
 legend_kwargs:
