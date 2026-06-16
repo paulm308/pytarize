@@ -103,8 +103,8 @@ class ScatterPlot(BasePlot):
 
         # create holow markers
         if kwargs["marker"] in MarkerStyle.filled_markers and self.cfg.atr["hollow"]:
-            kwargs["markeredgecolor"] = color
-            kwargs["markerfacecolor"] = "none"
+            kwargs["edgecolors"] = color
+            kwargs["facecolors"] = "none"
         kwargs["color"] = color
 
         if self.cfg.atr["show_solved"]:
