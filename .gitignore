@@ -1,4 +1,5 @@
 test_logs/
+log_files2/
 *.log
 *.err
 venv/
