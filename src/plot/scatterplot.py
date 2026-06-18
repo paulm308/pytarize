@@ -183,7 +183,8 @@ class ScatterPlot(BasePlot):
 
         # create legend:
         legend_kwargs = self.create_legend_args()
-        ax.legend(**legend_kwargs)
+        if legend_kwargs is not []:
+            ax.legend(**legend_kwargs)
 
         # handle axis scale and bounds labels, ticks
         self.handle_axis(data[0], ax)

@@ -124,7 +124,8 @@ class LinePlot(BasePlot):
 
         # create legend:
         legend_kwargs = self.create_legend_args()
-        ax.legend(**legend_kwargs)
+        if legend_kwargs is not []:
+            ax.legend(**legend_kwargs)
 
         # handle axis scale and bounds
         self.handle_axis(ax)
