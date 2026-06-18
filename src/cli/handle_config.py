@@ -19,7 +19,7 @@ def apply_config(config_path, cfg):
             cfg.r_log_paths = [Path(r_log_path) for r_log_path in data["r_log_paths"]]
             del data["r_log_paths"]
         set_default_plot_config_path(cfg, data)
-        cfg.atr = merge_dicts(cfg.atr, data)
+        cfg.atr = merge_dicts(cfg.atr, data, False)
     return cfg
 
 
