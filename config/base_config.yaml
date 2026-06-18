@@ -7,6 +7,9 @@
 #  "r_log_paths":
 #    - "test_logs"
   "config_paths":
-    "lineplot": "config/plot_configs/lineplot_config.yaml"
-    "scatterplot": "config/plot_configs/scatterplot_config.yaml"
-    "combinedplot": "config/plot_configs/combinedplot_config.yaml"
+    "lineplot":
+    - "config/plot_configs/lineplot_config.yaml"
+    "scatterplot":
+    - "config/plot_configs/scatterplot_config.yaml"
+    "combinedplot":
+    - "config/plot_configs/combinedplot_config.yaml"

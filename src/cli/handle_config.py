@@ -18,31 +18,31 @@ def apply_config(config_path, cfg):
         if "r_log_paths" in data.keys():
             cfg.r_log_paths = [Path(r_log_path) for r_log_path in data["r_log_paths"]]
             del data["r_log_paths"]
-        set_default_plot_config_path(cfg, data)
+        set_default_plot_config_paths(cfg, data)
         cfg.atr = merge_dicts(cfg.atr, data, False)
     return cfg
 
 
-def set_default_plot_config_path(cfg, data):
+def set_default_plot_config_paths(cfg, data):
     if "config_paths" in data.keys() and data["config_paths"] is not None:
         if (
             cfg.plot_type == PlotType.LinePlot
             and "lineplot" in data["config_paths"].keys()
             and data["config_paths"]["lineplot"] is not None
         ):
-            cfg.plot_config_path = data["config_paths"]["lineplot"]
+            cfg.plot_config_paths = data["config_paths"]["lineplot"]
         elif (
             cfg.plot_type == PlotType.ScatterPlot and
             "scatterplot" in data["config_paths"].keys()
             and data["config_paths"]["scatterplot"] is not None
         ):
-            cfg.plot_config_path = data["config_paths"]["scatterplot"]
+            cfg.plot_config_paths = data["config_paths"]["scatterplot"]
         elif (
             cfg.plot_type == PlotType.CombinedPlot and
             "combinedplot" in data["config_paths"].keys()
             and data["config_paths"]["combinedplot"] is not None
         ):
-            cfg.plot_config_path = data["config_paths"]["combinedplot"]
+            cfg.plot_config_paths = data["config_paths"]["combinedplot"]
         # +-------------------+
         # | Add new plottypes |
         # +-------------------+

@@ -21,6 +21,9 @@ def validate_log_path(log_path):
 def pre_validate_log_paths(cfg):
     if cfg.log_paths is None and cfg.r_log_paths is None:
         raise ValueError("Path to logfile directory not specified.")
+    for path in cfg.r_log_paths:
+        if not path.exists():
+            raise FileNotFoundError(f"Path to directory does not exist. Path: {path}")
 
 
 def validate_zummarize_path(cfg):
