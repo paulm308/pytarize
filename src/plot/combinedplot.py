@@ -7,6 +7,8 @@ import pandas as pd
 class CombinedPlot(BasePlot):
     def transform_data(self, data: dict[str, pd.DataFrame]):
 
+        self.validate_combined_options()
+
         folder_names = list(data.keys())
         dfs = [data[folder_name] for folder_name in folder_names]
 
@@ -166,6 +168,17 @@ class CombinedPlot(BasePlot):
         idx = np.clip(idx, 0, len(ys) - 1)
 
         return ys[idx]
+
+    def validate_combined_options(self):
+        if self.cfg.atr["stable"] is False and self.cfg.atr["unique"] is False and self.cfg.atr["horse"] is False:
+            self.cfg.atr["stable"] = True
+        elif self.cfg.atr["stable"] + self.cfg.atr["unique"] + self.cfg.atr["horse"] >= 2:
+            opts = [[self.cfg.atr["stable"], "--stable"], [self.cfg.atr["unique"], "--unique"], [self.cfg.atr["horse"], "--horse"]]
+            strs = [opt[1] for opt in opts if opt[0] is True]
+            if len(strs) == 2:
+                print(f"Cannot combine {strs[0]} and {strs[1]}")
+            else:
+                print(f"Cannot combine {strs[0]}, {strs[1]} and {strs[2]}")
 
     def create_plot(self, data: list[tuple[str, list[float], list[float]]]):
         lineplot = LinePlot(self.cfg)
