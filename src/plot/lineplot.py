@@ -2,9 +2,11 @@ from src.plot.baseplot import BasePlot
 import src.plot.plot_utils as utils
 import pandas as pd
 import numpy as np
+import matplotlib as mat
 from matplotlib import pyplot as plt
 from itertools import cycle
 from matplotlib.markers import MarkerStyle
+mat.use("Agg")
 
 
 class LinePlot(BasePlot):

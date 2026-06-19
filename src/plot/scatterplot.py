@@ -7,6 +7,8 @@ from itertools import cycle
 from typing import Optional
 from matplotlib.markers import MarkerStyle
 from math import sqrt
+import matplotlib as mat
+mat.use("Agg")
 
 
 class ScatterPlot(BasePlot):
