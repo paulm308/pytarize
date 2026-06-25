@@ -1,0 +1,403 @@
+cactus: false
+center: false
+colors:
+- '#000000'
+- '#df526b'
+- '#9e9e9e'
+- '#f5c610'
+- '#2196e6'
+create_solver_style: true
+font_family: serif
+grid: false
+hollow: false
+latex: false
+latex_preamble: null
+legendloc: null
+limit: null
+line_segments: false
+lines: false
+markers:
+- - o
+  - true
+- x
+- - s
+  - true
+- - d
+  - true
+- +
+- - ^
+  - true
+- - v
+  - true
+- - p
+  - true
+- - '*'
+  - true
+- o
+- s
+- ^
+- v
+- p
+output: plot.png
+plain: false
+show_solved: false
+solver_style:
+  4.0.2:
+    color: '#000000'
+    label: competition
+    marker: o
+    markeredgecolor: '#000000'
+    markerfacecolor: none
+    markersize: 5
+  4.0.2-cr-base-1-no-reduce:
+    color: '#df526b'
+    label: "no\u2212unlearn"
+    marker: p
+    markersize: 5
+  4.0.2-cr-base-2:
+    color: '#df526b'
+    label: base
+    marker: s
+    markeredgecolor: '#df526b'
+    markerfacecolor: none
+    markersize: 5
+  4.0.2-cr-base-2-activity:
+    color: '#2196e6'
+    label: activity
+    marker: ^
+    markersize: 5
+  4.0.2-cr-base-2-activity+used:
+    color: '#f5c610'
+    label: activity + used
+    marker: s
+    markersize: 5
+  4.0.2-cr-base-2-keep-dynamic2:
+    color: '#9e9e9e'
+    label: critical@lbd\textless=dynamic
+    marker: +
+    markersize: 5
+  4.0.2-cr-base-2-keep-dynamic2+used:
+    color: '#2196e6'
+    label: critical@lbd\textless=dynamic + used
+    marker: ^
+    markeredgecolor: '#2196e6'
+    markerfacecolor: none
+    markersize: 5
+  4.0.2-cr-base-2-keep-dynamic2-size:
+    color: '#000000'
+    label: critical@size\textless=dynamic
+    marker: s
+    markeredgecolor: '#000000'
+    markerfacecolor: none
+    markersize: 5
+  4.0.2-cr-base-2-keep-dynamic2-size+used:
+    color: '#9e9e9e'
+    label: critical@size\textless=dynamic + used
+    marker: d
+    markeredgecolor: '#9e9e9e'
+    markerfacecolor: none
+    markersize: 5
+  4.0.2-cr-base-2-keep-glue1:
+    color: '#df526b'
+    label: critical@lbd\textless=1
+    marker: '*'
+    markeredgecolor: '#df526b'
+    markerfacecolor: none
+    markersize: 5
+  4.0.2-cr-base-2-keep-glue2:
+    color: '#f5c610'
+    label: critical@lbd\textless=2
+    marker: o
+    markersize: 5
+  4.0.2-cr-base-2-keep-glue2+used:
+    color: '#f5c610'
+    label: critical@lbd\textless=2 + used
+    marker: '*'
+    markeredgecolor: '#f5c610'
+    markerfacecolor: none
+    markersize: 5
+  4.0.2-cr-base-2-keep-glue2-reducetarget=75:
+    color: '#2196e6'
+    label: critical@lbd\textless=2 + rank@lbd=75%
+    marker: o
+    markersize: 5
+  4.0.2-cr-base-2-keep-glue3:
+    color: '#000000'
+    label: critical@lbd\textless=3
+    marker: v
+    markeredgecolor: '#000000'
+    markerfacecolor: none
+    markersize: 5
+  4.0.2-cr-base-2-keep-glue3+used:
+    color: '#000000'
+    label: critical@lbd\textless=3 + used
+    marker: ^
+    markeredgecolor: '#000000'
+    markerfacecolor: none
+    markersize: 5
+  4.0.2-cr-base-2-keep-glue3+used2:
+    color: '#df526b'
+    label: critical@lbd\textless=3 + used + anotherchance
+    marker: v
+    markeredgecolor: '#df526b'
+    markerfacecolor: none
+    markersize: 5
+  4.0.2-cr-base-2-keep-glue3-reducetarget=75:
+    color: '#2196e6'
+    label: critical@lbd\textless=3 + rank@lbd=75%
+    marker: o
+    markeredgecolor: '#2196e6'
+    markerfacecolor: none
+    markersize: 5
+  4.0.2-cr-base-2-keep-glue4:
+    color: '#000000'
+    label: critical@lbd\textless=4
+    marker: ^
+    markersize: 5
+  4.0.2-cr-base-2-keep-glue5:
+    color: '#f5c610'
+    label: critical@lbd\textless=5
+    marker: o
+    markeredgecolor: '#f5c610'
+    markerfacecolor: none
+    markersize: 5
+  4.0.2-cr-base-2-keep-glue6:
+    color: '#df526b'
+    label: critical@lbd\textless=6
+    marker: d
+    markeredgecolor: '#df526b'
+    markerfacecolor: none
+    markersize: 5
+  4.0.2-cr-base-2-keep-glue7:
+    color: '#2196e6'
+    label: critical@lbd\textless=7
+    marker: s
+    markersize: 5
+  4.0.2-cr-base-2-keep-size10:
+    color: '#000000'
+    label: critical@size\textless=10
+    marker: s
+    markersize: 5
+  4.0.2-cr-base-2-keep-size10+used:
+    color: '#df526b'
+    label: critical@size\textless=10 + used
+    marker: x
+    markersize: 5
+  4.0.2-cr-base-2-keep-size10+used2:
+    color: '#9e9e9e'
+    label: critical@size\textless=10 + used + anotherchance
+    marker: s
+    markeredgecolor: '#9e9e9e'
+    markerfacecolor: none
+    markersize: 5
+  4.0.2-cr-base-2-keep-size10-reducetarget=75:
+    color: '#9e9e9e'
+    label: critical@size\textless=10 + rank@size=75%
+    marker: p
+    markeredgecolor: '#9e9e9e'
+    markerfacecolor: none
+    markersize: 5
+  4.0.2-cr-base-2-keep-size15:
+    color: '#df526b'
+    label: critical@size\textless=15
+    marker: p
+    markeredgecolor: '#df526b'
+    markerfacecolor: none
+    markersize: 5
+  4.0.2-cr-base-2-keep-size21:
+    color: '#f5c610'
+    label: critical@size\textless=21
+    marker: ^
+    markeredgecolor: '#f5c610'
+    markerfacecolor: none
+    markersize: 5
+  4.0.2-cr-base-2-keep-size3:
+    color: '#000000'
+    label: critical@size\textless=3
+    marker: v
+    markersize: 5
+  4.0.2-cr-base-2-keep-size6:
+    color: '#000000'
+    label: critical@size\textless=6
+    marker: x
+    markersize: 5
+  4.0.2-cr-base-2-keep-size6+used:
+    color: '#df526b'
+    label: critical@size\textless=6 + used
+    marker: ^
+    markersize: 5
+  4.0.2-cr-base-2-keep-size6+used-reducetarget=75:
+    color: '#9e9e9e'
+    label: critical@size\textless=6 + rank@size=75% + used
+    marker: v
+    markersize: 5
+  4.0.2-cr-base-2-keep-size6-reducetarget=75:
+    color: '#f5c610'
+    label: critical@size\textless=6 + rank@size=75%
+    marker: d
+    markeredgecolor: '#f5c610'
+    markerfacecolor: none
+    markersize: 5
+  4.0.2-cr-base-2-keep-used:
+    color: '#9e9e9e'
+    label: used
+    marker: o
+    markersize: 5
+  4.0.2-cr-base-2-keep-used2:
+    color: '#000000'
+    label: used + anotherchance
+    marker: p
+    markeredgecolor: '#000000'
+    markerfacecolor: none
+    markersize: 5
+  4.0.2-cr-base-2-rank-glue:
+    color: '#df526b'
+    label: rank@lbd=50%
+    marker: v
+    markersize: 5
+  4.0.2-cr-base-2-rank-glue+used:
+    color: '#2196e6'
+    label: rank@lbd=50% + used
+    marker: +
+    markersize: 5
+  4.0.2-cr-base-2-rank-glue+used-reducetarget=75:
+    color: '#f5c610'
+    label: rank@lbd=75% + used
+    marker: +
+    markersize: 5
+  4.0.2-cr-base-2-rank-glue-reducetarget=75:
+    color: '#2196e6'
+    label: rank@lbd=75%
+    marker: v
+    markeredgecolor: '#2196e6'
+    markerfacecolor: none
+    markersize: 5
+  4.0.2-cr-base-2-rank-size:
+    color: '#9e9e9e'
+    label: rank@size=50%
+    marker: p
+    markersize: 5
+  4.0.2-cr-base-2-rank-size+used:
+    color: '#f5c610'
+    label: rank@size=50% + used
+    marker: p
+    markersize: 5
+  4.0.2-cr-base-2-rank-size+used-reducetarget=75:
+    color: '#9e9e9e'
+    label: rank@size=75% + used
+    marker: '*'
+    markeredgecolor: '#9e9e9e'
+    markerfacecolor: none
+    markersize: 5
+  4.0.2-cr-base-2-rank-size-reducetarget=75:
+    color: '#2196e6'
+    label: rank@size=75%
+    marker: x
+    markersize: 5
+  4.0.2-cr-base-2-reduce-all:
+    color: '#9e9e9e'
+    label: unlearn-all
+    marker: o
+    markeredgecolor: '#9e9e9e'
+    markerfacecolor: none
+    markersize: 5
+specific_solver_style:
+  4.0.2:
+    label: competition
+  4.0.2-cr-base-1-no-reduce:
+    label: "no\u2212unlearn"
+  4.0.2-cr-base-2:
+    label: base
+  4.0.2-cr-base-2-activity:
+    label: activity
+  4.0.2-cr-base-2-activity+used:
+    label: activity + used
+  4.0.2-cr-base-2-keep-dynamic2:
+    label: critical@lbd\textless=dynamic
+  4.0.2-cr-base-2-keep-dynamic2+used:
+    label: critical@lbd\textless=dynamic + used
+  4.0.2-cr-base-2-keep-dynamic2-size:
+    label: critical@size\textless=dynamic
+  4.0.2-cr-base-2-keep-dynamic2-size+used:
+    label: critical@size\textless=dynamic + used
+  4.0.2-cr-base-2-keep-glue1:
+    label: critical@lbd\textless=1
+  4.0.2-cr-base-2-keep-glue2:
+    label: critical@lbd\textless=2
+  4.0.2-cr-base-2-keep-glue2+used:
+    label: critical@lbd\textless=2 + used
+  4.0.2-cr-base-2-keep-glue2-reducetarget=75:
+    label: critical@lbd\textless=2 + rank@lbd=75%
+  4.0.2-cr-base-2-keep-glue3:
+    label: critical@lbd\textless=3
+  4.0.2-cr-base-2-keep-glue3+used:
+    label: critical@lbd\textless=3 + used
+  4.0.2-cr-base-2-keep-glue3+used2:
+    label: critical@lbd\textless=3 + used + anotherchance
+  4.0.2-cr-base-2-keep-glue3-reducetarget=75:
+    label: critical@lbd\textless=3 + rank@lbd=75%
+  4.0.2-cr-base-2-keep-glue4:
+    label: critical@lbd\textless=4
+  4.0.2-cr-base-2-keep-glue5:
+    label: critical@lbd\textless=5
+  4.0.2-cr-base-2-keep-glue6:
+    label: critical@lbd\textless=6
+  4.0.2-cr-base-2-keep-glue7:
+    label: critical@lbd\textless=7
+  4.0.2-cr-base-2-keep-size10:
+    label: critical@size\textless=10
+  4.0.2-cr-base-2-keep-size10+used:
+    label: critical@size\textless=10 + used
+  4.0.2-cr-base-2-keep-size10+used2:
+    label: critical@size\textless=10 + used + anotherchance
+  4.0.2-cr-base-2-keep-size10-reducetarget=75:
+    label: critical@size\textless=10 + rank@size=75%
+  4.0.2-cr-base-2-keep-size15:
+    label: critical@size\textless=15
+  4.0.2-cr-base-2-keep-size21:
+    label: critical@size\textless=21
+  4.0.2-cr-base-2-keep-size3:
+    label: critical@size\textless=3
+  4.0.2-cr-base-2-keep-size6:
+    label: critical@size\textless=6
+  4.0.2-cr-base-2-keep-size6+used:
+    label: critical@size\textless=6 + used
+  4.0.2-cr-base-2-keep-size6+used-reducetarget=75:
+    label: critical@size\textless=6 + rank@size=75% + used
+  4.0.2-cr-base-2-keep-size6-reducetarget=75:
+    label: critical@size\textless=6 + rank@size=75%
+  4.0.2-cr-base-2-keep-used:
+    label: used
+  4.0.2-cr-base-2-keep-used2:
+    label: used + anotherchance
+  4.0.2-cr-base-2-rank-glue:
+    label: rank@lbd=50%
+  4.0.2-cr-base-2-rank-glue+used:
+    label: rank@lbd=50% + used
+  4.0.2-cr-base-2-rank-glue+used-reducetarget=75:
+    label: rank@lbd=75% + used
+  4.0.2-cr-base-2-rank-glue-reducetarget=75:
+    label: rank@lbd=75%
+  4.0.2-cr-base-2-rank-size:
+    label: rank@size=50%
+  4.0.2-cr-base-2-rank-size+used:
+    label: rank@size=50% + used
+  4.0.2-cr-base-2-rank-size+used-reducetarget=75:
+    label: rank@size=75% + used
+  4.0.2-cr-base-2-rank-size-reducetarget=75:
+    label: rank@size=75%
+  4.0.2-cr-base-2-reduce-all:
+    label: unlearn-all
+title: null
+universal_solver_style:
+  markersize: 5
+xlabel: null
+xlegend: null
+xlog: false
+xmax: null
+xmin: null
+ylabel: null
+ylegend: null
+ylog: false
+ymax: null
+ymin: null

@@ -114,7 +114,8 @@ def lineplot(colors: Annotated[Optional[str], typer.Option()] = None,
              title: Annotated[Optional[str], typer.Option("--titel", "-t")] = None,
              latex: bool = typer.Option(False, "--latex", help="Enable latex text rendering."),
              font_family: Annotated[Optional[str], typer.Option("--font-family", help="Change latex font-family, default is 'serif', options: 'serif', 'sans-serif', 'monospace', 'cursive'...")] = None,
-             latex_preamble: Annotated[Optional[str], typer.Option("--latex-preamble", help="Use this to import packages, example: '\\usepackage{helvet}\\usepackage{sfmath}'")] = None):
+             latex_preamble: Annotated[Optional[str], typer.Option("--latex-preamble", help="Use this to import packages, example: '\\usepackage{helvet}\\usepackage{sfmath}'")] = None,
+             create_solver_style: bool = typer.Option(False, "--create-solver-style", help="Generates the solver_style dictionary in the config. --save-config needs to be specified as well to save the dict in the config.")):
 
     raw = {
         "base_raw": base_raw,
@@ -146,7 +147,9 @@ def lineplot(colors: Annotated[Optional[str], typer.Option()] = None,
             "title": title,
             "latex": latex,
             "font_family": font_family,
-            "latex_preamble": latex_preamble
+            "latex_preamble": latex_preamble,
+            "create_solver_style": create_solver_style
+
         }
     }
 
@@ -256,7 +259,8 @@ def combinedplot(unique: bool = typer.Option(False, "--unique"),
                  title: Annotated[Optional[str], typer.Option("--titel", "-t")] = None,
                  latex: bool = typer.Option(False, "--latex", help="Enable latex text rendering."),
                  font_family: Annotated[Optional[str], typer.Option("--font-family", help="Change latex font-family, default is 'serif', options: 'serif', 'sans-serif', 'monospace', 'cursive'...")] = None,
-                 latex_preamble: Annotated[Optional[str], typer.Option("--latex-preamble", help="Use this to import packages, example: '\\usepackage{helvet}\\usepackage{sfmath}'")] = None):
+                 latex_preamble: Annotated[Optional[str], typer.Option("--latex-preamble", help="Use this to import packages, example: '\\usepackage{helvet}\\usepackage{sfmath}'")] = None,
+                 create_solver_style: bool = typer.Option(False, "--create-solver-style", help="Generates the solver_style dictionary in the config. --save-config needs to be specified as well to save the dict in the config.")):
 
     raw = {
         "base_raw": base_raw,
@@ -294,7 +298,8 @@ def combinedplot(unique: bool = typer.Option(False, "--unique"),
             "title": title,
             "latex": latex,
             "font_family": font_family,
-            "latex_preamble": latex_preamble
+            "latex_preamble": latex_preamble,
+            "create_solver_style": create_solver_style
         }
     }
 

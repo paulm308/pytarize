@@ -1,4 +1,5 @@
 from src.core.configuration_data import CFG
+from src.cli.dictmerger import merge_dicts
 from matplotlib import pyplot as plt
 from cycler import cycler
 from math import lcm
@@ -6,6 +7,7 @@ from itertools import cycle, islice
 from matplotlib.ticker import FuncFormatter
 import numpy as np
 from typing import Optional
+from matplotlib.markers import MarkerStyle
 
 
 def initialize_color(colors: list[str]) -> list[str]:
@@ -18,10 +20,10 @@ def initialize_color(colors: list[str]) -> list[str]:
 def create_style_cycle(cfg: CFG):
     # create marker and color cycle:
     n = lcm(len(cfg.atr["colors"]), len(cfg.atr["markers"]))
-    color_cycle = initialize_color(cfg.atr["colors"])
+    color_cycle = cfg.atr["colors"]
     combined = cycler(
-        color=list(islice(cycle(reversed(color_cycle)), n)),
-        marker=list(islice(cycle(reversed(cfg.atr["markers"])), n)),
+        color=list(islice(cycle(color_cycle), n)),
+        marker=list(islice(cycle(cfg.atr["markers"]), n)),
     )
     return combined
 
@@ -145,3 +147,69 @@ def handle_tick_kwargs(cfg: CFG, ax):
         ax.xaxis.set_tick_params(**cfg.atr["x_tick_kwargs"])
     if "y_tick_kwargs" in cfg.atr.keys():
         ax.yaxis.set_tick_params(**cfg.atr["y_tick_kwargs"])
+
+
+def create_solver_style(cfg, folder_names: list[str]):
+    """
+    Creates the solver_style dictionary that contains all the plot kwargs for a specific folder_name.
+    This dict is generated from the colors and markers lists such as the universal_solver_style and specific_solver_style dictionarys.
+    """
+    solver_style = {}
+    if "solver_style" in cfg.atr.keys() and cfg.atr["solver_style"] is not None:
+        solver_style = cfg.atr["solver_style"]
+
+    style_cycle = cycle(create_style_cycle(cfg))
+
+    for folder_name in folder_names:
+        kwargs = {}
+        style = next(style_cycle)
+        kwargs["color"] = style["color"]
+
+        # handle marker style:
+        if isinstance(style["marker"], str):
+            kwargs["marker"] = style["marker"]
+        elif isinstance(style["marker"], list) and style["marker"] is not []:
+            if isinstance(style["marker"][0], str):
+                kwargs["marker"] = style["marker"][0]
+            if len(style["marker"]) >= 2 and isinstance(style["marker"][1], bool):
+                kwargs["hollow"] = style["marker"][1]
+
+        # initialize label:
+        if (folder_name in solver_style.keys() and
+            solver_style[folder_name] is not None and
+            "label" in solver_style[folder_name].keys() and
+            solver_style[folder_name]["label"] is not None):
+                
+            kwargs["label"] = solver_style[folder_name]["label"]
+        else:
+            kwargs["label"] = folder_name
+
+        # apply universal styling:
+        if "universal_solver_style" in cfg.atr.keys() and cfg.atr["universal_solver_style"] is not None:
+            kwargs = merge_dicts(kwargs, cfg.atr["universal_solver_style"], additive=False)
+
+        # apply specific styling:
+        if ("specific_solver_style" in cfg.atr.keys() and
+            cfg.atr["specific_solver_style"] is not None and
+            folder_name in cfg.atr["specific_solver_style"].keys() and
+            cfg.atr["specific_solver_style"][folder_name] is not None):
+
+            kwargs = merge_dicts(kwargs, cfg.atr["specific_solver_style"][folder_name], additive=False)
+
+        # create hollow markers:
+        if "hollow" in kwargs.keys():
+            if (kwargs["hollow"] is not None and
+                kwargs["hollow"] is True and
+                kwargs["marker"] in MarkerStyle.filled_markers):
+
+                kwargs["markeredgecolor"] = kwargs["color"]
+                kwargs["markerfacecolor"] = "none"
+            kwargs.pop("hollow", None)
+
+        # apply kwargs on previous solver_style to form final solver style:
+        if folder_name in solver_style.keys() and solver_style[folder_name] is not None:
+            solver_style[folder_name] = merge_dicts(solver_style[folder_name], kwargs, additive=False)
+        else:
+            solver_style[folder_name] = kwargs
+
+    cfg.atr["solver_style"] = solver_style

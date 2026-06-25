@@ -1,14 +1,5 @@
 cactus: false
 center: true
-colors:
-- '#9400d3'
-- '#009e73'
-- '#56b4e9'
-- '#e69f00'
-- '#f0e442'
-- '#0072b2'
-- '#e51e10'
-- '#000000'
 font_family: serif
 grid: false
 hollow: false
@@ -23,12 +14,6 @@ legend_kwargs:
 limit: null
 line_segments: false
 lines: false
-markers:
-- .
-- ^
-- +
-- x
-- d
 output: learn_to_unlearn_fig10.pdf
 plain: false
 show_solved: true

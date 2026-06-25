@@ -1,10 +1,11 @@
 from src.plot.baseplot import BasePlot
+from src.core.save_data import save_solver_style
 import src.plot.plot_utils as utils
 import pandas as pd
 import numpy as np
 import matplotlib as mat
 from matplotlib import pyplot as plt
-from itertools import cycle
+from itertools import cycle, islice
 from matplotlib.markers import MarkerStyle
 mat.use("Agg")
 
@@ -25,9 +26,6 @@ class LinePlot(BasePlot):
         transformed = sorted(transformed,
                              key=lambda x: len(x[1]))
 
-        # for tup in reversed(transformed):
-        #     print(f"{len(tup[1])}   {tup[0]}")
-
         if self.cfg.atr["cactus"]:
             transformed = [(tup[0], tup[2], tup[1]) for tup in transformed]
 
@@ -35,10 +33,17 @@ class LinePlot(BasePlot):
 
     def create_individual_plot_args(self, folder_name: str, style_cycle, xs: list[float], ys: list[float]):
         kwargs = {}
-
+        hollow = False
         style = next(style_cycle)
         color = style["color"]
-        kwargs["marker"] = style["marker"]
+
+        if isinstance(style["marker"], str):
+            kwargs["marker"] = style["marker"]
+        elif isinstance(style["marker"], list) and style["marker"] is not []:
+            if isinstance(style["marker"][0], str):
+                kwargs["marker"] = style["marker"][0]
+            if len(style["marker"]) >= 2 and isinstance(style["marker"][1], bool):
+                hollow = style["marker"][1]
         kwargs["label"] = folder_name
 
         if "solver_style" in self.cfg.atr.keys() and folder_name in self.cfg.atr["solver_style"].keys():
@@ -54,7 +59,7 @@ class LinePlot(BasePlot):
             kwargs.update(self.cfg.atr["solver_style"][folder_name])
 
         # create holow markers
-        if kwargs["marker"] in MarkerStyle.filled_markers and self.cfg.atr["hollow"]:
+        if kwargs["marker"] in MarkerStyle.filled_markers and (hollow or self.cfg.atr["hollow"]):
             kwargs["markeredgecolor"] = color
             kwargs["markerfacecolor"] = "none"
         kwargs["color"] = color
@@ -96,6 +101,10 @@ class LinePlot(BasePlot):
 
     def create_plot(self, data: list[tuple[str, list[float], list[float]]]):
 
+        if self.cfg.atr["create_solver_style"]:
+            utils.create_solver_style(self. cfg, folder_names=list(reversed([tup[0] for tup in data])))
+            save_solver_style(self.cfg)
+
         # handle latex text rendering
         utils.handle_latex(self.cfg)
 
@@ -106,7 +115,7 @@ class LinePlot(BasePlot):
         fig, ax = plt.subplots(**subplots_kwargs)
 
         # create style cycle (markers and colors)
-        style_cycle = cycle(utils.create_style_cycle(self.cfg))
+        style_cycle = reversed(list(islice(cycle(utils.create_style_cycle(self.cfg)), len(data))))
 
         for folder_name, xs, ys in data:
             plot_args = self.create_individual_plot_args(folder_name, style_cycle, xs, ys)

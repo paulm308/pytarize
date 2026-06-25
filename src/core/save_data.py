@@ -14,3 +14,11 @@ def write_dict_to_yaml(data: dict, filename):
 def save_config(cfg):
     if cfg.save_config is not None:
         write_dict_to_yaml(cfg.atr, cfg.save_config)
+
+
+def save_solver_style(cfg):
+    if cfg.save_config is not None:
+        with open(cfg.save_config, "r") as file:
+            data = yaml.safe_load(file)
+            data["solver_style"] = cfg.atr["solver_style"]
+            write_dict_to_yaml(data, cfg.save_config)
