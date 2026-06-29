@@ -1,6 +1,5 @@
 from src.core.configuration_data import CFG, PlotType
-from src.cli.handle_config import apply_config
-from src.cli.validate_config import validate_config_path
+from src.cli.handle_config import apply_config, construct_combined_cfg, pre_construct_configpaths, count_plot_configs
 from src.cli.dictmerger import merge_dicts
 from src.cli.handle_zummarize_options import create_zummarize_options
 from pathlib import Path
@@ -49,16 +48,6 @@ def set_defaults(plot_type: PlotType):
     return defaults
 
 
-def construct_combined_cfg(paths: list[Path], cfg):
-    path = Path(paths[0])
-    validate_config_path(path)
-    cfg = apply_config(path, cfg)
-    for i in range(1, len(paths)):
-        path = Path(paths[i])
-        validate_config_path(path)
-        cfg = apply_config(path, cfg)
-
-
 def build_config(raw, plot_type: PlotType):
     # set defaults:
     cfg = set_defaults(plot_type)
@@ -69,7 +58,11 @@ def build_config(raw, plot_type: PlotType):
 
     # specific confics:
     if raw["base_raw"]["config_paths"] is not None:
-        construct_combined_cfg(raw["base_raw"]["config_paths"], cfg)
+        pre_construct_configpaths(raw["base_raw"]["config_paths"], cfg)
+        if count_plot_configs(raw["base_raw"]["config_paths"], cfg) == 0 and cfg.plot_config_paths is not None:
+            construct_combined_cfg(cfg.plot_config_paths, cfg)
+        else:
+            construct_combined_cfg(raw["base_raw"]["config_paths"], cfg)
     elif cfg.plot_config_paths is not None:
         construct_combined_cfg(cfg.plot_config_paths, cfg)
 

@@ -2,6 +2,7 @@ from src.cli.dictmerger import merge_dicts
 import yaml
 from pathlib import Path
 from src.core.configuration_data import PlotType
+from src.cli.validate_config import validate_config_path
 
 
 def apply_config(config_path, cfg):
@@ -48,3 +49,42 @@ def set_default_plot_config_paths(cfg, data):
         # +-------------------+
 
         del data["config_paths"]
+
+
+def construct_combined_cfg(paths: list[Path], cfg):
+    path = Path(paths[0])
+    validate_config_path(path)
+    cfg = apply_config(path, cfg)
+    for i in range(1, len(paths)):
+        path = Path(paths[i])
+        validate_config_path(path)
+        cfg = apply_config(path, cfg)
+
+
+def pre_construct_configpaths(paths: list[Path], cfg):
+    for path in paths:
+        path = Path(path)
+        validate_config_path(path)
+        with open(path, "r") as file:
+            data = yaml.safe_load(file)
+            set_default_plot_config_paths(cfg, data)
+
+
+def count_plot_configs(paths: list[Path], cfg) -> int:
+    ctr = 0
+    for path in paths:
+        path = Path(path)
+        validate_config_path(path)
+        with open(path, "r") as file:
+            data = yaml.safe_load(file)
+            if "zummarize_path" in data.keys():
+                del data["zummarize_path"]
+            if "log_paths" in data.keys():
+                del data["log_paths"]
+            if "r_log_paths" in data.keys():
+                del data["r_log_paths"]
+            if "config_paths" in data.keys():
+                del data["config_paths"]
+            if data:
+                ctr += 1
+    return ctr
