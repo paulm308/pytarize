@@ -37,11 +37,11 @@ zummarize_specific_raw: dict[str, bool | Optional[int]] = {
 
 
 @app.callback()
-def base(zummarizepath: Annotated[Optional[str], typer.Option()] = None,
-         logpaths: Annotated[Optional[str], typer.Option()] = None,
-         rlogpaths: Annotated[Optional[str], typer.Option()] = None,
-         configpaths: Annotated[Optional[str], typer.Option()] = None,
-         save_config: Annotated[Optional[str], typer.Option("--save-config")] = None,
+def base(zummarizepath: Annotated[Optional[str], typer.Option("--zummarizepath", "--zrp")] = None,
+         logpaths: Annotated[Optional[str], typer.Option("--logpaths", "--lps")] = None,
+         rlogpaths: Annotated[Optional[str], typer.Option("--rlogpaths", "--rlps")] = None,
+         configpaths: Annotated[Optional[str], typer.Option("--configpaths", "--cps")] = None,
+         save_config: Annotated[Optional[str], typer.Option("--save-config", "--sc")] = None,
          verbose: Annotated[Optional[int], typer.Option("-v")] = None,
          force: bool = typer.Option(False, "--force", "-f"),
          ignore: bool = typer.Option(False, "--ignore", "-i"),
@@ -115,7 +115,7 @@ def lineplot(colors: Annotated[Optional[str], typer.Option()] = None,
              latex: bool = typer.Option(False, "--latex", help="Enable latex text rendering."),
              font_family: Annotated[Optional[str], typer.Option("--font-family", help="Change latex font-family, default is 'serif', options: 'serif', 'sans-serif', 'monospace', 'cursive'...")] = None,
              latex_preamble: Annotated[Optional[str], typer.Option("--latex-preamble", help="Use this to import packages, example: '\\usepackage{helvet}\\usepackage{sfmath}'")] = None,
-             create_solver_style: bool = typer.Option(False, "--create-solver-style", help="Generates the solver_style dictionary in the config. --save-config needs to be specified as well to save the dict in the config.")):
+             create_solver_style: bool = typer.Option(False, "--create-solver-style", "--css", help="Generates the solver_style dictionary in the config. --save-config needs to be specified as well to save the dict in the config.")):
 
     raw = {
         "base_raw": base_raw,
@@ -260,7 +260,7 @@ def combinedplot(unique: bool = typer.Option(False, "--unique"),
                  latex: bool = typer.Option(False, "--latex", help="Enable latex text rendering."),
                  font_family: Annotated[Optional[str], typer.Option("--font-family", help="Change latex font-family, default is 'serif', options: 'serif', 'sans-serif', 'monospace', 'cursive'...")] = None,
                  latex_preamble: Annotated[Optional[str], typer.Option("--latex-preamble", help="Use this to import packages, example: '\\usepackage{helvet}\\usepackage{sfmath}'")] = None,
-                 create_solver_style: bool = typer.Option(False, "--create-solver-style", help="Generates the solver_style dictionary in the config. --save-config needs to be specified as well to save the dict in the config.")):
+                 create_solver_style: bool = typer.Option(False, "--create-solver-style", "--css", help="Generates the solver_style dictionary in the config. --save-config needs to be specified as well to save the dict in the config.")):
 
     raw = {
         "base_raw": base_raw,
