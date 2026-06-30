@@ -94,6 +94,8 @@ class LinePlot(BasePlot):
         utils.handle_axis_basic(self.cfg, ax)
         ax.set_xlim(self.cfg.atr["xmin"], self.cfg.atr["xmax"])
         ax.set_ylim(self.cfg.atr["ymin"], self.cfg.atr["ymax"])
+        if self.cfg.atr["square_box"]:
+            utils.change_boundingbox_shape_to_square(ax)
         ax.set_xlabel(self.cfg.atr["xlabel"])
         ax.set_ylabel(self.cfg.atr["ylabel"])
         if self.cfg.atr["plain"]:
