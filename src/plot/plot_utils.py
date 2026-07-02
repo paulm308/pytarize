@@ -160,7 +160,13 @@ def create_solver_style(cfg, folder_names: list[str]):
 
     style_cycle = cycle(create_style_cycle(cfg))
 
-    for folder_name in folder_names:
+    # create folder order:
+    order = folder_names
+    if cfg.atr["order"] and "specific_solver_style" in cfg.atr.keys() and cfg.atr["specific_solver_style"] is not None:
+        order = list(cfg.atr["specific_solver_style"].keys())
+        order += [folder_name for folder_name in folder_names if folder_name not in order]
+
+    for folder_name in order:
         kwargs = {}
         style = next(style_cycle)
         kwargs["color"] = style["color"]
