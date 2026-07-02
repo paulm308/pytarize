@@ -7,9 +7,10 @@ import pandas as pd
 class CombinedPlot(BasePlot):
     def transform_data(self, data: dict[str, pd.DataFrame]):
 
-        self.validate_combined_options()
-
         folder_names = list(data.keys())
+
+        self.validate_combined_options(folder_names)
+
         dfs = [data[folder_name] for folder_name in folder_names]
 
         common = set.intersection(*(set(df["Unnamed: 0"]) for df in dfs))
@@ -28,16 +29,22 @@ class CombinedPlot(BasePlot):
         if self.cfg.atr["time"]:
             pref = "time"
 
+        base_idx = -1
+        if self.cfg.atr["horse"] and self.cfg.atr["base"] is not None and self.cfg.atr["base"] in folder_names:
+            base_idx = folder_names.index(self.cfg.atr["base"])
+
         for _, row in merged.iterrows():
 
             invalid = []
             valid = []
-
+            base = None
             for i in range(len(folder_names)):
                 time_label = f"{pref}_{i}" if i >= 1 else pref
                 status_label = f"result_{i}" if i >= 1 else "result"
                 if row[status_label] in [10, 20]:
                     valid.append((i, float(row[time_label])))
+                    if i == base_idx:
+                        base = float(row[time_label])
                 else:
                     invalid.append((i, float(row[time_label])))
 
@@ -47,6 +54,8 @@ class CombinedPlot(BasePlot):
             times = [t for _, t in valid]
             best = min(times)
             worst = max(times)
+            if not (self.cfg.atr["horse"] and self.cfg.atr["base"] is not None and self.cfg.atr["base"] in folder_names):
+                base = best
             sorted_times = sorted(set(times))
             second = (sorted_times[1] if len(sorted_times) > 1 else None)
             # only strictly best solvers get credit in unique:
@@ -74,15 +83,17 @@ class CombinedPlot(BasePlot):
             elif self.cfg.atr["horse"]:
                 for i, t in valid:
                     events[i].append((t, +1))
-                    events[i].append((best, -1))
+                    events[i].append((base, -1))
                 for i, t in invalid:
-                    events[i].append((best, -1))
-                sota_events.append((best, 0))
+                    events[i].append((base, -1))
+                sota_events.append((best, +1))
+                sota_events.append((base, -1))
 
         res = []
         for i, evs in enumerate(events):
             xs, ys = self.event_to_curve(evs)
-            xs, ys = self.clean_up_curves(xs, ys)
+            if i != base_idx:
+                xs, ys = self.clean_up_curves(xs, ys)
             res.append((folder_names[i], xs, ys))
         sota_xs, sota_ys = self.event_to_curve(sota_events)
         sota_xs, sota_ys = self.clean_up_curves(sota_xs, sota_ys)
@@ -169,9 +180,9 @@ class CombinedPlot(BasePlot):
 
         return ys[idx]
 
-    def validate_combined_options(self):
+    def validate_combined_options(self, folder_names):
         if self.cfg.atr["stable"] is False and self.cfg.atr["unique"] is False and self.cfg.atr["horse"] is False:
-            self.cfg.atr["stable"] = True
+            self.cfg.atr["horse"] = True
         elif self.cfg.atr["stable"] + self.cfg.atr["unique"] + self.cfg.atr["horse"] >= 2:
             opts = [[self.cfg.atr["stable"], "--stable"], [self.cfg.atr["unique"], "--unique"], [self.cfg.atr["horse"], "--horse"]]
             strs = [opt[1] for opt in opts if opt[0] is True]
@@ -179,6 +190,10 @@ class CombinedPlot(BasePlot):
                 print(f"Cannot combine {strs[0]} and {strs[1]}")
             else:
                 print(f"Cannot combine {strs[0]}, {strs[1]} and {strs[2]}")
+        if self.cfg.atr["base"] is not None and not self.cfg.atr["horse"]:
+            print("--base has no effect without, --horse")
+        if self.cfg.atr["base"] is not None and self.cfg.atr["base"] not in folder_names:
+            print("--base has to match a folder name in --logpaths or --rlogpaths")
 
     def create_plot(self, data: list[tuple[str, list[float], list[float]]]):
         lineplot = LinePlot(self.cfg)
