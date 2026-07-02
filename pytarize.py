@@ -1,3 +1,4 @@
+#! /bin/python3
 from src.cli.commands import app
 
 

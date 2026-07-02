@@ -1,6 +1,7 @@
 from src.core.pipeline import run_pipeline
 from src.cli.configbuilder import build_config
 from src.core.configuration_data import PlotType
+from src.core.handle_paths import expand_with_bash
 import typer
 from typing import Annotated, Optional
 import shlex
@@ -61,11 +62,11 @@ def base(zummarizepath: Annotated[Optional[str], typer.Option("--zummarizepath",
          force_real: bool = typer.Option(False, "--force-real", help="force real time zummaries"),
          force_time: bool = typer.Option(False, "--force-time", help="force process time zummaries")):
 
-    base_raw["zummarize_path"] = zummarizepath
-    base_raw["log_paths"] = None if logpaths is None else shlex.split(logpaths)
-    base_raw["r_log_paths"] = None if rlogpaths is None else shlex.split(rlogpaths)
-    base_raw["config_paths"] = None if configpaths is None else shlex.split(configpaths)
-    base_raw["save_config"] = save_config
+    base_raw["zummarize_path"] = None if zummarizepath is None else expand_with_bash(zummarizepath)
+    base_raw["log_paths"] = None if logpaths is None else expand_with_bash(logpaths)
+    base_raw["r_log_paths"] = None if rlogpaths is None else expand_with_bash(rlogpaths)
+    base_raw["config_paths"] = None if configpaths is None else expand_with_bash(configpaths)
+    base_raw["save_config"] = None if save_config is None else expand_with_bash(save_config)
 
     zummarize_specific_raw["verbose"] = verbose
     zummarize_specific_raw["force"] = force

@@ -1,3 +1,6 @@
+import subprocess
+from typing import List, Optional
+
 
 def normalize(cfg):
     # convert rellative paths to absolute paths
