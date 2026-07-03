@@ -1,5 +1,4 @@
 from src.plot.baseplot import BasePlot
-from src.core.configuration_data import CFG
 import src.plot.plot_utils as utils
 import pandas as pd
 from matplotlib import pyplot as plt

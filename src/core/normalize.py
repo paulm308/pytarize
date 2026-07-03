@@ -1,5 +1,3 @@
-import subprocess
-from typing import List, Optional
 
 
 def normalize(cfg):

@@ -2,7 +2,7 @@ from src.cli.dictmerger import merge_dicts
 import yaml
 from pathlib import Path
 from src.core.configuration_data import PlotType
-from src.cli.validate_config import validate_config_path
+from src.core.handle_paths import validate_config_path
 
 
 def apply_config(config_path, cfg):

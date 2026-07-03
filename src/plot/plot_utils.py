@@ -185,7 +185,7 @@ def create_solver_style(cfg, folder_names: list[str]):
             solver_style[folder_name] is not None and
             "label" in solver_style[folder_name].keys() and
             solver_style[folder_name]["label"] is not None):
-                
+
             kwargs["label"] = solver_style[folder_name]["label"]
         else:
             kwargs["label"] = folder_name
