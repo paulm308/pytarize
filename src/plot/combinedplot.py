@@ -11,17 +11,16 @@ class CombinedPlot(BasePlot):
 
         self.validate_combined_options(folder_names)
 
+        # merge tables on common benchmarks
         dfs = [data[folder_name] for folder_name in folder_names]
-
         common = set.intersection(*(set(df["Unnamed: 0"]) for df in dfs))
-
         dfs = [df[df["Unnamed: 0"].isin(common)].copy() for df in dfs]
-
         merged = dfs[0]
 
         for i, df in enumerate(dfs[1:], start=1):
             merged = merged.merge(df, on="Unnamed: 0", suffixes=(None, f"_{i}"))
 
+        # initilization
         events = [[] for _ in range(len(folder_names))]
         sota_events = []
 
@@ -35,6 +34,7 @@ class CombinedPlot(BasePlot):
 
         for _, row in merged.iterrows():
 
+            # extract the time of all zummarys that solved the benchmark and store them in invalid if not
             invalid = []
             valid = []
             base = None
@@ -61,6 +61,7 @@ class CombinedPlot(BasePlot):
             # only strictly best solvers get credit in unique:
             best_solvers = [(i, t) for i, t in valid if t == best]
 
+            # stable: every solver gets a point until the last one finished the benchmark
             if self.cfg.atr["stable"]:
                 for i, t in valid:
                     events[i].append((t, +1))
@@ -70,6 +71,7 @@ class CombinedPlot(BasePlot):
                 if best != worst:
                     sota_events.append((worst, -1))
 
+            # unique: only the best solver gets credited until the second best finishes
             elif self.cfg.atr["unique"]:
                 for i, t in valid:
                     if t == best and len(best_solvers) == 1:
@@ -80,6 +82,7 @@ class CombinedPlot(BasePlot):
                 if second is not None:
                     sota_events.append((second, -1))
 
+            # horse: campare rellative to the base solver which usualy is best
             elif self.cfg.atr["horse"]:
                 for i, t in valid:
                     events[i].append((t, +1))
@@ -89,6 +92,7 @@ class CombinedPlot(BasePlot):
                 sota_events.append((best, +1))
                 sota_events.append((base, -1))
 
+        # compute the individual curves from the events
         res = []
         for i, evs in enumerate(events):
             xs, ys = self.event_to_curve(evs)
@@ -100,61 +104,46 @@ class CombinedPlot(BasePlot):
         if self.cfg.atr["sota"]:
             res.append(("sota", sota_xs, sota_ys))
 
+        # sort curves by maximum y value
         res = sorted(res, key=lambda c: max(c[2]) if len(c[2]) > 0 else float("-inf"))
 
+        # create curves relative to the sota curve
         if self.cfg.atr["relative"]:
-
-            relative_res = []
-
-            sota_xs_np = np.asarray(sota_xs, dtype=float)
-            sota_ys_np = np.asarray(sota_ys, dtype=float)
-
-            for label, xs, ys in res:
-
-                if label == "sota":
-                    continue
-
-                xs_np = np.asarray(xs, dtype=float)
-                ys_np = np.asarray(ys, dtype=float)
-
-                all_x = np.union1d(xs_np, sota_xs_np)
-
-                solver_y = self.eval_step(xs_np, ys_np, all_x)
-
-                sota_y = self.eval_step(sota_xs_np, sota_ys_np, all_x)
-
-                relative_y = np.divide(
-                    solver_y,
-                    sota_y,
-                    out=np.zeros_like(
-                        solver_y,
-                        dtype=float,
-                    ),
-                    where=sota_y != 0,
-                )
-
-                relative_res.append((label, all_x.tolist(), relative_y.tolist()))
-
-            res = relative_res
+            res = self.relative_result(res, sota_xs, sota_ys)
 
         return res
+
+    def relative_result(self, res, sota_xs, sota_ys):
+        relative_res = []
+
+        sota_xs_np = np.asarray(sota_xs, dtype=float)
+        sota_ys_np = np.asarray(sota_ys, dtype=float)
+
+        for label, xs, ys in res:
+
+            if label == "sota":
+                continue
+
+            xs_np = np.asarray(xs, dtype=float)
+            ys_np = np.asarray(ys, dtype=float)
+            all_x = np.union1d(xs_np, sota_xs_np)
+            solver_y = self.eval_step(xs_np, ys_np, all_x)
+            sota_y = self.eval_step(sota_xs_np, sota_ys_np, all_x)
+            relative_y = np.divide(solver_y, sota_y, out=np.zeros_like(solver_y, dtype=float), where=sota_y != 0)
+            relative_res.append((label, all_x.tolist(), relative_y.tolist()))
+
+        return relative_res
 
     def event_to_curve(self, events: list[tuple[float, float]]) -> tuple[list[float], list[float]]:
         evs = np.asarray(events, dtype=float).reshape(-1, 2)
         times = evs[:, 0]
         deltas = evs[:, 1]
-
         order = np.argsort(times)
-
         times = times[order]
         deltas = deltas[order]
-
         xs, idx = np.unique(times, return_index=True)
-
         summed_deltas = np.add.reduceat(deltas, idx)
-
         ys = np.cumsum(summed_deltas)
-
         return (xs.tolist(), ys.tolist())
 
     def clean_up_curves(self, xs: list[float], ys: list[float]) -> tuple[list[float], list[float]]:
@@ -170,14 +159,10 @@ class CombinedPlot(BasePlot):
         return (res_xs, res_ys)
 
     def eval_step(self, xs: np.ndarray, ys: np.ndarray, query: np.ndarray) -> np.ndarray:
-
         if len(xs) == 0:
             return np.zeros_like(query, dtype=float)
-
         idx = np.searchsorted(xs, query, side="right") - 1
-
         idx = np.clip(idx, 0, len(ys) - 1)
-
         return ys[idx]
 
     def validate_combined_options(self, folder_names):
