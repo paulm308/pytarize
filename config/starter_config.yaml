@@ -1,0 +1,41 @@
+
+# zummarize_path: <path>
+
+# log_paths:
+#   - <path1>
+#   - <path2>
+#   ...
+
+# r_log_paths:
+#   - <path1>
+#   - <path2>
+#   ...
+
+# config_paths:
+#   - <path1>
+#   - <path2>
+#   ...
+
+# create color and marker cycle
+colors:
+  - "#9400d3"
+  - "#009e73"
+  - "#56b4e9"
+  - "#e69f00"
+  - "#f0e442"
+  - "#0072b2"
+  - "#e51e10"
+  - "#000000"
+markers:
+  - o
+  - ^
+  - +
+  - x
+  - s
+
+# create hollow markers
+hollow: true
+
+# use latex lmodern
+latex: true
+latex_preamble: \usepackage{lmodern}
