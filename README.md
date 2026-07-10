@@ -419,7 +419,7 @@ These arguments are processed by pytarize. Using these arguments alone will not 
             </td>
         </tr>
         <tr valign="top">
-            <td valign="top"><code>limit</code></td>
+            <td valign="top"><code>--limit</code></td>
             <td valign="top"><code>limit</code></td>
             <td valign="top"><code>(float | int) | bool</code></td>
             <td valign="top">All</td>
