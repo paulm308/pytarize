@@ -15,8 +15,7 @@ All of the following arguments take paths or whitespace separated lists of paths
             <th width="10%">Name</th>
             <th width="14%">Name in config</th>
             <th width="8%">Type</th>
-            <th width="38%">Description</th>
-            <th width="10%">Usable in</th>
+            <th width="48%">Description</th>
             <th width="20%">Config example</th>
         </tr>
     </thead>
@@ -33,7 +32,6 @@ All of the following arguments take paths or whitespace separated lists of paths
                 Should ideally be specified in the highest order config.<br>
                 This argument is needed when a folder in <code>--logpaths</code> or <code>--rlogpaths</code> does not contain a zummary file but logfiles or if this script is called with arguments that are handled by the zummarize script.
             </td>
-            <td valign="top">All config types</td>
             <td valign="top"><pre><code>zummarize_path: "path"</code></pre></td>
         </tr>
         <tr valign="top">
@@ -44,7 +42,6 @@ All of the following arguments take paths or whitespace separated lists of paths
             <td valign="top">List of paths that lead to folders containing the logfiles.<br>
             Duplicate paths are removed.<br> If a folder does not contain a zummary file but logfiles the <code>--zummarizepath</code> argument is required.
             </td>
-            <td valign="top">All config types</td>
             <td valign="top"><pre><code>log_paths:
   - "path1"
   - "path2"</code></pre></td>
@@ -56,7 +53,6 @@ All of the following arguments take paths or whitespace separated lists of paths
             <td valign="top"><code>list[path]</code></td>
             <td valign="top">List of root paths that are recursively searched for folders containing logfiles.<br>
             Duplicate paths are removed.<br> If a folder does not contain a zummary file but logfiles the <code>--zummarizepath</code> argument is required.</td>
-            <td valign="top">All config types</td>
             <td valign="top"><pre><code>r_log_paths:
   - "path1"
   - "path2"</code></pre></td>
@@ -67,7 +63,6 @@ All of the following arguments take paths or whitespace separated lists of paths
             <td valign="top"><code>config_paths</code></td>
             <td valign="top"><code>list[path]</code></td>
             <td valign="top">List of paths that lead to configfiles.<br>Configs are additively combined:<ul><li><code>dict</code> are merged</li><li><code>list</code>, <code>int</code> and <code>float</code> are overwritten</li><li><code>bool</code> are combined using OR</li></ul>If this argument only contains a single path that leads to a "base config" (a config that only specifies path arguments like <code>zummarize_path</code>) the <code>config_path</code> given in the config is applied. After the configs are combined the cli arguments are applied discriminatively, which for the most part is the same as the combination of configs except that bools are combined using XOR.<br>The representation in the config is not the same as the cli version! The config version maps config_paths to each plot type and therefore has the type: <code>dict[str, list[path]]</code>.</td>
-            <td valign="top">All config types</td>
             <td valign="top"><pre><code>config_paths:
   lineplot:
     - "path1"
@@ -84,8 +79,7 @@ All of the following arguments take paths or whitespace separated lists of paths
             <code>--sc</code></td>
             <td valign="top">None</td>
             <td valign="top"><code>path</code></td>
-            <td valign="top">Path to the output config.<br> The created config contains the current state of all plot specific arguments (state after combining defaults, all configs and cli arguments).</td>
-            <td valign="top">None</td>
+            <td valign="top">Path to the output config.<br> The created config contains the current state of all plot-specific arguments (state after combining defaults, all configs and cli arguments).</td>
             <td valign="top">None</td>
         </tr>
     </tbody>
@@ -226,4 +220,52 @@ These arguments are processed by pytarize. Using these arguments alone will not 
 </table>
 </div>
 
+## plot-specific arguments
+
+
+<table>
+    <thead>
+        <tr>
+            <th width="15%">Name</th>
+            <th width="15%">Name in config</th>
+            <th width="10%">Type</th>
+            <th width="10%">Plot type</th>
+            <th width="50%">Config example</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr valign="top">
+            <td valign="top"><code>--colors</code></td>
+            <td valign="top"><code>colors</code></td>
+            <td valign="top"><code>list[str]</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>colors:
+  - "black"
+  - "#ff0042"</code></pre></td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">List of colors given in hex notation or name in color table.<br>The number of <code>--colors</code> and <code>--markers</code> should ideally be coprime.
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5" height="0"></td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--markers</code></td>
+            <td valign="top"><code>markers</code></td>
+            <td valign="top"><code>list[str]</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>markers:
+  - "s"
+  - - "s"
+    - true</code></pre></td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">List of <a href="https://matplotlib.org/stable/api/markers_api.html">matplotlib markers</a><br>The number of <code>--colors</code> and <code>--markers</code> should ideally be coprime. The config representation of markers is <code>list[str | list[str | bool]]</code>, a 2D list, where the first argument in the sublist is the <a href="https://matplotlib.org/stable/api/markers_api.html">marker</a> and the second is an option to create a hollow marker. The example creates a square marker and a hollow square marker.
+            </td>
+        </tr>
+    </tbody>
+</table>
 
