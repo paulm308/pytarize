@@ -285,6 +285,152 @@ These arguments are processed by pytarize. Using these arguments alone will not 
             <td colspan="3" valign="top">List of <a href="https://matplotlib.org/stable/api/markers_api.html">matplotlib markers</a><br>The number of <code>--colors</code> and <code>--markers</code> should ideally be coprime. The config representation of markers is <code>list[str | list[str | bool]]</code>, a 2D list, where the first argument in the sublist is the <a href="https://matplotlib.org/stable/api/markers_api.html">marker</a> and the second is an option to create a hollow marker. The example creates a square marker and a hollow square marker.
             </td>
         </tr>
+        <tr valign="top">
+            <td valign="top"><code>--hollow</code></td>
+            <td valign="top"><code>hollow</code></td>
+            <td valign="top"><code>bool</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>hollow: true</code></pre></td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Option that that creates hollow markers. Only markers that have an inner surface and are not specificaly set to hollow by the <code>markers</code> option are affected.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--cactus</code></td>
+            <td valign="top"><code>cactus</code></td>
+            <td valign="top"><code>bool</code></td>
+            <td valign="top">lineplot</td>
+            <td valign="top"><pre><code>cactus: true</code></pre></td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Generates cactus plot (cdf is default).
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--show-solved</code></td>
+            <td valign="top"><code>show_solved</code></td>
+            <td valign="top"><code>bool</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>show_solved: true</code></pre></td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Shows solved count in legend.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--center</code></td>
+            <td valign="top"><code>center</code></td>
+            <td valign="top"><code>bool</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>center: true</code></pre></td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Centers the legend vertically.<br>
+            The default is the right center, but if <code>--cactus</code> is used the legend is centered to the left side.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--legendloc</code></td>
+            <td valign="top"><code>legendloc</code></td>
+            <td valign="top"><code>str</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>center: true</code></pre></td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Set the location of the legend. Input is limited to the following options: 'upper left', 'upper center', 'upper right', 'center left', 'center', 'center right', 'lower left', 'lower center', 'lower right'.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--ymin</code></td>
+            <td valign="top"><code>ymin</code></td>
+            <td valign="top"><code>float | int</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>ymin: 42</code></pre></td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Set the minimum y-axis value.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--xmin</code></td>
+            <td valign="top"><code>xmin</code></td>
+            <td valign="top"><code>float | int</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>xmin: 42</code></pre></td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Set the minimum x-axis value.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--ymax</code></td>
+            <td valign="top"><code>ymax</code></td>
+            <td valign="top"><code>float | int</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>ymax: 42</code></pre></td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Set the maximum y-axis value.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--xmax</code></td>
+            <td valign="top"><code>xmax</code></td>
+            <td valign="top"><code>float | int</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>xmax: 42</code></pre></td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Set the maximum x-axis value.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--xlegend</code></td>
+            <td valign="top"><code>xlegend</code></td>
+            <td valign="top"><code>float</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>xlegend: 0.42</code></pre></td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Set the x-value of the position of the top left corner of the legend. Only use values between 0.0 and 1.0.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--ylegend</code></td>
+            <td valign="top"><code>ylegend</code></td>
+            <td valign="top"><code>float</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>ylegend: 0.42</code></pre></td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Set the y-value of the position of the top-left corner of the legend. Only use values between 0.0 and 1.0.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>limit</code></td>
+            <td valign="top"><code>limit</code></td>
+            <td valign="top"><code>(float | int) | bool</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>limit: true</code></pre>
+            <pre><code>limit: 42</code></pre></td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Plots a limit line at the given y-value (only for <code>lineplot</code> and <code>combinedplot</code>). If the <code>scatterplot</code> command is used, this option (<code>bool</code>) plots lines at the timeout values given in the zummarys.
+            </td>
+        </tr>
     </tbody>
 </table>
 
