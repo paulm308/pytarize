@@ -248,9 +248,6 @@ These arguments are processed by pytarize. Using these arguments alone will not 
             <td colspan="3" valign="top">List of colors given in hex notation or name in color table.<br>The number of <code>--colors</code> and <code>--markers</code> should ideally be coprime.
             </td>
         </tr>
-        <tr>
-            <td colspan="5" height="0"></td>
-        </tr>
         <tr valign="top">
             <td valign="top"><code>--markers</code></td>
             <td valign="top"><code>markers</code></td>
