@@ -9,24 +9,23 @@ pipeline:
 
 ## Path arguments
 All of the following arguments take paths or whitespace separated lists of paths as input. Internally the input is treated as a string which is interpreted by bash. These arguments can be used in all config types but should ideally be used in the highest order config since they're not dependent on the type of the plot.
-<div style="overflow-x:auto;">
 <table>
     <thead>
         <tr>
-            <th widt="10%">Name</th>
-            <th widt="10%">Name in config</th>
-            <th width="8%">Type</th>
-            <th width="38%">Description</th>
-            <th width="10%">Usable in</th>
-            <th width="20%">Config example</th>
+            <th width="10%"><img width="340" height="1">Name</th>
+            <th width="14%"><img width="340" height="1">Name in config</th>
+            <th width="8%"><img width="340" height="1">Type</th>
+            <th width="38%"><img width="340" height="1">Description</th>
+            <th width="10%"><img width="340" height="1">Usable in</th>
+            <th width="20%"><img width="340" height="1">Config example</th>
         </tr>
     </thead>
     <tbody>
         <tr valign="top">
             <td valign="top">
-                <code style="white-space: nowrap;">--zummarizepath</code><br>
+                <code>--zummarizepath</code><br>
                 <code>--zrp</code>
-            </td valign="top">
+            </td>
             <td valign="top"><code>zummarize_path</code></td>
             <td valign="top"><code>path</code></td>
             <td valign="top">
@@ -35,15 +34,13 @@ All of the following arguments take paths or whitespace separated lists of paths
                 This argument is needed when a folder in <code>--logpaths</code> or <code>--rlogpaths</code> does not contain a zummary file but logfiles or if this script is called with arguments that are handled by the zummarize script.
             </td>
             <td valign="top">All config types</td>
-            <td valign="top"><pre>
-                <code style="white-space: nowrap;">zummarize_path: "/path/to/zummarize"</code>
-            </pre></td>
+            <td valign="top"><pre><code>zummarize_path: "path"</code></pre></td>
         </tr>
         <tr valign="top">
             <td valign="top"><code>--logpaths</code><br>
             <code>--lps</code></td>
             <td valign="top"><code>log_paths</code></td>
-            <td valign="top"><code>list[path]<code></td>
+            <td valign="top"><code>list[path]</code></td>
             <td valign="top">List of paths that lead to folders containing the logfiles.<br>
             Duplicate paths are removed.<br> If a folder does not contain a zummary file but logfiles the <code>--zummarizepath</code> argument is required.
             </td>
@@ -52,11 +49,11 @@ All of the following arguments take paths or whitespace separated lists of paths
   - "path1"
   - "path2"</code></pre></td>
         </tr>
-        <tr>
+        <tr valign="top">
             <td valign="top"><code>--rlogpaths</code><br>
             <code>--rlps</code></td>
             <td valign="top"><code>r_log_paths</code></td>
-            <td valign="top"><code>list[path]<code></td>
+            <td valign="top"><code>list[path]</code></td>
             <td valign="top">List of root paths that are recursively searched for folders containing logfiles.<br>
             Duplicate paths are removed.<br> If a folder does not contain a zummary file but logfiles the <code>--zummarizepath</code> argument is required.</td>
             <td valign="top">All config types</td>
@@ -64,11 +61,11 @@ All of the following arguments take paths or whitespace separated lists of paths
   - "path1"
   - "path2"</code></pre></td>
         </tr>
-        <tr>
-            <td valign="top"><code style="white-space: nowrap;">--configpaths</code><br>
+        <tr valign="top">
+            <td valign="top"><code>--configpaths</code><br>
             <code>--cps</code></td>
             <td valign="top"><code>config_paths</code></td>
-            <td valign="top"><code>list[path]<code></td>
+            <td valign="top"><code>list[path]</code></td>
             <td valign="top">List of paths that lead to configfiles.<br>Configs are additively combined:<ul><li><code>dict</code> are merged</li><li><code>list</code>, <code>int</code> and <code>float</code> are overwritten</li><li><code>bool</code> are combined using OR</li></ul>If this argument only contains a single path that leads to a "base config" (a config that only specifies path arguments like <code>zummarize_path</code>) the <code>config_path</code> given in the config is applied. After the configs are combined the cli arguments are applied discriminatively, which for the most part is the same as the combination of configs except that bools are combined using XOR.<br>The representation in the config is not the same as the cli version! The config version maps config_paths to each plot type and therefore has the type: <code>dict[str, list[path]]</code>.</td>
             <td valign="top">All config types</td>
             <td valign="top"><pre><code>config_paths:
@@ -83,17 +80,16 @@ All of the following arguments take paths or whitespace separated lists of paths
     - "path2"</code></pre></td>
         </tr>
         <tr valign="top">
-            <td valign="top"><code style="white-space: nowrap;">--save-config</code><br>
+            <td valign="top"><code>--save-config</code><br>
             <code>--sc</code></td>
             <td valign="top">None</td>
-            <td valign="top"><code>path<code></td>
+            <td valign="top"><code>path</code></td>
             <td valign="top">Path to the output config.<br> The created config contains the current state of all plot specific arguments (state after combining defaults, all configs and cli arguments).</td>
             <td valign="top">None</td>
             <td valign="top">None</td>
         </tr>
     </tbody>
 </table>
-</div>
 
 ## zummarize arguments
 All of the following arguments are not processed by pytarize. If any of the following arguments are used, the zummarize script is called using `--zummarizepath` with the paths given in `--logpaths`, the resolved paths from `--rlogpaths` and the specified zummarize arguments. These arguments can't be used in any config type.
