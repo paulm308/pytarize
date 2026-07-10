@@ -12,12 +12,12 @@ All of the following arguments take paths or whitespace separated lists of paths
 <table>
     <thead>
         <tr>
-            <th width="10%"><img width="340" height="1">Name</th>
-            <th width="14%"><img width="340" height="1">Name in config</th>
-            <th width="8%"><img width="340" height="1">Type</th>
-            <th width="38%"><img width="340" height="1">Description</th>
-            <th width="10%"><img width="340" height="1">Usable in</th>
-            <th width="20%"><img width="340" height="1">Config example</th>
+            <th width="10%">Name</th>
+            <th width="14%">Name in config</th>
+            <th width="8%">Type</th>
+            <th width="38%">Description</th>
+            <th width="10%">Usable in</th>
+            <th width="20%">Config example</th>
         </tr>
     </thead>
     <tbody>
@@ -110,43 +110,43 @@ All of the following arguments are not processed by pytarize. If any of the foll
             <td>increase verbose level (maximum 3, default 0)</td>
         </tr>
         <tr>
-            <td><code style="white-space: nowrap;">--force</code><br>
+            <td><code style="white-space: nowrap;">--force</code>
             <code>-f</code></td>
             <td><code>int</code></td>
             <td>recompute zummaries (do not read dir/zummary files)</td>
         </tr>
         <tr>
-            <td><code style="white-space: nowrap;">--ignore</code><br>
+            <td><code style="white-space: nowrap;">--ignore</code>
             <code>-i</code></td>
             <td><code>bool</code></td>
             <td>ignore mismatching limits and bounds</td>
         </tr>
         <tr>
-            <td><code style="white-space: nowrap;">--just</code><br>
+            <td><code style="white-space: nowrap;">--just</code>
             <code>-j</code></td>
             <td><code>bool</code></td>
             <td>assume terminated are just solved (unsat)</td>
         </tr>
         <tr>
-            <td><code style="white-space: nowrap;">--no-warnings</code><br>
+            <td><code style="white-space: nowrap;">--no-warnings</code>
             <code>-n</code></td>
             <td><code>bool</code></td>
             <td>disables warnings</td>
         </tr>
         <tr>
-            <td><code style="white-space: nowrap;">--all</code><br>
+            <td><code style="white-space: nowrap;">--all</code>
             <code>-a</code></td>
             <td><code>bool</code></td>
             <td>report all column and rows (even with zero entries)</td>
         </tr>
         <tr>
-            <td><code style="white-space: nowrap;">--deep</code><br>
+            <td><code style="white-space: nowrap;">--deep</code>
             <code>-d</code></td>
             <td><code>bool</code></td>
             <td>report goes over unsolved instances only (sorted by deep)</td>
         </tr>
         <tr>
-            <td><code style="white-space: nowrap;">--rank</code><br>
+            <td><code style="white-space: nowrap;">--rank</code>
             <code>-r</code></td>
             <td><code>bool</code></td>
             <td>print number of times benchmark has been solved</td>
@@ -216,7 +216,7 @@ These arguments are processed by pytarize. Using these arguments alone will not 
             <td>report goes over satisfiable instances only</td>
         </tr>
         <tr>
-            <td><code style="white-space: nowrap;">--unsat</code><br>
+            <td><code style="white-space: nowrap;">--unsat</code>
             <code>-u</code></td>
             <td><code>int</code></td>
             <td>report goes over unsatisfiable instances only
