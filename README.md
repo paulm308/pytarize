@@ -595,7 +595,8 @@ These arguments are processed by pytarize. Using these arguments alone will not 
             <td valign="top"><code>latex_preamble</code></td>
             <td valign="top"><code>str</code></td>
             <td valign="top">All</td>
-            <td valign="top"><pre><code>latex_preamble: "\usepackage{lmodern}"</code></pre>
+            <td valign="top"><pre><code>latex_preamble:
+"\usepackage{lmodern}"</code></pre>
         </tr>
         <tr>
             <td colspan="2" valign="top"><b>Description:</b></td>
