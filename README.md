@@ -624,7 +624,7 @@ These arguments are processed by pytarize. Using these arguments alone will not 
         </tr>
         <tr>
             <td colspan="2" valign="top"><b>Description:</b></td>
-            <td colspan="3" valign="top">Changes the order of the style cycle created by <code>--create-solver-style</code> from best to worst to the order specified in <code>specific_solver_style</code> in the config. <b>This option is strongly recommended</b> to create the <code>solver_style</code> dictionary, because if this option is not used the <code>solver_style</code> dictionary only contains the runs that are displayed in the plot and not all the runs in <code>specific_solver_style</code>
+            <td colspan="3" valign="top">Changes the order of the style cycle created by <code>--create-solver-style</code> from best to worst to the order specified in <code>specific_solver_style</code> in the config. <b>This option is strongly recommended</b> to create the <code>solver_style</code> dictionary, because if this option is not used the <code>solver_style</code> dictionary only contains the runs that are displayed in the plot and not all the runs in <code>specific_solver_style</code>.
             </td>
         </tr>
     </tbody>
