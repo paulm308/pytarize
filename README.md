@@ -431,6 +431,201 @@ These arguments are processed by pytarize. Using these arguments alone will not 
             <td colspan="3" valign="top">Plots a limit line at the given y-value (only for <code>lineplot</code> and <code>combinedplot</code>). If the <code>scatterplot</code> command is used, this option (<code>bool</code>) plots lines at the timeout values given in the zummarys.
             </td>
         </tr>
+        <tr valign="top">
+            <td valign="top"><code>--lines</code></td>
+            <td valign="top"><code>lines</code></td>
+            <td valign="top"><code>bool</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>lines: true</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Plot the indicator lines specified by <code>indicator_lines</code> in the config
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--line-segments</code></td>
+            <td valign="top"><code>line_segments</code></td>
+            <td valign="top"><code>bool</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>line_segments: true</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Plot the indicator line segments specified by <code>indicator_line_segments</code> in the config. This can also be used to create small plots.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--grid</code></td>
+            <td valign="top"><code>grid</code></td>
+            <td valign="top"><code>bool</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>grid: true</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Plot the grid specified by <code>grid_kwargs</code> in the config.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--xlog</code></td>
+            <td valign="top"><code>xlog</code></td>
+            <td valign="top"><code>bool</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>xlog: true</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Changes x-scale from linear to logarithmic.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--ylog</code></td>
+            <td valign="top"><code>ylog</code></td>
+            <td valign="top"><code>bool</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>ylog: true</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Changes y-scale from linear to logarithmic.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--xlabel</code></td>
+            <td valign="top"><code>xlabel</code></td>
+            <td valign="top"><code>str</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>xlabel: "\textbf{test}"</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Set the label of the x-axis. If the <code>--latex</code> option is active, the text is interpreted by latex and the output of the example is <b>test</b> in standard latex font.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--ylabel</code></td>
+            <td valign="top"><code>ylabel</code></td>
+            <td valign="top"><code>str</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>ylabel: "\textbf{test}"</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Set the label of the y-axis. If the <code>--latex</code> option is active, the text is interpreted by latex and the output of the example is <b>test</b> in standard latex font.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--plain</code></td>
+            <td valign="top"><code>plain</code></td>
+            <td valign="top"><code>bool</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>plain: true</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Disables the scientific notation for major ticks. The default is: <code>10<sup>3</sup></code> but if this option is used: <code>1000</code>.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--square-box</code></td>
+            <td valign="top"><code>square_box</code></td>
+            <td valign="top"><code>bool</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>square_box: true</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Set equal aspect ratio. <b>This only works if both axis have the same scale!</b>
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--output</code><br>
+            <code>-o</code></td>
+            <td valign="top"><code>output</code></td>
+            <td valign="top"><code>path</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>output: "path"</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Set the location, name and type of the output. Matplotlib supports a lot of types, see <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.savefig.html">savefig documentation</a>.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--title</code><br>
+            <code>-t</code></td>
+            <td valign="top"><code>title</code></td>
+            <td valign="top"><code>str</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>title: "\textbf{test}"</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Set the label of the title of the plot. If the <code>--latex</code> option is active, the text is interpreted by latex and the output of the example is <b>test</b> in standard latex font.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--latex</code></td>
+            <td valign="top"><code>latex</code></td>
+            <td valign="top"><code>bool</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>latex: true</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Enable latex text rendering for all text displayed in the plot. Documentation: <a href=https://matplotlib.org/stable/users/explain/customizing.html>rcParams documentation</a> and search for <code>usetex</code>.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--font-family</code></td>
+            <td valign="top"><code>font_family</code></td>
+            <td valign="top"><code>str</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>font_family: "serif"</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Change latex font-family, default is 'serif', options: 'serif', 'sans-serif', 'monospace', 'cursive', 'fantasy'. Documentation: <a href=https://matplotlib.org/stable/users/explain/customizing.html>rcParams documentation</a> and search for <code>font.family</code>.
+            </td>
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--latex-preamble</code></td>
+            <td valign="top"><code>latex_preamble</code></td>
+            <td valign="top"><code>str</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>latex_preamble: "\usepackage{lmodern}"</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Use this to import latex packages. Documentation: <a href=https://matplotlib.org/stable/users/explain/customizing.html>rcParams documentation</a> and search for <code>text.latex.preamble</code>.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--create-solver-style</code></td>
+            <td valign="top"><code>create_solver_style</code></td>
+            <td valign="top"><code>bool</code></td>
+            <td valign="top">lineplot<br>combinedplot</td>
+            <td valign="top"><pre><code>create_solver_style: true</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Generates the <code>solver_style</code> dictionary in the config. This option utilizes a compressed version of the <code>solver_style</code> dictionary, by combining: <code>colors</code>, <code>markers</code>, <code>universal_solver_style</code> and <code>specific_solver_style</code> arguments in the config to generate the <code>solver_style</code> dictionary. To save the generated <code>solver_style</code> dictionary, <code>--save-config</code> is needed. <code>universal_solver_style</code> and <code>specific_solver_style</code> have no effect if this option is not used.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--order</code></td>
+            <td valign="top"><code>order</code></td>
+            <td valign="top"><code>bool</code></td>
+            <td valign="top">lineplot<br>combinedplot</td>
+            <td valign="top"><pre><code>order: true</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Changes the order of the style cycle created by <code>--create-solver-style</code> from best to worst to the order specified in <code>specific_solver_style</code> in the config. <b>This option is strongly recommended</b> to create the <code>solver_style</code> dictionary, because if this option is not used the <code>solver_style</code> dictionary only contains the runs that are displayed in the plot and not all the runs in <code>specific_solver_style</code>
+            </td>
+        </tr>
     </tbody>
 </table>
 
