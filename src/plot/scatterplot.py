@@ -24,14 +24,14 @@ class ScatterPlot(BasePlot):
 
         # save limits for "limit" option
         if self.cfg.atr["limit"] or self.cfg.atr["extend"] is not None:
-            self.limits = (data[folder_names[0]]["rlim"][0], data[folder_names[1]]["rlim"][0])
+            self.limits = (data[folder_names[0]]["tlim"][0], data[folder_names[1]]["tlim"][0])
 
-        self.timeouts = self.compute_timeouts_and_max_achsvalues((data[folder_names[0]]["rlim"][0], data[folder_names[1]]["rlim"][0]))
+        self.timeouts = self.compute_timeouts_and_max_achsvalues((data[folder_names[0]]["tlim"][0], data[folder_names[1]]["tlim"][0]))
 
-        # remove unnessecary columns and set realtime to the time limit if the benchmark was not solved
+        # remove unnessecary columns and set time to the time limit if the benchmark was not solved
         for idx, folder_name in enumerate(folder_names):
-            data[folder_name].loc[data[folder_name]["result"] < 10, "real"] = self.timeouts[idx]
-            data[folder_name].drop(columns=["time", "space", "tlim", "slim"], inplace=True)
+            data[folder_name].loc[data[folder_name]["result"] < 10, "time"] = self.timeouts[idx]
+            data[folder_name].drop(columns=["space", "slim"], inplace=True)
 
         # merge zummarys by benchmark name
         merged = pd.merge(data[folder_names[0]], data[folder_names[1]], on='Unnamed: 0', how="inner")
@@ -87,8 +87,17 @@ class ScatterPlot(BasePlot):
 
         style = next(style_cycle)
         color = style["color"]
+        hollow = False
         kwargs["marker"] = style["marker"]
         kwargs["label"] = label.upper()
+
+        if isinstance(style["marker"], str):
+            kwargs["marker"] = style["marker"]
+        elif isinstance(style["marker"], list) and style["marker"] is not []:
+            if isinstance(style["marker"][0], str):
+                kwargs["marker"] = style["marker"][0]
+            if len(style["marker"]) >= 2 and isinstance(style["marker"][1], bool):
+                hollow = style["marker"][1]
 
         if kwargs["marker"] not in MarkerStyle.filled_markers:
             kwargs["facecolors"] = style["color"]
@@ -103,16 +112,16 @@ class ScatterPlot(BasePlot):
             kwargs.update(self.cfg.atr["sat_style"][label])
 
         # create holow markers
-        if kwargs["marker"] in MarkerStyle.filled_markers and self.cfg.atr["hollow"]:
+        if kwargs["marker"] in MarkerStyle.filled_markers and (hollow or self.cfg.atr["hollow"]):
             kwargs["edgecolors"] = color
             kwargs["facecolors"] = "none"
-        kwargs["color"] = color
-
+        else:
+            kwargs["facecolors"] = color
         if self.cfg.atr["show_solved"]:
             kwargs["label"] = f"{self.ninstances[label]} {kwargs['label']}"
 
-        xs = values["real_x"]
-        ys = values["real_y"]
+        xs = values["time_x"]
+        ys = values["time_y"]
         args = (xs, ys)
 
         return {"args": args, "kwargs": kwargs}

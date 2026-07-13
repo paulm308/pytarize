@@ -9,7 +9,7 @@ def set_defaults(plot_type: PlotType):
     base_config_path = Path("config/base_config.yaml")  # change default path to base config
     plot_config_paths = None
     atr = {}
-
+    def_global_atr = {}
     match plot_type:
         case PlotType.LinePlot:
             atr = {
@@ -43,6 +43,7 @@ def set_defaults(plot_type: PlotType):
                    plot_config_paths=plot_config_paths,
                    zummarize_cli=[],
                    save_config=None,
+                   global_atr=def_global_atr,
                    atr=atr)
 
     return defaults
@@ -75,6 +76,8 @@ def build_config(raw, plot_type: PlotType):
         cfg.r_log_paths = [Path(r_log_path) for r_log_path in raw["base_raw"]["r_log_paths"]]
     if raw["base_raw"]["save_config"] is not None:
         cfg.save_config = Path(raw["base_raw"]["save_config"])
+
+    cfg.global_atr = raw["global_atr"]
     cfg.atr = merge_dicts(cfg.atr, raw["atr"], False)
     cfg.zummarize_cli = create_zummarize_options(raw["zummarize_specific_raw"])
 

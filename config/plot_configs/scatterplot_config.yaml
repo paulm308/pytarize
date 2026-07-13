@@ -1,17 +1,27 @@
 ---
-  "sat_style":
-    "sat":
-      "marker": "x"
-      "color": "purple"
-      "label": "SAT"
-    "unsat":
-      "marker": "o"
-      "color": "black"
-      "label": "UNSAT"
-    "unsolved":
-      "marker": "+"
-      "color": "blue"
-      "label": "UNSOLVED"
+  markers:
+    - - o
+      - true
+    - x
+    - - s
+      - true
+  colors:
+    - purple
+    - black
+    - blue
+  # "sat_style":
+  #   "sat":
+  #     "marker": "x"
+  #     "color": "purple"
+  #     "label": "SAT"
+  #   "unsat":
+  #     "marker": "o"
+  #     "color": "black"
+  #     "label": "UNSAT"
+  #   "unsolved":
+  #     "marker": "+"
+  #     "color": "blue"
+  #     "label": "UNSOLVED"
   "solver_style":
     "c24":
       "label": "Cadical24"

@@ -22,4 +22,5 @@ class CFG:
     plot_config_paths: list[Path] | None
     zummarize_cli: list[str]
     save_config: Path | None
+    global_atr: dict = field(default_factory=dict)
     atr: dict = field(default_factory=dict)

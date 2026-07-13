@@ -24,10 +24,6 @@ class CombinedPlot(BasePlot):
         events = [[] for _ in range(len(folder_names))]
         sota_events = []
 
-        pref = "real"
-        if self.cfg.atr["time"]:
-            pref = "time"
-
         base_idx = -1
         if self.cfg.atr["horse"] and self.cfg.atr["base"] is not None and self.cfg.atr["base"] in folder_names:
             base_idx = folder_names.index(self.cfg.atr["base"])
@@ -39,7 +35,7 @@ class CombinedPlot(BasePlot):
             valid = []
             base = None
             for i in range(len(folder_names)):
-                time_label = f"{pref}_{i}" if i >= 1 else pref
+                time_label = f"time_{i}" if i >= 1 else "time"
                 status_label = f"result_{i}" if i >= 1 else "result"
                 if row[status_label] in [10, 20]:
                     valid.append((i, float(row[time_label])))

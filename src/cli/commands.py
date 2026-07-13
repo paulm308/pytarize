@@ -36,6 +36,10 @@ zummarize_specific_raw: dict[str, bool | Optional[int]] = {
     "force-time": False
 }
 
+global_atr: dict[str, bool] = {
+    "real": False,
+    "time": False
+}
 
 @app.callback()
 def base(zummarizepath: Annotated[Optional[str], typer.Option("--zummarizepath", "--zrp", help="path to zummarize script")] = None,
@@ -60,7 +64,9 @@ def base(zummarizepath: Annotated[Optional[str], typer.Option("--zummarizepath",
          no_write: bool = typer.Option(False, "--no-write", help="do not write generated zummaries"),
          no_bounds: bool = typer.Option(False, "--no-bounds", help="do not print bounds"),
          force_real: bool = typer.Option(False, "--force-real", help="force real time zummaries"),
-         force_time: bool = typer.Option(False, "--force-time", help="force process time zummaries")):
+         force_time: bool = typer.Option(False, "--force-time", help="force process time zummaries"),
+         real: bool = typer.Option(False, "--real", help="use real time"),
+         time: bool = typer.Option(False, "--time", help="use process time")):
 
     base_raw["zummarize_path"] = None if zummarizepath is None else expand_with_bash(zummarizepath)
     base_raw["log_paths"] = None if logpaths is None else expand_with_bash(logpaths)
@@ -86,6 +92,9 @@ def base(zummarizepath: Annotated[Optional[str], typer.Option("--zummarizepath",
     zummarize_specific_raw["no-bounds"] = no_bounds
     zummarize_specific_raw["force-real"] = force_real
     zummarize_specific_raw["force-time"] = force_time
+
+    global_atr["real"] = real
+    global_atr["time"] = time
 
 
 @app.command()
@@ -123,6 +132,7 @@ def lineplot(colors: Annotated[Optional[str], typer.Option("--colors", help="lis
     raw = {
         "base_raw": base_raw,
         "zummarize_specific_raw": zummarize_specific_raw,
+        "global_atr": global_atr,
         "atr": {
             "colors": None if colors is None else shlex.split(colors),
             "markers": None if markers is None else shlex.split(markers),
@@ -194,6 +204,7 @@ def scatterplot(colors: Annotated[Optional[str], typer.Option("--colors", help="
     raw = {
         "base_raw": base_raw,
         "zummarize_specific_raw": zummarize_specific_raw,
+        "global_atr": global_atr,
         "atr": {
             "colors": None if colors is None else shlex.split(colors),
             "markers": None if markers is None else shlex.split(markers),
@@ -237,7 +248,6 @@ def combinedplot(unique: bool = typer.Option(False, "--unique"),
                  sota: bool = typer.Option(False, "--sota"),
                  relative: bool = typer.Option(False, "--relative"),
                  base: Annotated[Optional[str], typer.Option("--base", help="plot against <base> solver (name of the base solver folder not the path, path must be included in --logpaths or --rlogpaths)")] = None,
-                 time: bool = typer.Option(False, "--time", help="Use time instead of real (real is default)"),
                  colors: Annotated[Optional[str], typer.Option("--colors", help="list of colors (hex or name in color table)")] = None,
                  markers: Annotated[Optional[str], typer.Option("--markers", help="list of markers used by marker argument in plt.plot")] = None,
                  hollow: bool = typer.Option(False, "--hollow", help="create hollow markers"),
@@ -271,6 +281,7 @@ def combinedplot(unique: bool = typer.Option(False, "--unique"),
     raw = {
         "base_raw": base_raw,
         "zummarize_specific_raw": zummarize_specific_raw,
+        "global_atr": global_atr,
         "atr": {
             "unique": unique,
             "stable": stable,
@@ -278,7 +289,6 @@ def combinedplot(unique: bool = typer.Option(False, "--unique"),
             "sota": sota,
             "relative": relative,
             "base": base,
-            "time": time,
             "colors": None if colors is None else shlex.split(colors),
             "markers": None if markers is None else shlex.split(markers),
             "hollow": hollow,
