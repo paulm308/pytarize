@@ -627,6 +627,101 @@ These arguments are processed by pytarize. Using these arguments alone will not 
             <td colspan="3" valign="top">Changes the order of the style cycle created by <code>--create-solver-style</code> from best to worst to the order specified in <code>specific_solver_style</code> in the config. <b>This option is strongly recommended</b> to create the <code>solver_style</code> dictionary, because if this option is not used the <code>solver_style</code> dictionary only contains the runs that are displayed in the plot and not all the runs in <code>specific_solver_style</code>.
             </td>
         </tr>
+        <tr valign="top">
+            <td valign="top"><code>--extend</code></td>
+            <td valign="top"><code>extend</code></td>
+            <td valign="top"><code>float</code></td>
+            <td valign="top">scatterplot</td>
+            <td valign="top"><pre><code>extend: 0.85</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Enables the extended mode that scales the plot down by the input value and adds a timeout line between the limit line and the axes. Only values between <code>0.0</code> and <code>1.0</code> are allowed and <code>0.85</code> is the recommended value.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--unique</code></td>
+            <td valign="top"><code>unique</code></td>
+            <td valign="top"><code>bool</code></td>
+            <td valign="top">combinedplot</td>
+            <td valign="top"><pre><code>unique: true</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Enable compare option, where only uniquely best runs get credited (the best run has a point advantage until the second best solves the benchmark).
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--stable</code></td>
+            <td valign="top"><code>stable</code></td>
+            <td valign="top"><code>bool</code></td>
+            <td valign="top">combinedplot</td>
+            <td valign="top"><pre><code>stable: true</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Enable compare option, where all runs get credited except the worst (the best runs have a point advantage until the worst solves the benchmark).
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--horse</code></td>
+            <td valign="top"><code>horse</code></td>
+            <td valign="top"><code>bool</code></td>
+            <td valign="top">combinedplot</td>
+            <td valign="top"><pre><code>horse: true</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Enable compare option, where all runs get credited if they are better than the <code>sota</code> (default). If the <code>--base</code> option is active, the specified run will be used to compare the other runs to.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--sota</code></td>
+            <td valign="top"><code>sota</code></td>
+            <td valign="top"><code>bool</code></td>
+            <td valign="top">combinedplot</td>
+            <td valign="top"><pre><code>sota: true</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Plots the best possible solver.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--relative</code></td>
+            <td valign="top"><code>relative</code></td>
+            <td valign="top"><code>bool</code></td>
+            <td valign="top">combinedplot</td>
+            <td valign="top"><pre><code>relative: true</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Plot the performance of all runs relative to <code>sota</code>.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--base</code></td>
+            <td valign="top"><code>base</code></td>
+            <td valign="top"><code>str</code></td>
+            <td valign="top">combinedplot</td>
+            <td valign="top"><pre><code>base: "name"</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Plot against base solver. Use the name of the base solver folder not the path. The path must be included in <code>--logpaths</code> or <code>--rlogpaths</code>.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--time</code></td>
+            <td valign="top"><code>time</code></td>
+            <td valign="top"><code>bool</code></td>
+            <td valign="top">combinedplot</td>
+            <td valign="top"><pre><code>time: true</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Use process time instead of real time (real time is default).
+            </td>
+        </tr>
     </tbody>
 </table>
-
