@@ -213,7 +213,7 @@ All of the following arguments are not processed by pytarize. If any of the foll
 </div>
 
 ### Special cases
-These arguments are processed by pytarize. Using these arguments alone will not result in a call to the zummarize script, but if any of the above arguments is used as well zummarize is called including the arguments from below.
+These arguments are processed by pytarize. Using these arguments alone will not result in a call to the zummarize script, but if any of the above arguments is used as well, zummarize is called including the arguments from below.
 
 <div style="overflow-x:auto;">
 <table>
@@ -234,13 +234,37 @@ These arguments are processed by pytarize. Using these arguments alone will not 
         <tr>
             <td><code style="white-space: nowrap;">--unsat</code>
             <code>-u</code></td>
-            <td><code>int</code></td>
+            <td><code>bool</code></td>
             <td>report goes over unsatisfiable instances only
             </td>
         </tr>
     </tbody>
 </table>
 </div>
+
+## other global options
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody style="vertical-align: top;">
+        <tr>
+            <td><code style="white-space: nowrap;">--time</code>
+            <td><code>bool</code></td>
+            <td>Use process time</td>
+        </tr>
+        <tr>
+            <td><code style="white-space: nowrap;">--real</code>
+            <td><code>bool</code></td>
+            <td>Use real time (default)
+            </td>
+        </tr>
+    </tbody>
+</table>
 
 ## plot-specific arguments
 
@@ -709,18 +733,6 @@ These arguments are processed by pytarize. Using these arguments alone will not 
         <tr>
             <td colspan="2" valign="top"><b>Description:</b></td>
             <td colspan="3" valign="top">Plot against base solver. Use the name of the base solver folder not the path. The path must be included in <code>--logpaths</code> or <code>--rlogpaths</code>.
-            </td>
-        </tr>
-        <tr valign="top">
-            <td valign="top"><code>--time</code></td>
-            <td valign="top"><code>time</code></td>
-            <td valign="top"><code>bool</code></td>
-            <td valign="top">combinedplot</td>
-            <td valign="top"><pre><code>time: true</code></pre>
-        </tr>
-        <tr>
-            <td colspan="2" valign="top"><b>Description:</b></td>
-            <td colspan="3" valign="top">Use process time instead of real time (real time is default).
             </td>
         </tr>
     </tbody>

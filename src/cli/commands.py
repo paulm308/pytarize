@@ -41,6 +41,7 @@ global_atr: dict[str, bool] = {
     "time": False
 }
 
+
 @app.callback()
 def base(zummarizepath: Annotated[Optional[str], typer.Option("--zummarizepath", "--zrp", help="path to zummarize script")] = None,
          logpaths: Annotated[Optional[str], typer.Option("--logpaths", "--lps", help="list of paths that lead to folders containing the logs")] = None,
