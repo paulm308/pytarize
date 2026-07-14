@@ -446,7 +446,7 @@ These arguments are processed by pytarize. Using these arguments alone will not 
             <td valign="top"><code>--limit</code></td>
             <td valign="top"><code>limit</code></td>
             <td valign="top"><code>(float | int) | bool</code></td>
-            <td valign="top">All</td>
+            <td valign="top">All*</td>
             <td valign="top"><pre><code>limit: true</code></pre>
             <pre><code>limit: 42</code></pre></td>
         </tr>
@@ -733,6 +733,69 @@ These arguments are processed by pytarize. Using these arguments alone will not 
         <tr>
             <td colspan="2" valign="top"><b>Description:</b></td>
             <td colspan="3" valign="top">Plot against base solver. Use the name of the base solver folder not the path. The path must be included in <code>--logpaths</code> or <code>--rlogpaths</code>.
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+## config only arguments
+
+
+<table>
+    <thead>
+        <tr>
+            <th width="15%">Name in config</th>
+            <th width="10%">Type</th>
+            <th width="10%">Plot type</th>
+            <th width="65%">Config example</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr valign="top">
+            <td valign="top"><code>solver_style</code></td>
+            <td valign="top"><code>dict[str: dict]</code></td>
+            <td valign="top">All*</td>
+            <td valign="top"><pre><code>solver_style:
+  "folder_name1":
+    color: "black"
+    label: "\textbf{best solver}"
+    marker: "o"
+    markeredgecolor: "black"
+    markerfacecolor: "none"
+    markersize: 5
+  "folder_name2":
+    color: "#df526b"
+    label: "\textbf{second best}"
+    marker: "s"
+    markersize: 5</code></pre></td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="2" valign="top">Maps a specific styling to the name of a folder. Styling options include all options that change the style of the line in the plot or the name in the legend. Generally all options of <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.plot.html">matplotlib.axes.Axes.plot</a> can be used to create the styling for the folder. The example creates a black hollow circle marker for folder_name1 and a filled pink square marker for folder_name2. Another example would be to change the <code>zorder</code> and <code>linewidth</code> of a single folder to highlight this run. This argument is also usable in scatterplot configs but the script only uses the <code>label</code> to label the axes.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>sat_style</code></td>
+            <td valign="top"><code>dict[str: dict]</code></td>
+            <td valign="top">scatterplot</td>
+            <td valign="top"><pre><code>sat_style:
+  sat:
+    color: "purple"
+    label: "SAT"
+    marker: "x"
+  unsat:
+    color: "black"
+    label: "UNSAT"
+    marker: "o"
+  unsolved:
+    color: "blue"
+    label: "UNSOLVED"
+    marker: "s"</code></pre></td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="2" valign="top">Maps a specific styling to each state (sat, unsat and unsolved).  Styling options include all options that change the style of the marker in the plot or the name in the legend. Generally all options of <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.scatter.html">matplotlib.axes.Axes.scatter</a> can be used to create the styling for the state. The names of the keyword arguments differ from <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.plot.html">matplotlib.axes.Axes.plot</a>. For example, to create a hollow marker in <code>solver_style</code> you need to set <code>markeredgecolor</code> and
+            <code>markerfacecolor</code>, but in <code>sat_style</code> the corresponding keyword arguments are <code>edgecolors</code> and <code>facecolors</code>.
             </td>
         </tr>
     </tbody>
