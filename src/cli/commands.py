@@ -69,11 +69,11 @@ def base(zummarizepath: Annotated[Optional[str], typer.Option("--zummarizepath",
          real: bool = typer.Option(False, "--real", help="use real time"),
          time: bool = typer.Option(False, "--time", help="use process time")):
 
-    base_raw["zummarize_path"] = None if zummarizepath is None else expand_with_bash(zummarizepath)
+    base_raw["zummarize_path"] = None if zummarizepath is None else expand_with_bash(zummarizepath)[0]
     base_raw["log_paths"] = None if logpaths is None else expand_with_bash(logpaths)
     base_raw["r_log_paths"] = None if rlogpaths is None else expand_with_bash(rlogpaths)
     base_raw["config_paths"] = None if configpaths is None else expand_with_bash(configpaths)
-    base_raw["save_config"] = None if save_config is None else expand_with_bash(save_config)
+    base_raw["save_config"] = None if save_config is None else expand_with_bash(save_config)[0]
 
     zummarize_specific_raw["verbose"] = verbose
     zummarize_specific_raw["force"] = force
