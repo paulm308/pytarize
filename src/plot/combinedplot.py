@@ -1,11 +1,12 @@
 from src.plot.baseplot import BasePlot
 from src.plot.lineplot import LinePlot
+from typing import Optional
 import numpy as np
 import pandas as pd
 
 
 class CombinedPlot(BasePlot):
-    def transform_data(self, data: dict[str, pd.DataFrame]):
+    def transform_data(self, data: dict[str, pd.DataFrame]) -> list[tuple[str, list[float], list[float], Optional[int]]]:
 
         folder_names = list(data.keys())
 
@@ -19,6 +20,11 @@ class CombinedPlot(BasePlot):
 
         for i, df in enumerate(dfs[1:], start=1):
             merged = merged.merge(df, on="Unnamed: 0", suffixes=(None, f"_{i}"))
+
+        # calculate number in label
+        label_nums = []
+        for folder_name in folder_names:
+            label_nums.append(len(data[folder_name][data[folder_name]['result'].isin([10, 20])]))
 
         # initilization
         events = [[] for _ in range(len(folder_names))]
@@ -84,7 +90,8 @@ class CombinedPlot(BasePlot):
                     events[i].append((t, +1))
                     events[i].append((base, -1))
                 for i, t in invalid:
-                    events[i].append((base, -1))
+                    if i != base_idx:
+                        events[i].append((base, -1))
                 sota_events.append((best, +1))
                 sota_events.append((base, -1))
 
@@ -94,14 +101,14 @@ class CombinedPlot(BasePlot):
             xs, ys = self.event_to_curve(evs)
             if i != base_idx:
                 xs, ys = self.clean_up_curves(xs, ys)
-            res.append((folder_names[i], xs, ys))
+            res.append((folder_names[i], xs, ys, label_nums[i]))
         sota_xs, sota_ys = self.event_to_curve(sota_events)
         sota_xs, sota_ys = self.clean_up_curves(sota_xs, sota_ys)
         if self.cfg.atr["sota"]:
-            res.append(("sota", sota_xs, sota_ys))
+            res.append(("sota", sota_xs, sota_ys, None))
 
-        # sort curves by maximum y value
-        res = sorted(res, key=lambda c: max(c[2]) if len(c[2]) > 0 else float("-inf"))
+        # sort curves by average y value
+        res = sorted(res, key=lambda c: sum(c[2]) / len(c[2]) if len(c[2]) > 0 else float("-inf"))
 
         # create curves relative to the sota curve
         if self.cfg.atr["relative"]:
@@ -176,6 +183,6 @@ class CombinedPlot(BasePlot):
         if self.cfg.atr["base"] is not None and self.cfg.atr["base"] not in folder_names:
             print("--base has to match a folder name in --logpaths or --rlogpaths")
 
-    def create_plot(self, data: list[tuple[str, list[float], list[float]]]):
+    def create_plot(self, data: list[tuple[str, list[float], list[float], Optional[int]]]):
         lineplot = LinePlot(self.cfg)
         lineplot.create_plot(data)

@@ -1,5 +1,6 @@
 from src.plot.baseplot import BasePlot
 from src.core.save_data import save_solver_style
+from typing import Optional
 import src.plot.plot_utils as utils
 import pandas as pd
 import numpy as np
@@ -12,14 +13,14 @@ mat.use("Agg")
 
 class LinePlot(BasePlot):
 
-    def transform_data(self, data: dict[str, pd.DataFrame]) -> list[tuple[str, list[float], list[float]]]:
+    def transform_data(self, data: dict[str, pd.DataFrame]) -> list[tuple[str, list[float], list[float], Optional[int]]]:
 
         for folder_name in data.keys():
             data[folder_name] = data[folder_name][data[folder_name]["result"].isin([10, 20])]
 
         transformed = []
         for folder_name, values in data.items():
-            tup = (folder_name, np.sort(values["time"].to_numpy()), list(range(1, len(values) + 1)))
+            tup = (folder_name, np.sort(values["time"].to_numpy()), list(range(1, len(values) + 1)), len(values))
             transformed.append(tup)
 
         # sort the data so that the best run is first in the list
@@ -27,11 +28,11 @@ class LinePlot(BasePlot):
                              key=lambda x: len(x[1]))
 
         if self.cfg.atr["cactus"]:
-            transformed = [(tup[0], tup[2], tup[1]) for tup in transformed]
+            transformed = [(tup[0], tup[2], tup[1], tup[3]) for tup in transformed]
 
         return transformed
 
-    def create_individual_plot_args(self, folder_name: str, style_cycle, xs: list[float], ys: list[float]):
+    def create_individual_plot_args(self, folder_name: str, style_cycle, xs: list[float], ys: list[float], num_in_label: Optional[int]):
         kwargs = {}
         hollow = False
         style = next(style_cycle)
@@ -65,8 +66,8 @@ class LinePlot(BasePlot):
         kwargs["color"] = color
 
         # show solved count in legend:
-        if self.cfg.atr["show_solved"]:
-            kwargs["label"] = f"{len(ys)} {kwargs['label']}"
+        if self.cfg.atr["show_solved"] and num_in_label is not None:
+            kwargs["label"] = f"{num_in_label} {kwargs['label']}"
         args = (xs, ys)
 
         return {"args": args, "kwargs": kwargs}
@@ -101,7 +102,7 @@ class LinePlot(BasePlot):
         if self.cfg.atr["plain"]:
             utils.change_tick_notation_label(ax, None, None, self.cfg)
 
-    def create_plot(self, data: list[tuple[str, list[float], list[float]]]):
+    def create_plot(self, data: list[tuple[str, list[float], list[float], Optional[int]]]):
 
         if self.cfg.atr["create_solver_style"]:
             utils.create_solver_style(self. cfg, folder_names=list(reversed([tup[0] for tup in data])))
@@ -119,8 +120,8 @@ class LinePlot(BasePlot):
         # create style cycle (markers and colors)
         style_cycle = reversed(list(islice(cycle(utils.create_style_cycle(self.cfg)), len(data))))
 
-        for folder_name, xs, ys in data:
-            plot_args = self.create_individual_plot_args(folder_name, style_cycle, xs, ys)
+        for folder_name, xs, ys, num_in_label in data:
+            plot_args = self.create_individual_plot_args(folder_name, style_cycle, xs, ys, num_in_label)
             ax.plot(*plot_args["args"], **plot_args["kwargs"])
 
         # draw limit line:
