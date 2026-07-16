@@ -14,9 +14,16 @@ class CombinedPlot(BasePlot):
 
         # merge tables on common benchmarks
         dfs = [data[folder_name] for folder_name in folder_names]
+
+        # this only works if solvers are correct
+        if "--sat" in self.cfg.zummarize_cli:
+            dfs = [df[df["result"].isin([1, 2, 10])] for df in dfs]
+        elif "--unsat" in self.cfg.zummarize_cli:
+            dfs = [df[df["result"].isin([1, 2, 20])] for df in dfs]
+
         common = set.intersection(*(set(df["Unnamed: 0"]) for df in dfs))
-        dfs = [df[df["Unnamed: 0"].isin(common)].copy() for df in dfs]
-        merged = dfs[0]
+        merged = [df[df["Unnamed: 0"].isin(common)].copy() for df in dfs][0]
+
         for i, df in enumerate(dfs[1:], start=1):
             merged = merged.merge(df, on="Unnamed: 0", suffixes=(None, f"_{i}"))
 
@@ -24,8 +31,8 @@ class CombinedPlot(BasePlot):
         cols = ["result"] + [f"result_{i}" for i in range(1, len(folder_names))]
         sota_label_num = (merged[cols].isin([10, 20]).any(axis=1)).sum()
         label_nums = []
-        for folder_name in folder_names:
-            label_nums.append(len(data[folder_name][data[folder_name]['result'].isin([10, 20])]))
+        for i in range(len(folder_names)):
+            label_nums.append(len(dfs[i][dfs[i]['result'].isin([10, 20])]))
 
         # initilization
         events = [[] for _ in range(len(folder_names))]
@@ -104,7 +111,9 @@ class CombinedPlot(BasePlot):
                 xs, ys = self.clean_up_curves(xs, ys)
             res.append((folder_names[i], xs, ys, label_nums[i]))
         sota_xs, sota_ys = self.event_to_curve(sota_events)
-        sota_xs, sota_ys = self.clean_up_curves(sota_xs, sota_ys)
+
+        if not (self.cfg.atr["horse"] and self.cfg.atr["base"] is None):
+            sota_xs, sota_ys = self.clean_up_curves(sota_xs, sota_ys)
         if self.cfg.atr["sota"]:
             res.append(("sota", sota_xs, sota_ys, sota_label_num))
 
