@@ -21,6 +21,8 @@ class CombinedPlot(BasePlot):
             merged = merged.merge(df, on="Unnamed: 0", suffixes=(None, f"_{i}"))
 
         # calculate number in label
+        cols = ["result"] + [f"result_{i}" for i in range(1, len(folder_names))]
+        sota_label_num = (merged[cols].isin([10, 20]).any(axis=1)).sum()
         label_nums = []
         for folder_name in folder_names:
             label_nums.append(len(data[folder_name][data[folder_name]['result'].isin([10, 20])]))
@@ -104,7 +106,7 @@ class CombinedPlot(BasePlot):
         sota_xs, sota_ys = self.event_to_curve(sota_events)
         sota_xs, sota_ys = self.clean_up_curves(sota_xs, sota_ys)
         if self.cfg.atr["sota"]:
-            res.append(("sota", sota_xs, sota_ys, len(merged)))
+            res.append(("sota", sota_xs, sota_ys, sota_label_num))
 
         # sort curves by average y value
         res = sorted(res, key=lambda c: sum(c[2]) / len(c[2]) if len(c[2]) > 0 else float("-inf"))
