@@ -93,7 +93,7 @@ def validate_log_path(log_path):
         raise FileNotFoundError(f"Path to logfile directory does not exist. Path: {log_path}")
     if not log_path.is_dir():
         raise NotADirectoryError(f"Path does not lead to a directory. Path: {log_path}")
-    if not (any(log_path.glob("*.log")) or any(log_path.glob("*.err"))):
+    if not (any(log_path.glob("*.log")) or any(log_path.glob("*.err")) or (log_path / "zummary").exists()):
         raise ValueError(f"Directory does not contain a .log or .err file. Path: {log_path}")
 
 
