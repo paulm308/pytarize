@@ -798,5 +798,234 @@ These arguments are processed by pytarize. Using these arguments alone will not 
             <code>markerfacecolor</code>, but in <code>sat_style</code> the corresponding keyword arguments are <code>edgecolors</code> and <code>facecolors</code>.
             </td>
         </tr>
+        <tr valign="top">
+            <td valign="top"><code>universal<br>_solver_style</code></td>
+            <td valign="top"><code>dict</code></td>
+            <td valign="top">lineplot<br>combinedplot</td>
+            <td valign="top"><pre><code>universal_solver_style:
+  markersize: 5</code></pre></td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="2" valign="top">This dictionary is used to generate the <code>solver_style</code> dictionary when the <code>--create-solver-style</code> option is active. All entries in <code>universal_solver_style</code> get mapped to all folders of <code>solver_style</code>. This is useful to for example change the <code>markersize</code> or the <code>linewidth</code>. Generally all options of <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.plot.html">matplotlib.axes.Axes.plot</a> can be used to create the styling. 
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>specific<br>_solver_style</code></td>
+            <td valign="top"><code>dict[str: dict]</code></td>
+            <td valign="top">lineplot<br>combinedplot</td>
+            <td valign="top"><pre><code>specific_solver_style:
+  folder_1:
+    label: "solver_run1"
+  folder_2:
+    label: "solver_run2"</code></pre></td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="2" valign="top">This dictionary is used to generate the <code>solver_style</code> dictionary when the <code>--create-solver-style</code> option is active. All folders in <code>specific_solver_style</code> get mapped to the corresponding folder in <code>solver_style</code>. This is useful to for example change the <code>label</code>. Generally all options of <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.plot.html">matplotlib.axes.Axes.plot</a> can be used to create the styling. This dict used to specify the order for the <code>--order</code> option.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>legend_kwargs</code></td>
+            <td valign="top"><code>dict</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>legend_kwargs:
+  fontsize: 8
+  markerscale: 1.0
+  edgecolor: "black"
+  framealpha: 1.0
+  fancybox: false</code></pre></td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="2" valign="top">This dictionary contains all the extra keyword arguments for the <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.legend.html">matplotlib.axes.Axes.legend</a> command. This is used to change the appearance of the legend.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>grid_kwargs</code></td>
+            <td valign="top"><code>dict</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>grid_kwargs:
+    which: "major"
+    color: "gray"
+    linestyle: ":"
+    linewidth: 0.7
+    alpha: 0.7</code></pre></td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="2" valign="top">This dictionary contains all the extra keyword arguments for the <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.grid.html">matplotlib.axes.Axes.grid</a> command. This is used to change the appearance of the grid. The grid is only shown when the <code>--grid</code> option is active.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>subplots_kwargs</code></td>
+            <td valign="top"><code>dict</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>subplots_kwargs:
+  figsize:
+  - 3
+  - 2.25</code></pre></td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="2" valign="top">This dictionary contains all the extra keyword arguments for the <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.subplots.html">matplotlib.pyplot.subplots</a> command. This is used to change the aperance of the plot. The example shows how to change the dimensions of the plot.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>x_major_ticks</code></td>
+            <td valign="top"><code>list[float]</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>x_major_ticks:
+- 0.0
+- 1000.0
+- 3000.0
+- 5000.0</code></pre></td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="2" valign="top">This is used to specifically set all the major ticks of the x-axis.
+            </td>
+        </tr>
+                <tr valign="top">
+            <td valign="top"><code>x_minor_ticks</code></td>
+            <td valign="top"><code>list[float]</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>x_minor_ticks:
+- 2000.0
+- 4000.0</code></pre></td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="2" valign="top">This is used to specifically set all the minor ticks of the x-axis.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>y_major_ticks</code></td>
+            <td valign="top"><code>list[float]</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>y_major_ticks:
+- 0.0
+- 1000.0
+- 3000.0
+- 5000.0</code></pre></td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="2" valign="top">This is used to specificaly set all the major ticks of the y-axis.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>y_minor_ticks</code></td>
+            <td valign="top"><code>list[float]</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>y_minor_ticks:
+- 2000.0
+- 4000.0</code></pre></td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="2" valign="top">This is used to specificaly set all the minor ticks of the y-axis.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>x_tick_rotation</code></td>
+            <td valign="top"><code>int</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>x_tick_rotation: 90</code></pre></td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="2" valign="top">This is used to rotate the major and minor ticks of the x-axis. This should idealy be used together with <code>x_tick_kwargs</code> and a padding (<code>pad</code>) of 6.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>x_tick_kwargs</code></td>
+            <td valign="top"><code>dict</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>x_tick_kwargs:
+  pad: 6</code></pre></td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="2" valign="top">This dictionary contains all the extra keyword arguments for the <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axis.Axis.set_tick_params.html">matplotlib.axis.Axis.set_tick_params</a> command. This is used to change the aperance of the major and minor ticks of the x-axis.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>y_tick_rotation</code></td>
+            <td valign="top"><code>int</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>y_tick_rotation: 90</code></pre></td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="2" valign="top">This is used to rotate the major and minor ticks of the y-axis. This should idealy be used together with <code>y_tick_kwargs</code> and a padding (<code>pad</code>) of 6.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>y_tick_kwargs</code></td>
+            <td valign="top"><code>dict</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>y_tick_kwargs:
+  pad: 6</code></pre></td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="2" valign="top">This dictionary contains all the extra keyword arguments for the <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axis.Axis.set_tick_params.html">matplotlib.axis.Axis.set_tick_params</a> command. This is used to change the aperance of the major and minor ticks of the y-axis.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>indicator<br>_line_segments</code></td>
+            <td valign="top"><code>list[dict<br>[str: list[<br>list[float]] | dict]]</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>indicator_line_segments:
+- plot_args:
+  - - 0.0
+    - 500.0
+  - - 0.0
+    - 5000.0
+  plot_kwargs:
+    color: '#C9B800'
+    zorder: 0
+- plot_args:
+  - - 0.0
+    - 2500.0
+  - - 0.0
+    - 5000.0
+  plot_kwargs:
+    color: '#996515'
+    zorder: 0</code></pre></td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="2" valign="top">This is used to create extra indicator lines or plots. Each line is specified by <code>plot_args</code> and <code>plot_kwargs</code>. <code>plot_args</code> contains a 2d list that consitst of 2 lists, where the first one contains all x-values and the second one contains all y-values. <code>plot_kwargs</code> is used to create the styling for the plot. Generally all options of <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.plot.html">matplotlib.axes.Axes.plot</a> can be used to create the styling. The <code>--line-segments</code> option has to be active to plot the line segments. The difference between <code>indicator_line_segments</code> and <code>indicator_lines</code> is that <code>indicator_lines</code> creates an infinite line while <code>indicator_lines</code> creates a finite line and is able to create more complex shapes.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>indicator_lines</code></td>
+            <td valign="top"><code>list[dict<br>[str: list[<br>list[float]] | dict]]</code></td>
+            <td valign="top">All</td>
+            <td valign="top"><pre><code>indicator_lines:
+- axline_args: 
+  - - 0.0
+    - 0.0
+  - - 10.0
+    - 100.0
+  axline_kwargs:
+    color: "#C9B800"
+    zorder: 0
+- axline_args: 
+  - - 0.0
+    - 0.0
+  - - 10.0
+    - 20.0
+  axline_kwargs:
+    color: "#996515"
+    zorder: 0</code></pre></td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="2" valign="top">This is used to create extra indicator lines. Each line is specified by <code>axline_args</code> and <code>axline_kwargs</code>. <code>axline_args</code> contains a 2d list that consitst of 2 lists, where the first one contains the x and y coordinate of the first point and the second one contains coordinates of the second point. <code>axline_kwargs</code> is used to create the styling for the line. Generally all options of <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.axline.html">matplotlib.pyplot.axline</a> can be used to create the styling. The <code>--lines</code> option has to be active to plot the line segments. The difference between <code>indicator_lines</code> and <code>indicator_line_segments</code> is that <code>indicator_lines</code> creates an infinite line while <code>indicator_lines</code> creates a finite line and is able to create more complex shapes.
+            </td>
+        </tr>
     </tbody>
 </table>
