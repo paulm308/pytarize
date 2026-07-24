@@ -799,7 +799,7 @@ These arguments are processed by pytarize. Using these arguments alone will not 
             </td>
         </tr>
         <tr valign="top">
-            <td valign="top"><code>universal<br>_solver_style</code></td>
+            <td valign="top"><code>universal&#13;_solver_style</code></td>
             <td valign="top"><code>dict</code></td>
             <td valign="top">lineplot<br>combinedplot</td>
             <td valign="top"><pre><code>universal_solver_style:
@@ -811,7 +811,7 @@ These arguments are processed by pytarize. Using these arguments alone will not 
             </td>
         </tr>
         <tr valign="top">
-            <td valign="top"><code>specific<br>_solver_style</code></td>
+            <td valign="top"><code>specific&#13;_solver_style</code></td>
             <td valign="top"><code>dict[str: dict]</code></td>
             <td valign="top">lineplot<br>combinedplot</td>
             <td valign="top"><pre><code>specific_solver_style:
@@ -974,8 +974,8 @@ These arguments are processed by pytarize. Using these arguments alone will not 
             </td>
         </tr>
         <tr valign="top">
-            <td valign="top"><code>indicator<br>_line_segments</code></td>
-            <td valign="top"><code>list[dict<br>[str: list[<br>list[float]] | dict]]</code></td>
+            <td valign="top"><code>indicator&#13;_line_segments</code></td>
+            <td valign="top"><code>list[dict&#13;[str: list[&#13;list[float]] | dict]]</code></td>
             <td valign="top">All</td>
             <td valign="top"><pre><code>indicator_line_segments:
 - plot_args:
@@ -1002,7 +1002,7 @@ These arguments are processed by pytarize. Using these arguments alone will not 
         </tr>
         <tr valign="top">
             <td valign="top"><code>indicator_lines</code></td>
-            <td valign="top"><code>list[dict<br>[str: list[<br>list[float]] | dict]]</code></td>
+            <td valign="top"><code>list[dict&#13;[str: list[&#13;list[float]] | dict]]</code></td>
             <td valign="top">All</td>
             <td valign="top"><pre><code>indicator_lines:
 - axline_args: 
