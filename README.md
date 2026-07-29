@@ -355,7 +355,7 @@ These arguments are processed by pytarize. Using these arguments alone will not 
         <tr>
             <td colspan="2" valign="top"><b>Description:</b></td>
             <td colspan="3" valign="top">Centers the legend vertically.<br>
-            The default is the right center, but if <code>--cactus</code> is used the legend is centered to the left side.
+            The default is the right center.
             </td>
         </tr>
         <tr valign="top">

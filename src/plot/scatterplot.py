@@ -17,6 +17,10 @@ class ScatterPlot(BasePlot):
     max_achsvalues: tuple[Optional[float], Optional[float]] = (None, None)
 
     def transform_data(self, data: dict[str, pd.DataFrame]) -> tuple[list[str], dict[str, pd.DataFrame]]:
+        """
+        Merges the data by benchmarks and spilts it in to sat, unsat, unsolved subsets.
+        Computes limits and timeoutvalues for the limit or extend options
+        """
         # order folder names
         folder_names = []
         if self.cfg.log_paths is not None:
@@ -83,25 +87,22 @@ class ScatterPlot(BasePlot):
         return limits
 
     def create_individual_plot_args(self, label: str, style_cycle, values: pd.DataFrame):
+        """
+        Creates the arguments and keywordarguments used by plt.plot.
+        This affects the styling of the individual plot lines such as the name in the legend
+        """
         kwargs = {}
 
         style = next(style_cycle)
         color = style["color"]
-        hollow = False
-        kwargs["marker"] = style["marker"]
         kwargs["label"] = label.upper()
 
-        if isinstance(style["marker"], str):
-            kwargs["marker"] = style["marker"]
-        elif isinstance(style["marker"], list) and style["marker"] is not []:
-            if isinstance(style["marker"][0], str):
-                kwargs["marker"] = style["marker"][0]
-            if len(style["marker"]) >= 2 and isinstance(style["marker"][1], bool):
-                hollow = style["marker"][1]
+        kwargs["marker"], hollow = utils.handle_marker(style)
 
         if kwargs["marker"] not in MarkerStyle.filled_markers:
             kwargs["facecolors"] = style["color"]
 
+        # apply sat_style styling
         if "sat_style" in self.cfg.atr.keys() and label in self.cfg.atr["sat_style"].keys():
             if "color" in self.cfg.atr["sat_style"][label].keys():
                 color = self.cfg.atr["sat_style"][label]["color"]
@@ -125,20 +126,6 @@ class ScatterPlot(BasePlot):
         args = (xs, ys)
 
         return {"args": args, "kwargs": kwargs}
-
-    def create_legend_args(self):
-        legend_kwargs = {}
-        if self.cfg.atr["center"]:
-            legend_kwargs["loc"] = "center right"
-        elif self.cfg.atr["legendloc"] is not None:
-            legend_kwargs["loc"] = self.cfg.atr["legendloc"]
-        if self.cfg.atr["xlegend"] is not None or self.cfg.atr["ylegend"] is not None:
-            xlegend = 0.5 if self.cfg.atr["xlegend"] is None else self.cfg.atr["xlegend"]
-            ylegend = 0.5 if self.cfg.atr["ylegend"] is None else self.cfg.atr["ylegend"]
-            legend_kwargs["loc"] = "center"
-            legend_kwargs["bbox_to_anchor"] = (xlegend, ylegend)
-        legend_kwargs["reverse"] = True
-        return legend_kwargs
 
     def handle_axis(self, folder_names: list[str], ax):
         utils.handle_axis_basic(self.cfg, ax)
@@ -192,7 +179,7 @@ class ScatterPlot(BasePlot):
             ax.plot([0, self.timeouts[0], self.timeouts[0]], [self.timeouts[1], self.timeouts[1], 0], color="red", zorder=0)  # type:ignore
 
         # create legend:
-        legend_kwargs = self.create_legend_args()
+        legend_kwargs = utils.create_legend_args(self.cfg)
         if legend_kwargs is not []:
             ax.legend(**legend_kwargs)
 

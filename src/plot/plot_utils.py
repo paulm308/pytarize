@@ -53,6 +53,32 @@ def handle_axis_basic(cfg: CFG, ax):
     handle_tick_kwargs(cfg, ax)
 
 
+def create_legend_args(cfg: CFG):
+    legend_kwargs = {}
+    if cfg.atr["center"]:
+        legend_kwargs["loc"] = "center right"
+    elif cfg.atr["legendloc"] is not None:
+        legend_kwargs["loc"] = cfg.atr["legendloc"]
+    if cfg.atr["xlegend"] is not None or cfg.atr["ylegend"] is not None:
+        xlegend = 0.5 if cfg.atr["xlegend"] is None else cfg.atr["xlegend"]
+        ylegend = 0.5 if cfg.atr["ylegend"] is None else cfg.atr["ylegend"]
+        legend_kwargs["loc"] = "center"
+        legend_kwargs["bbox_to_anchor"] = (xlegend, ylegend)
+    legend_kwargs["reverse"] = True
+    return legend_kwargs
+
+
+def handle_marker(style):
+    marker = style["marker"]
+    hollow = False
+    if not isinstance(style["marker"], str) and isinstance(style["marker"], list) and style["marker"] is not []:
+        if isinstance(style["marker"][0], str):
+            marker = style["marker"][0]
+        if len(style["marker"]) >= 2 and isinstance(style["marker"][1], bool):
+            hollow = style["marker"][1]
+    return marker, hollow
+
+
 def change_boundingbox_shape_to_square(ax):
     ax.set_aspect('equal', adjustable='box')
 

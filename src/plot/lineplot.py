@@ -14,6 +14,9 @@ mat.use("Agg")
 class LinePlot(BasePlot):
 
     def transform_data(self, data: dict[str, pd.DataFrame]) -> list[tuple[str, list[float], list[float], Optional[int]]]:
+        """
+        Transforms the data in to a cdf or cactus representation.
+        """
 
         for folder_name in data.keys():
             data[folder_name] = data[folder_name][data[folder_name]["result"].isin([10, 20])]
@@ -33,20 +36,19 @@ class LinePlot(BasePlot):
         return transformed
 
     def create_individual_plot_args(self, folder_name: str, style_cycle, xs: list[float], ys: list[float], num_in_label: Optional[int]):
+        """
+        Creates the arguments and keywordarguments used by plt.plot.
+        This affects the styling of the individual plot lines such as the name in the legend
+        """
         kwargs = {}
-        hollow = False
+
         style = next(style_cycle)
         color = style["color"]
-
-        if isinstance(style["marker"], str):
-            kwargs["marker"] = style["marker"]
-        elif isinstance(style["marker"], list) and style["marker"] is not []:
-            if isinstance(style["marker"][0], str):
-                kwargs["marker"] = style["marker"][0]
-            if len(style["marker"]) >= 2 and isinstance(style["marker"][1], bool):
-                hollow = style["marker"][1]
         kwargs["label"] = folder_name
 
+        kwargs["marker"], hollow = utils.handle_marker(style)
+
+        # apply solver_style styling
         if "solver_style" in self.cfg.atr.keys() and folder_name in self.cfg.atr["solver_style"].keys():
             if "color" in self.cfg.atr["solver_style"][folder_name].keys():
                 color = self.cfg.atr["solver_style"][folder_name]["color"]
@@ -71,25 +73,6 @@ class LinePlot(BasePlot):
         args = (xs, ys)
 
         return {"args": args, "kwargs": kwargs}
-
-    def create_legend_args(self):
-        legend_kwargs = {}
-        if "legend_kwargs" in self.cfg.atr.keys():
-            legend_kwargs = self.cfg.atr["legend_kwargs"]
-        if self.cfg.atr["center"]:
-            if self.cfg.atr["cactus"]:
-                legend_kwargs["loc"] = "center left"
-            else:
-                legend_kwargs["loc"] = "center right"
-        elif self.cfg.atr["legendloc"] is not None:
-            legend_kwargs["loc"] = self.cfg.atr["legendloc"]
-        if self.cfg.atr["xlegend"] is not None or self.cfg.atr["ylegend"] is not None:
-            xlegend = 0.5 if self.cfg.atr["xlegend"] is None else self.cfg.atr["xlegend"]
-            ylegend = 0.5 if self.cfg.atr["ylegend"] is None else self.cfg.atr["ylegend"]
-            legend_kwargs["loc"] = "center"
-            legend_kwargs["bbox_to_anchor"] = (xlegend, ylegend)
-        legend_kwargs["reverse"] = True
-        return legend_kwargs
 
     def handle_axis(self, ax):
         utils.handle_axis_basic(self.cfg, ax)
@@ -137,7 +120,7 @@ class LinePlot(BasePlot):
             utils.plot_line_segments(self.cfg.atr["indicator_line_segments"], ax)
 
         # create legend:
-        legend_kwargs = self.create_legend_args()
+        legend_kwargs = utils.create_legend_args(self.cfg)
         if legend_kwargs is not []:
             ax.legend(**legend_kwargs)
 

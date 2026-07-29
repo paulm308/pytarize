@@ -7,6 +7,9 @@ import pandas as pd
 
 class CombinedPlot(BasePlot):
     def transform_data(self, data: dict[str, pd.DataFrame]) -> list[tuple[str, list[float], list[float], Optional[int]]]:
+        """
+        Transforms the data in to a horserace representation.
+        """
 
         folder_names = list(data.keys())
 
