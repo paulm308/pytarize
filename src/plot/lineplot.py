@@ -12,10 +12,20 @@ mat.use("Agg")
 
 
 class LinePlot(BasePlot):
+    """
+    Plot class for all cdf or cactus plots.
+    """
 
     def transform_data(self, data: dict[str, pd.DataFrame]) -> list[tuple[str, list[float], list[float], Optional[int]]]:
         """
         Transforms the data in to a cdf or cactus representation.
+
+        Parameters:
+        data (dict[str, pd.DataFrame]): A dictionary of all zummarys that are loaded in pandas DataFrames.
+        The key of the dictionary is the name of the folder that contains the zummary.
+
+        Returns:
+        list[tuple[str, list[float], list[float], Optional[int]]]: A list of tuples of the 0: name of the folder, 1: x-values, 2: y-values, 3: The solved count in the legend
         """
 
         for folder_name in data.keys():
@@ -37,8 +47,18 @@ class LinePlot(BasePlot):
 
     def create_individual_plot_args(self, folder_name: str, style_cycle, xs: list[float], ys: list[float], num_in_label: Optional[int]):
         """
-        Creates the arguments and keywordarguments used by plt.plot.
-        This affects the styling of the individual plot lines such as the name in the legend
+        Creates the arguments and keyword arguments used by plt.plot.
+        This affects the styling of the individual plot lines such as the name in the legend.
+
+        Parameters:
+        folder_name (str): The name of the folder that contains the zummary.
+        style_cycle: An iterator that yields the next marker and color.
+        xs (list[float]): The x-values.
+        ys (list[float]): The y-values.
+        num_in_label (Optional[int]): The solved count displayed in the legend.
+
+        Returns:
+        dict: The arguments (x-values and y-values) and the keyword arguments.
         """
         kwargs = {}
 
@@ -61,7 +81,7 @@ class LinePlot(BasePlot):
                 self.cfg.atr["solver_style"][folder_name].pop("label", None)
             kwargs.update(self.cfg.atr["solver_style"][folder_name])
 
-        # create holow markers
+        # create hollow markers
         if kwargs["marker"] in MarkerStyle.filled_markers and (hollow or self.cfg.atr["hollow"]):
             kwargs["markeredgecolor"] = color
             kwargs["markerfacecolor"] = "none"
@@ -75,6 +95,12 @@ class LinePlot(BasePlot):
         return {"args": args, "kwargs": kwargs}
 
     def handle_axis(self, ax):
+        """
+        Responsible for the dimensions and styling (label, ticks) of the axes.
+
+        Parameters:
+        ax: The ax parameter created by plt.subplots.
+        """
         utils.handle_axis_basic(self.cfg, ax)
         ax.set_xlim(self.cfg.atr["xmin"], self.cfg.atr["xmax"])
         ax.set_ylim(self.cfg.atr["ymin"], self.cfg.atr["ymax"])
@@ -86,7 +112,12 @@ class LinePlot(BasePlot):
             utils.change_tick_notation_label(ax, None, None, self.cfg)
 
     def create_plot(self, data: list[tuple[str, list[float], list[float], Optional[int]]]):
+        """
+        This function is responsible for creating and styling the plot.
 
+        Parameters:
+        data (list[tuple[str, list[float], list[float], Optional[int]]]): the output of transform_data.
+        """
         if self.cfg.atr["create_solver_style"]:
             utils.create_solver_style(self. cfg, folder_names=list(reversed([tup[0] for tup in data])))
             save_solver_style(self.cfg)
