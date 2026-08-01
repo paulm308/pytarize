@@ -14,12 +14,19 @@ class ScatterPlot(BasePlot):
     ninstances: dict[str, int] = {}
     limits: tuple[Optional[float], Optional[float]] = (None, None)
     timeouts: tuple[Optional[float], Optional[float]] = (None, None)
-    max_achsvalues: tuple[Optional[float], Optional[float]] = (None, None)
+    max_axvalues: tuple[Optional[float], Optional[float]] = (None, None)
 
     def transform_data(self, data: dict[str, pd.DataFrame]) -> tuple[list[str], dict[str, pd.DataFrame]]:
         """
-        Merges the data by benchmarks and spilts it in to sat, unsat, unsolved subsets.
-        Computes limits and timeoutvalues for the limit or extend options
+        Merges the data by benchmarks and splits it in to sat, unsat, unsolved subsets.
+        Computes limits and timeout values for the limit or extend options.
+
+        Parameters:
+        data (dict[str, pd.DataFrame]): A dictionary of all zummarys that are loaded in pandas DataFrames.
+        The key of the dictionary is the name of the folder that contains the zummary.
+
+        Returns:
+        tuple[list[str], dict[str, pd.DataFrame]]: A tuple of the list of all folder_names and the sat, unsat and unsolved subsets.
         """
         # order folder names
         folder_names = []
@@ -30,9 +37,9 @@ class ScatterPlot(BasePlot):
         if self.cfg.atr["limit"] or self.cfg.atr["extend"] is not None:
             self.limits = (data[folder_names[0]]["tlim"][0], data[folder_names[1]]["tlim"][0])
 
-        self.timeouts = self.compute_timeouts_and_max_achsvalues((data[folder_names[0]]["tlim"][0], data[folder_names[1]]["tlim"][0]))
+        self.timeouts = self.compute_timeouts_and_max_axvalues((data[folder_names[0]]["tlim"][0], data[folder_names[1]]["tlim"][0]))
 
-        # remove unnessecary columns and set time to the time limit if the benchmark was not solved
+        # remove unnecessary columns and set time to the time limit if the benchmark was not solved
         for idx, folder_name in enumerate(folder_names):
             data[folder_name].loc[data[folder_name]["result"] < 10, "time"] = self.timeouts[idx]
             data[folder_name].drop(columns=["space", "slim"], inplace=True)
@@ -60,7 +67,16 @@ class ScatterPlot(BasePlot):
 
         return (folder_names, res)
 
-    def compute_timeouts_and_max_achsvalues(self, limits: tuple[float, float]) -> tuple[float, float]:
+    def compute_timeouts_and_max_axvalues(self, limits: tuple[float, float]) -> tuple[float, float]:
+        """
+        Computes the position of the timeoutline and the max values for each axis.
+
+        Parameters:
+        limits (tuple[float, float]): The x and y limits that are specified in the zummary.
+
+        Returns:
+        tuple[float, float]: The new x and y limits.
+        """
         if self.cfg.atr["extend"] is not None:
             xmin = self.cfg.atr["xmin"]
             xmax = limits[0]
@@ -79,17 +95,25 @@ class ScatterPlot(BasePlot):
                 if self.cfg.atr["ylog"]:
                     ymax_new = ymin * (ymax / ymin) ** (1 / f)
                     ytimeout = sqrt(limits[1] * ymax_new)
-                self.max_achsvalues = (xmax_new, ymax_new)
+                self.max_axvalues = (xmax_new, ymax_new)
                 return (xtimeout, ytimeout)
             else:
                 print(f"extend requires that xmin, xmax, ymin and ymax have been set. xmin: {xmin}, xmax: {xmax}, ymin: {ymin}, ymax: {ymax}")
-        self.max_achsvalues = (self.cfg.atr["xmax"], self.cfg.atr["xmax"])
+        self.max_axvalues = (self.cfg.atr["xmax"], self.cfg.atr["xmax"])
         return limits
 
     def create_individual_plot_args(self, label: str, style_cycle, values: pd.DataFrame):
         """
-        Creates the arguments and keywordarguments used by plt.plot.
-        This affects the styling of the individual plot lines such as the name in the legend
+        Creates the arguments and keyword arguments used by plt.scatter.
+        This affects the styling of the individual plot markers such as the name in the legend.
+
+        Parameters:
+        label (str): SAT. UNSAT or UNSOLVED.
+        style_cycle: An iterator that yields the next marker and color.
+        values (pd.DataFrame): The points of the given subset.
+
+        Returns:
+        dict: The arguments (x-values and y-values) and the keyword arguments.
         """
         kwargs = {}
 
@@ -112,7 +136,7 @@ class ScatterPlot(BasePlot):
                 kwargs["label"] = self.cfg.atr["sat_style"][label]["label"]
             kwargs.update(self.cfg.atr["sat_style"][label])
 
-        # create holow markers
+        # create hollow markers
         if kwargs["marker"] in MarkerStyle.filled_markers and (hollow or self.cfg.atr["hollow"]):
             kwargs["edgecolors"] = color
             kwargs["facecolors"] = "none"
@@ -128,12 +152,19 @@ class ScatterPlot(BasePlot):
         return {"args": args, "kwargs": kwargs}
 
     def handle_axis(self, folder_names: list[str], ax):
+        """
+        Responsible for the dimensions and styling (label, ticks) of the axes.
+
+        Parameters:
+        folder_names: The names of the folders that contain a zummary.
+        ax: The ax parameter created by plt.subplots.
+        """
         utils.handle_axis_basic(self.cfg, ax)
         if self.cfg.atr["extend"] is not None:
             utils.disable_ticks_after_threshold(ax, self.limits)  # type: ignore
             utils.append_major_tick(self.timeouts, ax)  # type: ignore
-        ax.set_xlim(self.cfg.atr["xmin"], self.max_achsvalues[0])
-        ax.set_ylim(self.cfg.atr["ymin"], self.max_achsvalues[1])
+        ax.set_xlim(self.cfg.atr["xmin"], self.max_axvalues[0])
+        ax.set_ylim(self.cfg.atr["ymin"], self.max_axvalues[1])
         if self.cfg.atr["square_box"]:
             utils.change_boundingbox_shape_to_square(ax)
 
@@ -154,7 +185,12 @@ class ScatterPlot(BasePlot):
             utils.change_tick_notation_label(ax, self.timeouts, "TO", self.cfg)  # type: ignore
 
     def create_plot(self, data: tuple[list[str], dict[str, pd.DataFrame]]):
+        """
+        This function is responsible for creating and styling the plot.
 
+        Parameters:
+        data (tuple[list[str], dict[str, pd.DataFrame]]): the output of transform_data.
+        """
         # handle latex text rendering
         utils.handle_latex(self.cfg)
 
@@ -174,7 +210,7 @@ class ScatterPlot(BasePlot):
         if self.cfg.atr["limit"]:
             ax.plot([0, self.limits[0], self.limits[0]], [self.limits[1], self.limits[1], 0], color="black", linestyle="--", zorder=0)  # type:ignore
 
-        # plot extended timout line
+        # plot extended timeout line
         if self.cfg.atr["extend"]:
             ax.plot([0, self.timeouts[0], self.timeouts[0]], [self.timeouts[1], self.timeouts[1], 0], color="red", zorder=0)  # type:ignore
 
