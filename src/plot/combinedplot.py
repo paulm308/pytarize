@@ -44,7 +44,7 @@ class CombinedPlot(BasePlot):
         for i in range(len(folder_names)):
             label_nums.append(len(dfs[i][dfs[i]['result'].isin([10, 20])]))
 
-        # initilization
+        # initialization
         events = [[] for _ in range(len(folder_names))]
         sota_events = []
 
@@ -102,7 +102,7 @@ class CombinedPlot(BasePlot):
                 if second is not None:
                     sota_events.append((second, -1))
 
-            # horse: campare rellative to the base solver which usualy is best
+            # horse: compare relative to the base solver which usually is best
             elif self.cfg.atr["horse"]:
                 for i, t in valid:
                     events[i].append((t, +1))
@@ -212,6 +212,19 @@ class CombinedPlot(BasePlot):
         return (res_xs, res_ys)
 
     def eval_step(self, xs: np.ndarray, ys: np.ndarray, query: np.ndarray) -> np.ndarray:
+        """
+        Evaluates a stepwise (right-continuous, previous-value-hold) function defined by
+        xs and ys at the given query points.
+
+        Parameters:
+        xs (np.ndarray): The x-values of the step function, assumed to be sorted ascending.
+        ys (np.ndarray): The y-values of the step function, corresponding to xs.
+        query (np.ndarray): The x-values at which to evaluate the step function.
+
+        Returns:
+        np.ndarray: The y-values of the step function at the query points. Query points
+        before the first x-value are evaluated to zero.
+        """
         if len(xs) == 0:
             return np.zeros_like(query, dtype=float)
         idx = np.searchsorted(xs, query, side="right") - 1
@@ -220,7 +233,7 @@ class CombinedPlot(BasePlot):
 
     def validate_combined_options(self, folder_names):
         """
-        Enshures that the used combination of options is valid.
+        Ensures that the used combination of options is valid.
 
         Paramters:
         folder_names (list[str]): The names of the folders that contain a zummary file.
