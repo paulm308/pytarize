@@ -7,6 +7,14 @@ from src.core.transform import transform
 
 
 def run_pipeline(cfg):
+    """
+    This is the main function of this script. This function takes the finished configuration and creates
+    the final plot. It handles the paths, zummarize, saving the configuration, global transformations on the
+    zummarys and calls the run_plots function.
+
+    Parameters:
+    cfg: The configuration.
+    """
     pts.pre_validate_log_paths(cfg)
     pts.normalize_r_log_paths(cfg)
     pts.extract_log_paths(cfg)

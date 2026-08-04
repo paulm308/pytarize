@@ -262,4 +262,3 @@ class CombinedPlot(BasePlot):
         # combinedplot is a lineplot
         lineplot = LinePlot(self.cfg)
         lineplot.create_plot(data)
-
