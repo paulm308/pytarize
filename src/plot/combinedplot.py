@@ -9,6 +9,13 @@ class CombinedPlot(BasePlot):
     def transform_data(self, data: dict[str, pd.DataFrame]) -> list[tuple[str, list[float], list[float], Optional[int]]]:
         """
         Transforms the data in to a horserace representation.
+
+        Parameters:
+        data (dict[str, pd.DataFrame]): A dictionary of all zummarys that are loaded in pandas DataFrames.
+        The key of the dictionary is the name of the folder that contains the zummary.
+
+        Returns:
+        list[tuple[str, list[float], list[float], Optional[int]]]: A list of tuples of the 0: name of the folder, 1: x-values, 2: y-values, 3: The solved count in the legend
         """
 
         folder_names = list(data.keys())
@@ -130,6 +137,17 @@ class CombinedPlot(BasePlot):
         return res
 
     def relative_result(self, res, sota_xs, sota_ys):
+        """
+        Computes curves relative to sota.
+
+        Parameters:
+        res (list[tuple[str, list[float], list[float], Optional[int]]]): The curves.
+        sota_xs (list[float]): The x-values of the sota curve.
+        sota_ys (list[float]). The y-values of the sota curve.
+
+        Returns:
+        list[tuple[str, list[float], list[float], Optional[int]]]: The transformed curves.
+        """
         relative_res = []
 
         sota_xs_np = np.asarray(sota_xs, dtype=float)
@@ -151,6 +169,15 @@ class CombinedPlot(BasePlot):
         return relative_res
 
     def event_to_curve(self, events: list[tuple[float, float]]) -> tuple[list[float], list[float]]:
+        """
+        Creates the curves as a stepwise function.
+
+        Paramters:
+        events (list[tuple[float, float]]): List of events.
+
+        Returns:
+        tuple[list[float], list[float]]: The x and y-values of the computed curve.
+        """
         evs = np.asarray(events, dtype=float).reshape(-1, 2)
         times = evs[:, 0]
         deltas = evs[:, 1]
@@ -163,6 +190,16 @@ class CombinedPlot(BasePlot):
         return (xs.tolist(), ys.tolist())
 
     def clean_up_curves(self, xs: list[float], ys: list[float]) -> tuple[list[float], list[float]]:
+        """
+        Removes points on the curve that don't change the y-value of the curve.
+
+        Paramters:
+        xs: The x-values of the curve.
+        ys: The y-values of the curve.
+
+        Returns:
+        tuple[list[float], list[float]]: The compressed curve.
+        """
         res_xs = []
         res_ys = []
         last_value = None
@@ -182,6 +219,12 @@ class CombinedPlot(BasePlot):
         return ys[idx]
 
     def validate_combined_options(self, folder_names):
+        """
+        Enshures that the used combination of options is valid.
+
+        Paramters:
+        folder_names (list[str]): The names of the folders that contain a zummary file.
+        """
         if self.cfg.atr["stable"] is False and self.cfg.atr["unique"] is False and self.cfg.atr["horse"] is False:
             self.cfg.atr["horse"] = True
         elif self.cfg.atr["stable"] + self.cfg.atr["unique"] + self.cfg.atr["horse"] >= 2:
@@ -194,8 +237,16 @@ class CombinedPlot(BasePlot):
         if self.cfg.atr["base"] is not None and not self.cfg.atr["horse"]:
             print("--base has no effect without, --horse")
         if self.cfg.atr["base"] is not None and self.cfg.atr["base"] not in folder_names:
-            print("--base has to match a folder name in --logpaths or --rlogpaths")
+            print("--base has to match the name of a folder in --logpaths or --rlogpaths")
 
     def create_plot(self, data: list[tuple[str, list[float], list[float], Optional[int]]]):
+        """
+        This function is responsible for creating and styling the plot.
+
+        Parameters:
+        data (list[tuple[str, list[float], list[float], Optional[int]]]): the output of transform_data.
+        """
+        # combinedplot is a lineplot
         lineplot = LinePlot(self.cfg)
         lineplot.create_plot(data)
+
