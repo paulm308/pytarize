@@ -13,22 +13,38 @@ def set_defaults(plot_type: PlotType):
     match plot_type:
         case PlotType.LinePlot:
             atr = {
-                "colors": ["red"],
-                "markers": ["x"],
+                "colors": list(reversed(['#9400d3',
+                                         '#009e73',
+                                         '#56b4e9',
+                                         '#e69f00',
+                                         '#f0e442',
+                                         '#0072b2',
+                                         '#e51e10',
+                                         '#000000'])),
+                "markers": ["o", "+", "x", "s", "^", "v", "d"],
                 "output": "plot.png",
                 "font_family": "serif"
             }
         case PlotType.ScatterPlot:
             atr = {
-                "colors": ["red"],
-                "markers": ["x"],
+                "colors": ['#9400d3',
+                           '#000000',
+                           '#e51e10'],
+                "markers": ["x", "o", "+"],
                 "output": "plot.png",
                 "font_family": "serif"
             }
         case PlotType.CombinedPlot:
             atr = {
-                "colors": ["red"],
-                "markers": ["x"],
+                "colors": list(reversed(['#9400d3',
+                                         '#009e73',
+                                         '#56b4e9',
+                                         '#e69f00',
+                                         '#f0e442',
+                                         '#0072b2',
+                                         '#e51e10',
+                                         '#000000'])),
+                "markers": ["o", "+", "x", "s", "^", "v", "d"],
                 "output": "plot.png",
                 "font_family": "serif"
             }
