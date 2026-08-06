@@ -8,6 +8,14 @@ from src.core.configuration_data import PlotType
 
 
 def run_plots(data, cfg):
+    """
+    Initializes the plot class with cfg and calls the run method of that class with the loaded zummarys.
+
+    Parameters:
+    data (dict[str, pd.DataFrame]): A dictionary of all zummarys that are loaded in pandas DataFrames.
+    The key of the dictionary is the name of the folder that contains the zummary.
+    cfg: The configuration.
+    """
     match cfg.plot_type:
         case PlotType.LinePlot:
             plot = LinePlot(cfg)
