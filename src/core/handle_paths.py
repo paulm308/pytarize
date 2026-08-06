@@ -6,6 +6,15 @@ import os
 
 # bash path handling ------------------------------------------------------------------------------
 def expand_with_bash(value: Optional[str]) -> List[str]:
+    """
+    Lets bash interpret paths.
+
+    Parameters:
+    value (Optional[str]): The path, or whitespace separated list of paths.
+
+    Returns:
+    List[str]: The list of expanded paths.
+    """
     if value is None:
         return []
 
@@ -20,22 +29,46 @@ def expand_with_bash(value: Optional[str]) -> List[str]:
 
 # recursive log path handling ---------------------------------------------------------------------
 def is_log_dir(path: Path) -> bool:
+    """
+    Checks if a folder contains a .log and a .err file.
+
+    Parameters:
+    path (Path): The path to the folder.
+
+    Returns:
+    bool: True if the folder contains a .log and a .err file, else False.
+    """
     return (any(path.glob("*.log")) and any(path.glob("*.err")))
 
 
 def find_log_dirs(base: Path) -> list[Path]:
+    """
+    Recursively iterates through subdirectories of the base path to find log folders.
+
+    Paramters:
+    base (Path): The path to the root directory.
+
+    Returns:
+    list[Path]: A list of paths that lead to log folders.
+    """
     res = []
     if base.is_dir() and is_log_dir(base):
         res.append(base)
 
     for path in sorted(base.rglob("*")):
-        if path.is_dir() and is_log_dir(path):
+        if path.is_dir() and (is_log_dir(path) or (path / "zummary").exists()):
             res.append(path)
 
     return res
 
 
 def extract_log_paths(cfg):
+    """
+    Expands the list of log paths with all paths found in rlogpaths.
+
+    Paramters:
+    cfg: The configuration.
+    """
     if cfg.r_log_paths is None:
         return
     paths = []
@@ -49,7 +82,13 @@ def extract_log_paths(cfg):
 
 # normalization -----------------------------------------------------------------------------------
 def normalize(cfg):
-    # convert rellative paths to absolute paths
+    """
+    Removes duplicate paths and converts paths to absolute paths.
+
+    Parameters:
+    cfg: The configuration.
+    """
+    # convert relative paths to absolute paths
     if cfg.zummarize_path is not None:
         cfg.zummarize_path = cfg.zummarize_path.expanduser().resolve()
     paths = []
@@ -70,7 +109,13 @@ def normalize(cfg):
 
 
 def normalize_r_log_paths(cfg):
-    # convert rellative paths to absolute paths
+    """
+    Removes duplicate paths and converts paths to absolute paths.
+
+    Parameters:
+    cfg: The configuration.
+    """
+    # convert relative paths to absolute paths
     if cfg.r_log_paths is not None:
         r_paths = []
         for r_log_path in cfg.r_log_paths:
