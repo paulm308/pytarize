@@ -6,6 +6,16 @@ from src.core.handle_paths import validate_config_path
 
 
 def apply_config(config_path, cfg):
+    """
+    Reads and applies a specified config on top of the configuration object.
+
+    Parameters:
+    config_path (Path): The path to the config.
+    cfg: The configuration object.
+
+    Returns:
+    The new configuration object.
+    """
     with open(config_path, "r") as file:
         data = yaml.safe_load(file)
         if data is None:
@@ -25,6 +35,13 @@ def apply_config(config_path, cfg):
 
 
 def set_default_plot_config_paths(cfg, data):
+    """
+    Reads the default plot config path dependent on the plot type.
+
+    Parameters:
+    cfg: The configuration.
+    data: The content of the config.
+    """
     if "config_paths" in data.keys() and data["config_paths"] is not None:
         if (
             cfg.plot_type == PlotType.LinePlot
@@ -52,6 +69,13 @@ def set_default_plot_config_paths(cfg, data):
 
 
 def construct_combined_cfg(paths: list[Path], cfg):
+    """
+    Combines the configuration with all configs in paths.
+
+    Parameters:
+    paths (list[Path]): A list of paths that lead to individual config files.
+    cfg: The configuration.
+    """
     path = Path(paths[0])
     validate_config_path(path)
     cfg = apply_config(path, cfg)
@@ -62,6 +86,13 @@ def construct_combined_cfg(paths: list[Path], cfg):
 
 
 def pre_construct_configpaths(paths: list[Path], cfg):
+    """
+    Adds the default plot config paths to the list of config paths.
+
+    Parameters:
+    paths (list[Path]): A list of paths that lead to individual config files.
+    cfg: The configuration.
+    """
     for path in paths:
         path = Path(path)
         validate_config_path(path)
@@ -70,7 +101,16 @@ def pre_construct_configpaths(paths: list[Path], cfg):
             set_default_plot_config_paths(cfg, data)
 
 
-def count_plot_configs(paths: list[Path], cfg) -> int:
+def count_plot_configs(paths: list[Path]) -> int:
+    """
+    Counts how many plot configs (a config that contains plot specific arguments and or options) appear in paths.
+
+    Parameters:
+    paths (list[Path]): A list of paths that lead to individual config files.
+
+    Returns:
+    int: The amount of plot configs in paths.
+    """
     ctr = 0
     for path in paths:
         path = Path(path)

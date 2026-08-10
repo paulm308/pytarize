@@ -6,6 +6,15 @@ from pathlib import Path
 
 
 def set_defaults(plot_type: PlotType):
+    """
+    This function creates and initializes the configuration (cfg) object with default values.
+
+    Parameters:
+    plot_type (PlotType): The type of the plot (LinePlot, ScatterPlot or CombinedPlot).
+
+    Returns:
+    CFG: The initialized configuration object.
+    """
     base_config_path = Path("config/base_config.yaml")  # change default path to base config
     plot_config_paths = None
     atr = {}
@@ -66,6 +75,16 @@ def set_defaults(plot_type: PlotType):
 
 
 def build_config(raw, plot_type: PlotType):
+    """
+    Creates the final configuration object by combining the default values with the configs and the cli.
+
+    Parameters:
+    raw (dict): The unprocessed cli arguments and options.
+    plot_type (PlotType): The type of the plot (LinePlot, ScatterPlot or CombinedPlot).
+
+    Returns:
+    CFG: The final configuration object.
+    """
     # set defaults:
     cfg = set_defaults(plot_type)
 
@@ -76,7 +95,7 @@ def build_config(raw, plot_type: PlotType):
     # specific confics:
     if raw["base_raw"]["config_paths"] is not None:
         pre_construct_configpaths(raw["base_raw"]["config_paths"], cfg)
-        if count_plot_configs(raw["base_raw"]["config_paths"], cfg) == 0 and cfg.plot_config_paths is not None:
+        if count_plot_configs(raw["base_raw"]["config_paths"]) == 0 and cfg.plot_config_paths is not None:
             construct_combined_cfg(cfg.plot_config_paths, cfg)
         else:
             construct_combined_cfg(raw["base_raw"]["config_paths"], cfg)

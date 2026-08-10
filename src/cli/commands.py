@@ -8,6 +8,7 @@ import shlex
 
 app = typer.Typer()
 
+# path arguments
 base_raw: dict[str, Optional[str] | Optional[list[str]]] = {
     "zummarize_path": None,
     "log_paths": None,
@@ -15,6 +16,7 @@ base_raw: dict[str, Optional[str] | Optional[list[str]]] = {
     "config_path": None
 }
 
+# zummarize specific options and arguments
 zummarize_specific_raw: dict[str, bool | Optional[int]] = {
     "verbose": None,
     "force": False,
@@ -36,12 +38,14 @@ zummarize_specific_raw: dict[str, bool | Optional[int]] = {
     "force-time": False
 }
 
+# options that are independent on the plot type but dont belong to zummarize
 global_atr: dict[str, bool] = {
     "real": False,
     "time": False
 }
 
 
+# global cli options that dont depend on the plot type
 @app.callback()
 def base(zummarizepath: Annotated[Optional[str], typer.Option("--zummarizepath", "--zrp", help="path to zummarize script")] = None,
          logpaths: Annotated[Optional[str], typer.Option("--logpaths", "--lps", help="list of paths that lead to folders containing the logs")] = None,
@@ -98,6 +102,7 @@ def base(zummarizepath: Annotated[Optional[str], typer.Option("--zummarizepath",
     global_atr["time"] = time
 
 
+# arguments and options that belong to the lineplot command
 @app.command()
 def lineplot(colors: Annotated[Optional[str], typer.Option("--colors", help="list of colors (hex or name in color table)")] = None,
              markers: Annotated[Optional[str], typer.Option("--markers", help="list of markers used by marker argument in plt.plot")] = None,
@@ -172,6 +177,7 @@ def lineplot(colors: Annotated[Optional[str], typer.Option("--colors", help="lis
     run_pipeline(cfg)
 
 
+# arguments and options that belong to the scatterplot command
 @app.command()
 def scatterplot(colors: Annotated[Optional[str], typer.Option("--colors", help="list of colors (hex or name in color table)")] = None,
                 markers: Annotated[Optional[str], typer.Option("--markers", help="list of markers used by marker argument in plt.plot")] = None,
@@ -242,6 +248,7 @@ def scatterplot(colors: Annotated[Optional[str], typer.Option("--colors", help="
     run_pipeline(cfg)
 
 
+# arguments and options that belong to the combinedplot command
 @app.command()
 def combinedplot(unique: bool = typer.Option(False, "--unique"),
                  stable: bool = typer.Option(False, "--stable"),
