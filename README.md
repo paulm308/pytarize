@@ -39,6 +39,37 @@ pytarize supports LaTeX text rendering. This feature requires a working LaTeX in
 For example, you can use [TeX Live](https://www.tug.org/texlive/) or [MiKTeX](https://miktex.org/).
 
 If LaTeX rendering is enabled, make sure that the required LaTeX executables are available in the system `PATH`.
+
+## Config Setup (optional)
+
+After installing all requirements, you can create a base configuration file
+containing options that are used throughout the project, such as the path to
+the Zummarize executable.
+
+You can either create your own configuration file or modify the provided
+`config/starter_config.yaml`.
+
+### Starter Config File
+
+The starter config already contains some useful options and examples, such as
+LaTeX LModern text rendering, hollow markers, and a color and marker cycle.
+
+If you want to use the starter config as your base configuration, follow these
+steps:
+
+1. Save the starter config at the desired location.
+2. Open the starter config file and uncomment the `zummarize_path` option.
+   Replace `<path>` with the absolute path to the Zummarize executable.
+   You can delete or modify the other options if you do not want to use them.
+3. Open `src/cli/configbuilder.py` and set `base_config_path` on line 18 to the
+   absolute path of the starter config file:
+   ```python
+   base_config_path = Path("<path>")
+### Custom Config File
+If you want to create a custom configuration file, create a
+`<config_name>.yaml` file and follow the same steps as described for the
+starter config file.
+# TODO advanced config (plot configs)
 ### Path arguments
 All of the following arguments take paths or whitespace separated lists of paths as input. Internally the input is treated as a string which is interpreted by bash. These arguments can be used in all config types but should ideally be used in the highest order config since they're not dependent on the type of the plot.
 <table>
