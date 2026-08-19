@@ -6,8 +6,40 @@ pipeline:
 1. argument Parsing: 
 > read default values -> read config -> overwrite with cli
 2. TODO
+## Installation
 
-## Path arguments
+Clone the repository and navigate to the project directory:
+
+```bash
+git clone https://github.com/paulm308/pytarize
+cd <project-directory>
+```
+It is recommended to use a virtual environment to avoid conflicts with other Python projects.
+### Windows
+```
+python -m venv venv
+venv\Scripts\activate
+```
+### Linux/macOS
+```
+python3 -m venv venv
+source venv/bin/activate
+```
+Install the required Python libraries:
+```
+pip install -r requirements.txt
+```
+### Zummarize (optional but recommended)
+Some options ([Zummarize arguments](#zummarize-arguments)) require the
+[Zummarize](https://github.com/arminbiere/zummarize) tool. It is also required
+to generate missing zummary files.
+### LaTeX (optional)
+pytarize supports LaTeX text rendering. This feature requires a working LaTeX installation on the system.
+
+For example, you can use [TeX Live](https://www.tug.org/texlive/) or [MiKTeX](https://miktex.org/).
+
+If LaTeX rendering is enabled, make sure that the required LaTeX executables are available in the system `PATH`.
+### Path arguments
 All of the following arguments take paths or whitespace separated lists of paths as input. Internally the input is treated as a string which is interpreted by bash. These arguments can be used in all config types but should ideally be used in the highest order config since they're not dependent on the type of the plot.
 <table>
     <thead>
@@ -107,7 +139,7 @@ All of the following arguments take paths or whitespace separated lists of paths
     </tbody>
 </table>
 
-## zummarize arguments
+### zummarize arguments
 All of the following arguments are not processed by pytarize. If any of the following arguments are used, the zummarize script is called using `--zummarizepath` with the paths given in `--logpaths`, the resolved paths from `--rlogpaths` and the specified zummarize arguments. These arguments can't be used in any config type.
 
 <div style="overflow-x:auto;">
@@ -212,7 +244,7 @@ All of the following arguments are not processed by pytarize. If any of the foll
 </table>
 </div>
 
-### Special cases
+#### Special cases
 These arguments are processed by pytarize. Using these arguments alone will not result in a call to the zummarize script, but if any of the above arguments is used as well, zummarize is called including the arguments from below.
 
 <div style="overflow-x:auto;">
@@ -242,7 +274,7 @@ These arguments are processed by pytarize. Using these arguments alone will not 
 </table>
 </div>
 
-## other global options
+### other global options
 <table>
     <thead>
         <tr>
@@ -266,7 +298,7 @@ These arguments are processed by pytarize. Using these arguments alone will not 
     </tbody>
 </table>
 
-## plot-specific arguments
+### plot-specific arguments
 
 
 <table>
@@ -738,7 +770,7 @@ These arguments are processed by pytarize. Using these arguments alone will not 
     </tbody>
 </table>
 
-## config only arguments
+### config only arguments
 
 
 <table>
