@@ -12,9 +12,18 @@
 #   ...
 
 # config_paths:
-#   - <path1>
-#   - <path2>
-#   ...
+#   lineplot:
+#     - <path1>
+#     - <path2>
+#     ...
+#   scatterplot:
+#     - <path1>
+#     - <path2>
+#     ...
+#   combinedplot:
+#     - <path1>
+#     - <path2>
+#     ...
 
 # create color and marker cycle
 colors:

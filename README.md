@@ -43,7 +43,7 @@ If LaTeX rendering is enabled, make sure that the required LaTeX executables are
 ## Config Setup (optional)
 
 After installing all requirements, you can create a base configuration file
-containing options that are used throughout the project, such as the path to
+containing options that are always used when creating a plot, such as the path to
 the Zummarize executable.
 
 You can either create your own configuration file or modify the provided
@@ -69,7 +69,46 @@ steps:
 If you want to create a custom configuration file, create a
 `<config_name>.yaml` file and follow the same steps as described for the
 starter config file.
-# TODO advanced config (plot configs)
+
+### Base Plot Config Setup (optional)
+
+If you want to extend the base config with different options for different
+plot types (`lineplot`, `scatterplot`, or `combinedplot`), you can follow these
+steps:
+
+1. Create one or more config files (`.yaml`) for the plot types you want to
+   configure.
+
+2. Add the `config_paths` option to the base config file you created earlier.
+   Then, specify the absolute paths to the plot-specific config files as shown
+   below.
+
+   If you do not need all plot types, or only created a config for one plot
+   type, you can remove the unused entries. If you are using the starter
+   config, you can simply uncomment the `config_paths` section and modify it
+   as needed.
+
+   ```yaml
+   config_paths:
+     lineplot:
+       - "path1"
+       - "path2"
+     scatterplot:
+       - "path1"
+       - "path2"
+     combinedplot:
+       - "path1"
+       - "path2"
+Config files are merged additively, with the base config being evaluated
+first. If an option is defined in both the base config and a plot-specific
+config, the value from the plot-specific config takes precedence.
+
+For example, if the base config defines a default color cycle (`colors`)
+and a plot-specific config also defines `colors`, the color cycle from the
+plot-specific config will be used when drawing the plot.
+
+The exact config merging behavior is documented in the `--configpaths`
+option.
 ### Path arguments
 All of the following arguments take paths or whitespace separated lists of paths as input. Internally the input is treated as a string which is interpreted by bash. These arguments can be used in all config types but should ideally be used in the highest order config since they're not dependent on the type of the plot.
 <table>
