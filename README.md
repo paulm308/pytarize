@@ -21,13 +21,17 @@ python -m venv venv
 venv\Scripts\activate
 ```
 ### Linux/macOS
-```
+```bash
 python3 -m venv venv
 source venv/bin/activate
 ```
 Install the required Python libraries:
-```
+```bash
 pip install -r requirements.txt
+```
+Make pytarize.py executable:
+```bash
+chmod +x pytarize.py
 ```
 ### Zummarize (optional but recommended)
 Some options ([Zummarize arguments](#zummarize-arguments)) require the
@@ -109,6 +113,21 @@ plot-specific config will be used when drawing the plot.
 
 The exact config merging behavior is documented in the `--configpaths`
 option.
+
+## Usage
+```
+./pytarize.py [global args] [lineplot | scatterplot | combinedplot] [plot args]
+```
+- `[global args]` All [path arguments](#path-arguments), [zummarize arguments](#zummarize-arguments) and [other global options](#other-global-options).
+- `[plot args]` All [plot specific arguments](#plot-specific-arguments)
+
+The command that specifies the type of the plot (lineplot, scatterplot or combinedplot) is required. It is also necessary to specify the paths to the logfile directories that contain the logs or a zummary file. You can use the `--logpaths` or the `--rlogpaths` arguments for this, which are part of the `[global args]`. Another option is to specify the paths in a config file via `log_paths` or `r_log_paths`. For some arguments ([zummarize arguments](#zummarize-arguments)) it is also required to specify the path to the zummarize executable. You can either set the path via `--zummarizepath` (`[global args]`) or in a config file with `zummarize_path`.
+
+## Argument Documentation
+
+Below is a complete list of all arguments and options that can be specified
+on the command line or used in a config file:
+
 ### Path arguments
 All of the following arguments take paths or whitespace separated lists of paths as input. Internally the input is treated as a string which is interpreted by bash. These arguments can be used in all config types but should ideally be used in the highest order config since they're not dependent on the type of the plot.
 <table>
