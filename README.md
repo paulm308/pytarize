@@ -12,7 +12,7 @@ Clone the repository and navigate to the project directory:
 
 ```bash
 git clone https://github.com/paulm308/pytarize
-cd <project-directory>
+cd pytarize
 ```
 It is recommended to use a virtual environment to avoid conflicts with other Python projects.
 ### Windows
