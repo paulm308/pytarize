@@ -123,6 +123,59 @@ option.
 
 The command that specifies the type of the plot (lineplot, scatterplot or combinedplot) is required. It is also necessary to specify the paths to the logfile directories that contain the logs or a zummary file. You can use the `--logpaths` or the `--rlogpaths` arguments for this, which are part of the `[global args]`. Another option is to specify the paths in a config file via `log_paths` or `r_log_paths`. For some arguments ([zummarize arguments](#zummarize-arguments)) it is also required to specify the path to the zummarize executable. You can either set the path via `--zummarizepath` (`[global args]`) or in a config file with `zummarize_path`.
 
+## Project Structure
+The project is structured as follows:
+```text
+pytarize/
+├── config/
+│   ├── starter_config.yaml             # the starter base config
+|   |                                   # file used during setup
+│   └── ...
+├── src/
+│   ├── cli/
+│   │   ├── commands.py                 # initializes CLI
+|   |   |                               # arguments and options
+│   │   ├── configbuilder.py            # builds the configuration
+|   |   |                               # from CLI arguments and
+|   |   |                               # config files
+│   │   ├── dictmerger.py               # handles configuration
+|   |   |                               # merging
+│   │   ├── handle_config.py            # reads and combines
+|   |   |                               # config files
+│   │   └── handle_zummarize_options.py # converts zummarize
+|   |                                   # options into a string 
+|   |                                   # representation
+│   ├── core/
+│   │   ├── configuration_data.py       # defines the configuration
+|   |   |                               # data structure
+│   │   ├── handle_paths.py             # handles path validation,
+|   |   |                               # normalization and expansion
+│   │   ├── handle_zummarize.py         # runs zummarize
+│   │   ├── initialize_plot.py          # initializes plot classes
+│   │   ├── load_data.py                # loads data from zummary
+|   |   |                               # files
+│   │   ├── pipeline.py                 # takes the finished
+|   |   |                               # configuration and creates
+|   |   |                               # the final plot
+│   │   ├── save_data.py                # saves the configuration to a
+|   |   |                               # config file
+│   │   └── transform.py                # performs plot-independent
+|   |                                   # data transformations
+|   └── plot/
+│   │   ├── baseplot.py                 # base class for all plot
+|   |   |                               # classes
+│   │   ├── combinedplot.py             # CombinedPlot class
+│   │   ├── lineplot.py                 # LinePlot class
+│   │   ├── plot_utils.py               # functions shared by multiple
+|   |   |                               # plot types
+│   │   └── scatter_plot.py             # ScatterPlot class
+├── .gitignore
+├── LICENSE
+├── README.md
+├── pytarize.py                         # main entry point
+└── requirements.txt                    # Python dependencies
+```
+
 ## Argument Documentation
 
 Below is a complete list of all arguments and options that can be specified
