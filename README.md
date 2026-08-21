@@ -128,46 +128,29 @@ The project is structured as follows:
 ```text
 pytarize/
 ├── config/
-│   ├── starter_config.yaml             # the starter base config
-|   |                                   # file used during setup
+│   ├── starter_config.yaml             # the starter base config file used during setup
 │   └── ...
 ├── src/
 │   ├── cli/
-│   │   ├── commands.py                 # initializes CLI
-|   |   |                               # arguments and options
-│   │   ├── configbuilder.py            # builds the configuration
-|   |   |                               # from CLI arguments and
-|   |   |                               # config files
-│   │   ├── dictmerger.py               # handles configuration
-|   |   |                               # merging
-│   │   ├── handle_config.py            # reads and combines
-|   |   |                               # config files
-│   │   └── handle_zummarize_options.py # converts zummarize
-|   |                                   # options into a string 
-|   |                                   # representation
+│   │   ├── commands.py                 # initializes CLI arguments and options
+│   │   ├── configbuilder.py            # builds the configuration from CLI arguments and config files
+│   │   ├── dictmerger.py               # handles configuration merging
+│   │   ├── handle_config.py            # reads and combines config files
+│   │   └── handle_zummarize_options.py # converts zummarize options into a string representation
 │   ├── core/
-│   │   ├── configuration_data.py       # defines the configuration
-|   |   |                               # data structure
-│   │   ├── handle_paths.py             # handles path validation,
-|   |   |                               # normalization and expansion
+│   │   ├── configuration_data.py       # defines the configuration data structure
+│   │   ├── handle_paths.py             # handles path validation, normalization and expansion
 │   │   ├── handle_zummarize.py         # runs zummarize
 │   │   ├── initialize_plot.py          # initializes plot classes
-│   │   ├── load_data.py                # loads data from zummary
-|   |   |                               # files
-│   │   ├── pipeline.py                 # takes the finished
-|   |   |                               # configuration and creates
-|   |   |                               # the final plot
-│   │   ├── save_data.py                # saves the configuration to a
-|   |   |                               # config file
-│   │   └── transform.py                # performs plot-independent
-|   |                                   # data transformations
+│   │   ├── load_data.py                # loads data from zummary files
+│   │   ├── pipeline.py                 # takes the finished configuration and creates the final plot
+│   │   ├── save_data.py                # saves the configuration to a config file
+│   │   └── transform.py                # performs plot-independent data transformations
 |   └── plot/
-│   │   ├── baseplot.py                 # base class for all plot
-|   |   |                               # classes
+│   │   ├── baseplot.py                 # base class for all plot classes
 │   │   ├── combinedplot.py             # CombinedPlot class
 │   │   ├── lineplot.py                 # LinePlot class
-│   │   ├── plot_utils.py               # functions shared by multiple
-|   |   |                               # plot types
+│   │   ├── plot_utils.py               # functions shared by multiple plot types
 │   │   └── scatter_plot.py             # ScatterPlot class
 ├── .gitignore
 ├── LICENSE
