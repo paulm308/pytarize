@@ -147,11 +147,11 @@ pytarize/
 │   │   ├── save_data.py                # saves the configuration to a config file
 │   │   └── transform.py                # performs plot-independent data transformations
 |   └── plot/
-│   │   ├── baseplot.py                 # base class for all plot classes
-│   │   ├── combinedplot.py             # CombinedPlot class
-│   │   ├── lineplot.py                 # LinePlot class
-│   │   ├── plot_utils.py               # functions shared by multiple plot types
-│   │   └── scatter_plot.py             # ScatterPlot class
+│       ├── baseplot.py                 # base class for all plot classes
+│       ├── combinedplot.py             # CombinedPlot class
+│       ├── lineplot.py                 # LinePlot class
+│       ├── plot_utils.py               # functions shared by multiple plot types
+│       └── scatter_plot.py             # ScatterPlot class
 ├── .gitignore
 ├── LICENSE
 ├── README.md
