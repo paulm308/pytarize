@@ -1250,7 +1250,16 @@ If you want to add a new option or a new argument to one or multiple plot types,
     }
     ```
     Note that the creation of path arguments is generally not advised because paths are processed before the plot class is initialized. If you create a path argument, you should validate and normalize the path (optional). Doing so in a class that is strictly meant to create the plot is a bit messy.
-4. Open the class of the plot type that you want to extend: `src/plot/lineplot.py`, `src/plot/scatterplot.py`, or `src/plot/combinedplot.py`.
-5. Implement the option or the argument. The argument can be accessed with `self.cfg.atr["argument_name"]`.
+4. (Optional) If your argument requires more complex default values, you can open `src/cli/configbuild.py` and specify the default value in the section between lines 22 and 59. Example:
+
+   ```python
+   case PlotType.LinePlot:
+       atr = {
+           ...
+           "argument_name": "some default value"
+       }
+    ```
+5. Open the class of the plot type that you want to extend: `src/plot/lineplot.py`, `src/plot/scatterplot.py`, or `src/plot/combinedplot.py`.
+6. Implement the option or the argument. The argument can be accessed with `self.cfg.atr["argument_name"]`.
 
 
