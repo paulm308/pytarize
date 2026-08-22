@@ -1262,4 +1262,90 @@ If you want to add a new option or a new argument to one or multiple plot types,
 5. Open the class of the plot type that you want to extend: `src/plot/lineplot.py`, `src/plot/scatterplot.py`, or `src/plot/combinedplot.py`.
 6. Implement the option or the argument. The argument can be accessed with `self.cfg.atr["argument_name"]`.
 
+### Adding a New Plot Type
 
+Adding a new plot type is more complex, but can be done as follows:
+
+1. Open `src/cli/commands.py` and create the options for the new plot type starting at line 335. Template:
+
+    ```python
+    @app.command()
+    def <newplottype>(<options>):
+        raw = {
+            "base_raw": base_raw,
+            "zummarize_specific_raw": zummarize_specific_raw,
+            "global_atr": global_atr,
+            "atr": {
+                <options>
+            }
+        }
+        cfg = build_config(raw, PlotType.<NewPlotType>)
+        run_pipeline(cfg)
+    ```
+    The name of the function is the name of the command that you need to use to specify the new plot type as command-line input. The `PlotType` enum does not contain `<NewPlotType>` yet; this will be added in a later step. The way arguments and options are added is documented [here](#adding-a-new-option-or-argument).
+2. (Optional) Open `src/cli/configbuilder.py` and extend the `set_defaults` function with the default values for the new plot type. Add this template on line 60:
+    ```python
+    case PlotType.<NewPlotType>:
+        atr = {
+            <options>
+        }
+    ```
+3. (Optional) open `src/cli/handle_config.py` and extend the `set_default_plot_config_paths` function with the default config path handling for the new plot type. Add this template on line 64:
+    ```python
+    elif (
+        cfg.plot_type == PlotType.<NewPlotType> and
+        "<newplottype>" in data["config_paths"].keys()
+        and data["config_paths"]["<newplottype>"] is not None
+    ):
+        cfg.plot_config_paths = data["config_paths"]["<newplottype>"]
+    ```
+4. Open `src/core/configuration_data.py` and add the new plot type to the `PlotType` enum at line 10:
+    ```python
+    class PlotType(Enum):
+        ...
+        <NewPlotType> = 4
+    ```
+5. Open `src/core/initialize_plot.py` and import the plot class that will be created in a later step (line 4):
+    ```python
+    from src.plot.<newplottype> import <NewPlotType>
+    ```
+    In the same file, add the call to the run function of the new class in line 26:
+    ```python
+    match cfg.plot_type:
+        ...
+        case PlotType.<NewPlotType>:
+            plot = <NewPlotType>(cfg)
+    ```
+6. Create a new file `src/plot/<newplottype>.py` and create the new plot class. Template:
+    ```python
+    from src.plot.baseplot import BasePlot
+    import src.plot.plot_utils as utils  # some of these functions might be usefull
+    import pandas as pd
+    import matplotlib as mat
+    from matplotlib import pyplot as plt
+    mat.use("Agg")
+
+
+    class <NewPlotClass>(BasePlot):
+
+        def transform_data(self, data: dict[str, pd.DataFrame]):
+            """
+            This function is responsible for all specific calculations and data transformations that are needed to
+            create the final plot for the given type.
+
+            Parameters:
+            data (dict[str, pd.DataFrame]): A dictionary of all zummarys that are loaded in pandas DataFrames.
+            The key of the dictionary is the name of the folder that contains the zummary.
+
+            Returns:
+            The transformed data that will be used in create_plot to create the final plot.
+            """
+
+        def create_plot(self, data):
+            """
+            This function is responsible for creating and styling the plot.
+
+            Parameters:
+            data: the output of transform_data.
+            """
+    ```
