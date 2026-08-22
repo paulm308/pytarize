@@ -1,11 +1,6 @@
 # pytarize
 
-pandas, pathlib, typer, pyyaml
-
-pipeline: 
-1. argument Parsing: 
-> read default values -> read config -> overwrite with cli
-2. TODO
+TODO
 ## Installation
 
 Clone the repository and navigate to the project directory:
@@ -1186,3 +1181,76 @@ These arguments are processed by pytarize. Using these arguments alone will not 
         </tr>
     </tbody>
 </table>
+
+## Extending Pytarize
+
+Text TODO
+### Adding a New Option or Argument
+
+If you want to add a new option or a new argument to one or multiple plot types, you can follow these steps:
+
+1. Open `src/cli/commands.py`.
+
+2. Add the new argument or option as a new parameter to the corresponding function (`lineplot` (line 107), `scatterplot` (line 182), or `combinedplot` (line 253)). Example option:
+
+   ```python
+   option: bool = typer.Option(False, "--option", "-o", help="help text")
+    ```
+    The first argument sets the default value of this option to `False`. All options that you specify need default values! 
+
+    Argument example:
+    ```python
+    argument: Annotated[Optional[str], typer.Option("--argument", "-a", help="help text")] = None
+    ```
+    All original Pytarize arguments are initialized with None. However, it is not necessary to initialize your argument with None, but you have to specify a default value. Other example:
+    ```python
+    argument: Annotated[str, typer.Option("--argument", "-a", help="help text")] = "default"
+    ```
+    If you want to create an argument that is a list of strings, you should create a string argument and split it into a list afterwards. This is because the way you enter a list in the console with Typer is not ideal (`--argument element1 --argument element2 --argument element3 ...``).
+3. Add the option or argument to the `raw` dictionary under `atr`:
+    ```python
+    raw = {
+        ...
+        "atr": {
+            ...
+            "argument_name": argument
+        }
+    }
+    ```
+    `"argument_name"` is the name of the argument in the config and the key of the dictionary that you will use in step 4 to access the argument or option.
+
+    If you originally wanted to create a list of strings but created a string argument, you can split it as follows:
+    ```python
+    raw = {
+        ...
+        "atr": {
+            ...
+            "argument_name": None if argument is None else shlex.split(argument)
+        }
+    }
+    ```
+    If your argument contains a list of paths:
+    ```python
+    raw = {
+        ...
+        "atr": {
+            ...
+            "argument_name": None if argument is None else expand_with_bash(argument)
+        }
+    }
+    ```
+    Or a single path:
+    ```python
+    raw = {
+        ...
+        "atr": {
+            ...
+            "argument_name": None if argument is None else expand_with_bash(argument)[0]
+        }
+    }
+    ```
+    Note that the creation of path arguments is generally not advised because paths are processed before the plot class is initialized. If you create a path argument, you should validate and normalize the path (optional). Doing so in a class that is strictly meant to create the plot is a bit messy.
+4. Open the class of the plot type that you want to extend: `src/plot/lineplot.py`, `src/plot/scatterplot.py`, or `src/plot/combinedplot.py`.
+5. Implement the option or the argument. The argument can be accessed with `self.cfg.atr["argument_name"]`.
+
+
