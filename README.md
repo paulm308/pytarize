@@ -280,7 +280,7 @@ All of the following arguments are not processed by pytarize. If any of the foll
         <tr>
             <td><code style="white-space: nowrap;">--force</code>
             <code>-f</code></td>
-            <td><code>int</code></td>
+            <td><code>bool</code></td>
             <td>recompute zummaries (do not read dir/zummary files)</td>
         </tr>
         <tr>
