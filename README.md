@@ -1184,7 +1184,7 @@ These arguments are processed by pytarize. Using these arguments alone will not 
 
 ## Extending Pytarize
 
-The following guides explain how to extend Pytarize with new options, arguments, and plot types.
+This section explains how to extend Pytarize by adding new options, arguments, and plot types.
 
 ### Adding a New Option or Argument
 
