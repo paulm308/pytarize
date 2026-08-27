@@ -21,7 +21,7 @@ class CFG:
     zummarize_path: Path | None                     # The path to the zummarize executable
     log_paths: list[Path] | None                    # List of paths that lead to folders containing a zummary or .log and .err files
     r_log_paths: list[Path] | None                  # List of root directories that are recursively searched for log folders
-    base_config_path: Path                          # The path to the base config (a config that is always called first)
+    base_config_path: Path | None                   # The path to the base config (a config that is always called first)
     plot_config_paths: list[Path] | None            # List of paths that lead to config (.yaml) files
     zummarize_cli: list[str]                        # List of options that are only relevant for the zummarize script
     save_config: Path | None                        # The location where the output config should be saved

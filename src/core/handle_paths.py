@@ -91,8 +91,8 @@ def normalize(cfg):
     # convert relative paths to absolute paths
     if cfg.zummarize_path is not None:
         cfg.zummarize_path = cfg.zummarize_path.expanduser().resolve()
-    paths = []
     if cfg.log_paths is not None:
+        paths = []
         for log_path in cfg.log_paths:
             paths.append(log_path.expanduser().resolve())
 
@@ -103,9 +103,6 @@ def normalize(cfg):
             if path not in seen:
                 seen.add(path)
                 cfg.log_paths.append(path)
-
-    cfg.base_config_path = cfg.base_config_path.expanduser().resolve()
-    cfg.plot_config_path = cfg.base_config_path.expanduser().resolve()
 
 
 def normalize_r_log_paths(cfg):
@@ -153,7 +150,7 @@ def pre_validate_log_paths(cfg):
 
 def validate_zummarize_path(cfg):
     if cfg.zummarize_path is None:
-        raise ValueError(f"Path to zummarize is not specified but required because no zummary exists in the log directoy. Path: {cfg.zummarize_path}")
+        raise ValueError(f"Path to zummarize is not specified but required because at least one path does not contain a zummary file or a zummarize specific argument was used. zummarizepath: {cfg.zummarize_path}")
     if not cfg.zummarize_path.exists():
         raise FileNotFoundError(f"zummarize binary does not exist. Path: {cfg.zummarize_path}")
     if not os.access(cfg.zummarize_path, os.X_OK):

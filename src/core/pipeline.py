@@ -20,8 +20,8 @@ def run_pipeline(cfg):
     pts.extract_log_paths(cfg)
     pts.normalize(cfg)
     pts.validate_log_paths(cfg)
-    pts.validate_zummarize_path(cfg)
     if zummarize_required(cfg):
+        pts.validate_zummarize_path(cfg)
         call_zummarize(cfg)
     save_config(cfg)
     data = read_zummary(cfg)

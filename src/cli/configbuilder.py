@@ -15,7 +15,7 @@ def set_defaults(plot_type: PlotType):
     Returns:
     CFG: The initialized configuration object.
     """
-    base_config_path = Path("config/base_config.yaml")  # change default path to base config
+    base_config_path = None  # change default path to base config
     plot_config_paths = None
     atr = {}
     def_global_atr = {}
@@ -89,7 +89,7 @@ def build_config(raw, plot_type: PlotType):
     cfg = set_defaults(plot_type)
 
     # base confic:
-    if cfg.base_config_path.exists():
+    if cfg.base_config_path is not None and cfg.base_config_path.exists():
         cfg = apply_config(cfg.base_config_path, cfg)
 
     # specific confics:
