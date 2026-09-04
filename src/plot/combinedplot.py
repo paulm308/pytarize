@@ -153,7 +153,7 @@ class CombinedPlot(BasePlot):
         sota_xs_np = np.asarray(sota_xs, dtype=float)
         sota_ys_np = np.asarray(sota_ys, dtype=float)
 
-        for label, xs, ys in res:
+        for label, xs, ys, solved_count in res:
 
             if label == "sota":
                 continue
@@ -164,7 +164,7 @@ class CombinedPlot(BasePlot):
             solver_y = self.eval_step(xs_np, ys_np, all_x)
             sota_y = self.eval_step(sota_xs_np, sota_ys_np, all_x)
             relative_y = np.divide(solver_y, sota_y, out=np.zeros_like(solver_y, dtype=float), where=sota_y != 0)
-            relative_res.append((label, all_x.tolist(), relative_y.tolist()))
+            relative_res.append((label, all_x.tolist(), relative_y.tolist(), solved_count))
 
         return relative_res
 
