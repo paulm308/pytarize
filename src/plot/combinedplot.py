@@ -117,7 +117,11 @@ class CombinedPlot(BasePlot):
         res = []
         for i, evs in enumerate(events):
             xs, ys = self.event_to_curve(evs)
-            if i != base_idx:
+            is_base_curve = True
+            for y in ys:
+                if y != 0:
+                    is_base_curve = False
+            if not is_base_curve:
                 xs, ys = self.clean_up_curves(xs, ys)
             res.append((folder_names[i], xs, ys, label_nums[i]))
         sota_xs, sota_ys = self.event_to_curve(sota_events)
