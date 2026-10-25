@@ -129,7 +129,10 @@ class CombinedPlot(BasePlot):
         if not (self.cfg.atr["horse"] and self.cfg.atr["base"] is None):
             sota_xs, sota_ys = self.clean_up_curves(sota_xs, sota_ys)
         if self.cfg.atr["sota"]:
-            res.append(("sota", sota_xs, sota_ys, sota_label_num))
+            label = "sota"
+            if self.cfg.atr["sota_label"] is not None:
+                label = self.cfg.atr["sota_label"]
+            res.append((label, sota_xs, sota_ys, sota_label_num))
 
         # sort curves by average y value
         res = sorted(res, key=lambda c: sum(c[2]) / len(c[2]) if len(c[2]) > 0 else float("-inf"))

@@ -872,6 +872,18 @@ These arguments are processed by pytarize. Using these arguments alone will not 
             </td>
         </tr>
         <tr valign="top">
+            <td valign="top"><code>--sota-label</code></td>
+            <td valign="top"><code>sota_label</code></td>
+            <td valign="top"><code>str</code></td>
+            <td valign="top">combinedplot</td>
+            <td valign="top"><pre><code>sota_label: "VBS"</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">The label of the sota in the legend.
+            </td>
+        </tr>
+        <tr valign="top">
             <td valign="top"><code>--relative</code></td>
             <td valign="top"><code>relative</code></td>
             <td valign="top"><code>bool</code></td>
