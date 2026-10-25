@@ -179,7 +179,7 @@ class CombinedPlot(BasePlot):
         """
         Creates the curves as a stepwise function.
 
-        Paramters:
+        Parameters:
         events (list[tuple[float, float]]): List of events.
 
         Returns:
@@ -200,7 +200,7 @@ class CombinedPlot(BasePlot):
         """
         Removes points on the curve that don't change the y-value of the curve.
 
-        Paramters:
+        Parameters:
         xs: The x-values of the curve.
         ys: The y-values of the curve.
 
@@ -242,7 +242,7 @@ class CombinedPlot(BasePlot):
         """
         Ensures that the used combination of options is valid.
 
-        Paramters:
+        Parameters:
         folder_names (list[str]): The names of the folders that contain a zummary file.
         """
         if self.cfg.atr["stable"] is False and self.cfg.atr["unique"] is False and self.cfg.atr["horse"] is False:
