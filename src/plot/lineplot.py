@@ -36,8 +36,8 @@ class LinePlot(BasePlot):
             tup = (folder_name, np.sort(values["time"].to_numpy()), list(range(1, len(values) + 1)), len(values))
             transformed.append(tup)
 
-        # sort the data so that the best run is first in the list
-        transformed = sorted(transformed, key=lambda x: len(x[1]))
+        # sort the data so that the best run is first in the list (SCR)
+        transformed = sorted(transformed, key=lambda x: (len(x[1]), sum(x[1])))
 
         if self.cfg.atr["cactus"]:
             transformed = [(tup[0], tup[2], tup[1], tup[3]) for tup in transformed]
