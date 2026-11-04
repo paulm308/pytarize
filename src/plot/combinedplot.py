@@ -156,8 +156,12 @@ class CombinedPlot(BasePlot):
             if self.cfg.atr["sota_label"] is not None:
                 label = self.cfg.atr["sota_label"]
             res.append((label, sota_xs, sota_ys, sota_label_num))
+
         if self.cfg.atr["kbest"] is not None:
-            res.append((f"{self.cfg.atr['kbest']}. best", kbest_xs, kbest_ys, kbest_label_number))
+            label = f"{self.cfg.atr['kbest']}. best"
+            if self.cfg.atr["kbest_label"] is not None:
+                label = self.cfg.atr["kbest_label"]
+            res.append((label, kbest_xs, kbest_ys, kbest_label_number))
 
         # sort curves by average y value
         res = sorted(res, key=lambda c: sum(c[2]) / len(c[2]) if len(c[2]) > 0 else float("-inf"))

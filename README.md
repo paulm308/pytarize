@@ -919,6 +919,18 @@ These arguments are processed by pytarize. Using these arguments alone will not 
             <td colspan="3" valign="top">Create the curve of the k best solver on each instance. The virtual best solver (--sota) is equivalent to k = 1 and the virtual worst solver is equivalent to k = n if n ist the number of Solvers given in <code>--logpaths<code>.
             </td>
         </tr>
+        <tr valign="top">
+            <td valign="top"><code>--kbest-label</code></td>
+            <td valign="top"><code>kbest_label</code></td>
+            <td valign="top"><code>str</code></td>
+            <td valign="top">combinedplot</td>
+            <td valign="top"><pre><code>kbest_label: "Third best"</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">The label of the kbest in the legend.
+            </td>
+        </tr>
     </tbody>
 </table>
 
