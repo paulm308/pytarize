@@ -47,6 +47,8 @@ class CombinedPlot(BasePlot):
         # initialization
         events = [[] for _ in range(len(folder_names))]
         sota_events = []
+        kbest_events = []
+        kbest_label_number = 0
 
         base_idx = -1
         if self.cfg.atr["horse"] and self.cfg.atr["base"] is not None and self.cfg.atr["base"] in folder_names:
@@ -71,12 +73,15 @@ class CombinedPlot(BasePlot):
             if not valid:
                 continue
 
+            if self.cfg.atr["kbest"] is not None and self.cfg.atr["kbest"] <= len(valid):
+                kbest_label_number += 1
+
             times = [t for _, t in valid]
             best = min(times)
             worst = max(times)
             if not (self.cfg.atr["horse"] and self.cfg.atr["base"] is not None and self.cfg.atr["base"] in folder_names):
                 base = best
-            sorted_times = sorted(set(times))
+            sorted_times = sorted(times)
             second = (sorted_times[1] if len(sorted_times) > 1 else None)
             # only strictly best solvers get credit in unique:
             best_solvers = [(i, t) for i, t in valid if t == best]
@@ -87,9 +92,15 @@ class CombinedPlot(BasePlot):
                     events[i].append((t, +1))
                     if len(valid) == len(folder_names):
                         events[i].append((worst, -1))
+                # stable + sota
                 sota_events.append((best, +1))
                 if len(valid) == len(folder_names):
                     sota_events.append((worst, -1))
+                # stable + kbest
+                if self.cfg.atr["kbest"] is not None and self.cfg.atr["kbest"] <= len(sorted_times):
+                    kbest_events.append((sorted_times[self.cfg.atr["kbest"] - 1], +1))
+                    if len(sorted_times) == len(folder_names):
+                        kbest_events.append((worst, -1))
 
             # unique: only the best solver gets credited until the second best finishes
             elif self.cfg.atr["unique"]:
@@ -98,9 +109,15 @@ class CombinedPlot(BasePlot):
                         events[i].append((t, +1))
                         if second is not None:
                             events[i].append((second, -1))
+                # unique + sota
                 sota_events.append((best, +1))
                 if second is not None:
                     sota_events.append((second, -1))
+                # unique + kbest
+                if self.cfg.atr["kbest"] is not None and self.cfg.atr["kbest"] == 1:
+                    kbest_events.append((best, +1))
+                    if second is not None:
+                        kbest_events.append((second, -1))
 
             # horse: compare relative to the base solver which usually is best
             elif self.cfg.atr["horse"]:
@@ -110,29 +127,37 @@ class CombinedPlot(BasePlot):
                 for i, t in invalid:
                     if i != base_idx:
                         events[i].append((base, -1))
+                # horse + sota
                 sota_events.append((best, +1))
                 sota_events.append((base, -1))
+                # horse + kbest
+                if self.cfg.atr["kbest"] is not None and self.cfg.atr["kbest"] <= len(sorted_times):
+                    kbest_events.append((sorted_times[self.cfg.atr["kbest"] - 1], +1))
+                    kbest_events.append((base, -1))
 
         # compute the individual curves from the events
         res = []
         for i, evs in enumerate(events):
             xs, ys = self.event_to_curve(evs)
-            is_base_curve = True
-            for y in ys:
-                if y != 0:
-                    is_base_curve = False
-            if not is_base_curve:
+            if not self.is_base_curve(ys):
                 xs, ys = self.clean_up_curves(xs, ys)
             res.append((folder_names[i], xs, ys, label_nums[i]))
-        sota_xs, sota_ys = self.event_to_curve(sota_events)
 
-        if not (self.cfg.atr["horse"] and self.cfg.atr["base"] is None):
+        sota_xs, sota_ys = self.event_to_curve(sota_events)
+        if not self.is_base_curve(sota_ys):
             sota_xs, sota_ys = self.clean_up_curves(sota_xs, sota_ys)
+
+        kbest_xs, kbest_ys = self.event_to_curve(kbest_events)
+        if not self.is_base_curve(kbest_ys):
+            kbest_xs, kbest_ys = self.clean_up_curves(kbest_xs, kbest_ys)
+
         if self.cfg.atr["sota"]:
             label = "sota"
             if self.cfg.atr["sota_label"] is not None:
                 label = self.cfg.atr["sota_label"]
             res.append((label, sota_xs, sota_ys, sota_label_num))
+        if self.cfg.atr["kbest"] is not None:
+            res.append((f"{self.cfg.atr['kbest']}. best", kbest_xs, kbest_ys, kbest_label_number))
 
         # sort curves by average y value
         res = sorted(res, key=lambda c: sum(c[2]) / len(c[2]) if len(c[2]) > 0 else float("-inf"))
@@ -142,6 +167,21 @@ class CombinedPlot(BasePlot):
             res = self.relative_result(res, sota_xs, sota_ys)
 
         return res
+
+    def is_base_curve(self, ys: list[float]) -> bool:
+        """
+        Checks if a computed curve is base curve (a curve that only contains 0s as y values)
+
+        Parameters:
+        ys (list[float]): The y values that are checked
+
+        Returns:
+        bool: is the curve a base curve?
+        """
+        for y in ys:
+            if y != 0:
+                return False
+        return True
 
     def relative_result(self, res, sota_xs, sota_ys):
         """
@@ -258,6 +298,8 @@ class CombinedPlot(BasePlot):
             print("--base has no effect without, --horse")
         if self.cfg.atr["base"] is not None and self.cfg.atr["base"] not in folder_names:
             print("--base has to match the name of a folder in --logpaths or --rlogpaths")
+        if self.cfg.atr["kbest"] is not None and (self.cfg.atr["kbest"] < 0 or self.cfg.atr["kbest"] > len(folder_names)):
+            print(f"Invalid input for kbest: {self.cfg.atr['kbest']}, use values between (inclusive) 1 and {len(folder_names)}")
 
     def create_plot(self, data: list[tuple[str, list[float], list[float], Optional[int]]]):
         """
