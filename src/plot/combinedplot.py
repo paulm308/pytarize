@@ -81,14 +81,14 @@ class CombinedPlot(BasePlot):
             # only strictly best solvers get credit in unique:
             best_solvers = [(i, t) for i, t in valid if t == best]
 
-            # stable: every solver gets a point until the last one finished the benchmark
+            # stable: every solver gets a point until the virtual worst solver (vws) finished the benchmark
             if self.cfg.atr["stable"]:
                 for i, t in valid:
                     events[i].append((t, +1))
-                    if best != worst:
+                    if len(valid) == len(folder_names):
                         events[i].append((worst, -1))
                 sota_events.append((best, +1))
-                if best != worst:
+                if len(valid) == len(folder_names):
                     sota_events.append((worst, -1))
 
             # unique: only the best solver gets credited until the second best finishes
