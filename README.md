@@ -920,6 +920,18 @@ These arguments are processed by pytarize. Using these arguments alone will not 
             </td>
         </tr>
         <tr valign="top">
+            <td valign="top"><code>--kbest-base</code></td>
+            <td valign="top"><code>kbest_base</code></td>
+            <td valign="top"><code>int</code></td>
+            <td valign="top">combinedplot</td>
+            <td valign="top"><pre><code>kbest_base: 3</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Use the curve of the k best solver on each instance as the base for <code>--horse</code>. Use values between 1 (inclusive) and n if n is the number of benchmarked runs in <code>--logpaths</code>. This argument can't be combined with the <code>--base</code> argument (if both are used <code>--base</code> has no effect).  This argument must be used rogether with the <code>--horse</code> option, otherwise <code>--kbest-base</code> has no effect!
+            </td>
+        </tr>
+        <tr valign="top">
             <td valign="top"><code>--kbest-label</code></td>
             <td valign="top"><code>kbest_label</code></td>
             <td valign="top"><code>str</code></td>

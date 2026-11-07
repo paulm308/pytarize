@@ -79,12 +79,16 @@ class CombinedPlot(BasePlot):
             times = [t for _, t in valid]
             best = min(times)
             worst = max(times)
-            if not (self.cfg.atr["horse"] and self.cfg.atr["base"] is not None and self.cfg.atr["base"] in folder_names):
+            if not (self.cfg.atr["horse"] and (self.cfg.atr["base"] is not None and self.cfg.atr["base"] in folder_names or self.cfg.atr["kbest_base"] is not None)):
                 base = best
             sorted_times = sorted(times)
             second = (sorted_times[1] if len(sorted_times) > 1 else None)
             # only strictly best solvers get credit in unique:
             best_solvers = [(i, t) for i, t in valid if t == best]
+
+            # --kbest-base
+            if self.cfg.atr["kbest_base"] is not None and self.cfg.atr["kbest_base"] <= len(sorted_times) and self.cfg.atr["kbest_base"] >= 1:
+                base = sorted_times[self.cfg.atr["kbest_base"] - 1]
 
             # stable: every solver gets a point until the virtual worst solver (vws) finished the benchmark
             if self.cfg.atr["stable"]:
@@ -300,10 +304,16 @@ class CombinedPlot(BasePlot):
                 print(f"Cannot combine {strs[0]}, {strs[1]} and {strs[2]}")
         if self.cfg.atr["base"] is not None and not self.cfg.atr["horse"]:
             print("--base has no effect without, --horse")
+        if self.cfg.atr["kbest_base"] is not None and not self.cfg.atr["horse"]:
+            print("--kbest-base has no effect without, --horse")
         if self.cfg.atr["base"] is not None and self.cfg.atr["base"] not in folder_names:
             print("--base has to match the name of a folder in --logpaths or --rlogpaths")
         if self.cfg.atr["kbest"] is not None and (self.cfg.atr["kbest"] < 0 or self.cfg.atr["kbest"] > len(folder_names)):
-            print(f"Invalid input for kbest: {self.cfg.atr['kbest']}, use values between (inclusive) 1 and {len(folder_names)}")
+            print(f"Invalid input for --kbest: {self.cfg.atr['kbest']}, use values between (inclusive) 1 and {len(folder_names)}")
+        if self.cfg.atr["kbest_base"] is not None and (self.cfg.atr["kbest_base"] < 0 or self.cfg.atr["kbest_base"] > len(folder_names)):
+            print(f"Invalid input for --kbest-base: {self.cfg.atr['kbest_base']}, use values between (inclusive) 1 and {len(folder_names)}")
+        if self.cfg.atr["kbest_base"] is not None and self.cfg.atr["base"] is not None:
+            print("Use --kbest-base and --base can not be combined, using --kbest-base as default (--base has no effect)")
 
     def create_plot(self, data: list[tuple[str, list[float], list[float], Optional[int]]]):
         """
