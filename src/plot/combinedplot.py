@@ -135,8 +135,9 @@ class CombinedPlot(BasePlot):
                 sota_events.append((best, +1))
                 sota_events.append((base, -1))
                 # horse + kbest
-                if self.cfg.atr["kbest"] is not None and self.cfg.atr["kbest"] <= len(sorted_times):
-                    kbest_events.append((sorted_times[self.cfg.atr["kbest"] - 1], +1))
+                if self.cfg.atr["kbest"] is not None:
+                    if self.cfg.atr["kbest"] <= len(sorted_times):
+                        kbest_events.append((sorted_times[self.cfg.atr["kbest"] - 1], +1))
                     kbest_events.append((base, -1))
 
         # compute the individual curves from the events
@@ -167,8 +168,8 @@ class CombinedPlot(BasePlot):
                 label = self.cfg.atr["kbest_label"]
             res.append((label, kbest_xs, kbest_ys, kbest_label_number))
 
-        # sort curves by average y value
-        res = sorted(res, key=lambda c: sum(c[2]) / len(c[2]) if len(c[2]) > 0 else float("-inf"))
+        # sort curves by area under curve
+        res = sorted(res, key=lambda c: np.trapezoid(c[2], c[1]))
 
         # create curves relative to the sota curve
         if self.cfg.atr["relative"]:
