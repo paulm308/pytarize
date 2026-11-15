@@ -113,6 +113,8 @@ class CombinedPlot(BasePlot):
                         events[i].append((t, +1))
                         if second is not None:
                             events[i].append((second, -1))
+                    elif self.cfg.atr["zeros"]:
+                        events[i].append((t, 0))
                 # unique + sota
                 sota_events.append((best, +1))
                 if second is not None:
@@ -144,16 +146,16 @@ class CombinedPlot(BasePlot):
         res = []
         for i, evs in enumerate(events):
             xs, ys = self.event_to_curve(evs)
-            if not self.is_base_curve(ys):
+            if not (self.is_base_curve(ys) or self.cfg.atr["no_clean"]):
                 xs, ys = self.clean_up_curves(xs, ys)
             res.append((folder_names[i], xs, ys, label_nums[i]))
 
         sota_xs, sota_ys = self.event_to_curve(sota_events)
-        if not self.is_base_curve(sota_ys):
+        if not (self.is_base_curve(sota_ys) or self.cfg.atr["no_clean"]):
             sota_xs, sota_ys = self.clean_up_curves(sota_xs, sota_ys)
 
         kbest_xs, kbest_ys = self.event_to_curve(kbest_events)
-        if not self.is_base_curve(kbest_ys):
+        if not (self.is_base_curve(kbest_ys) or self.cfg.atr["no_clean"]):
             kbest_xs, kbest_ys = self.clean_up_curves(kbest_xs, kbest_ys)
 
         if self.cfg.atr["sota"]:
@@ -167,6 +169,15 @@ class CombinedPlot(BasePlot):
             if self.cfg.atr["kbest_label"] is not None:
                 label = self.cfg.atr["kbest_label"]
             res.append((label, kbest_xs, kbest_ys, kbest_label_number))
+
+        # remove NaNs:
+        cleaned = []
+        for curve in res:
+            x = np.asarray(curve[1], dtype=float)
+            y = np.asarray(curve[2], dtype=float)
+            mask = ~(np.isnan(x) | np.isnan(y))
+            cleaned.append((curve[0], x[mask], y[mask], *curve[3:]))
+        res = cleaned
 
         # sort curves by area under curve
         res = sorted(res, key=lambda c: np.trapezoid(c[2], c[1]))
@@ -314,7 +325,9 @@ class CombinedPlot(BasePlot):
         if self.cfg.atr["kbest_base"] is not None and (self.cfg.atr["kbest_base"] < 0 or self.cfg.atr["kbest_base"] > len(folder_names)):
             print(f"Invalid input for --kbest-base: {self.cfg.atr['kbest_base']}, use values between (inclusive) 1 and {len(folder_names)}")
         if self.cfg.atr["kbest_base"] is not None and self.cfg.atr["base"] is not None:
-            print("Use --kbest-base and --base can not be combined, using --kbest-base as default (--base has no effect)")
+            print("--kbest-base and --base can not be combined, using --kbest-base as default (--base has no effect)")
+        if self.cfg.atr["zeros"] and not self.cfg.atr["unique"]:
+            print("--zeros has no effect if --unique is not used")
 
     def create_plot(self, data: list[tuple[str, list[float], list[float], Optional[int]]]):
         """

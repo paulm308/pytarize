@@ -943,6 +943,30 @@ These arguments are processed by pytarize. Using these arguments alone will not 
             <td colspan="3" valign="top">The label of the kbest in the legend.
             </td>
         </tr>
+        <tr valign="top">
+            <td valign="top"><code>--zeros</code></td>
+            <td valign="top"><code>zeros</code></td>
+            <td valign="top"><code>bool</code></td>
+            <td valign="top">combinedplot</td>
+            <td valign="top"><pre><code>zeros: true</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Enables additional zero events for <code>--unique</code>. Has to be used in combination with <code>--unique</code> and <code>--no-clean</code>.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--no-clean</code></td>
+            <td valign="top"><code>no_clean</code></td>
+            <td valign="top"><code>bool</code></td>
+            <td valign="top">combinedplot</td>
+            <td valign="top"><pre><code>no_clean: true</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Disables the removal of datapoints that don't change the score.
+            </td>
+        </tr>
     </tbody>
 </table>
 
