@@ -147,16 +147,25 @@ class CombinedPlot(BasePlot):
         for i, evs in enumerate(events):
             xs, ys = self.event_to_curve(evs)
             if not (self.is_base_curve(ys) or self.cfg.atr["no_clean"]):
-                xs, ys = self.clean_up_curves(xs, ys)
+                if self.cfg.atr["flat_clean"]:
+                    xs, ys = self.flat_clean_up_curves(xs, ys)
+                else:
+                    xs, ys = self.clean_up_curves(xs, ys)
             res.append((folder_names[i], xs, ys, label_nums[i]))
 
         sota_xs, sota_ys = self.event_to_curve(sota_events)
         if not (self.is_base_curve(sota_ys) or self.cfg.atr["no_clean"]):
-            sota_xs, sota_ys = self.clean_up_curves(sota_xs, sota_ys)
+            if self.cfg.atr["flat_clean"]:
+                sota_xs, sota_ys = self.flat_clean_up_curves(sota_xs, sota_ys)
+            else:
+                sota_xs, sota_ys = self.clean_up_curves(sota_xs, sota_ys)
 
         kbest_xs, kbest_ys = self.event_to_curve(kbest_events)
         if not (self.is_base_curve(kbest_ys) or self.cfg.atr["no_clean"]):
-            kbest_xs, kbest_ys = self.clean_up_curves(kbest_xs, kbest_ys)
+            if self.cfg.atr["flat_clean"]:
+                kbest_xs, kbest_ys = self.flat_clean_up_curves(kbest_xs, kbest_ys)
+            else:
+                kbest_xs, kbest_ys = self.clean_up_curves(kbest_xs, kbest_ys)
 
         if self.cfg.atr["sota"]:
             label = "sota"
@@ -278,6 +287,28 @@ class CombinedPlot(BasePlot):
             res_ys.append(value)
         return (res_xs, res_ys)
 
+    def flat_clean_up_curves(self, xs: list[float], ys: list[float]) -> tuple[list[float], list[float]]:
+        """
+        Removes points on the curve that don't change the y-value of the curve.
+
+        Parameters:
+        xs: The x-values of the curve.
+        ys: The y-values of the curve.
+
+        Returns:
+        tuple[list[float], list[float]]: The compressed curve.
+        """
+        res_xs = []
+        res_ys = []
+        last_value = None
+        for i, value in enumerate(ys):
+            if last_value is not None and value == last_value and i + 1 < len(ys) and value == ys[i + 1]:
+                continue
+            last_value = value
+            res_xs.append(xs[i])
+            res_ys.append(value)
+        return (res_xs, res_ys)
+
     def eval_step(self, xs: np.ndarray, ys: np.ndarray, query: np.ndarray) -> np.ndarray:
         """
         Evaluates a stepwise (right-continuous, previous-value-hold) function defined by
@@ -328,6 +359,8 @@ class CombinedPlot(BasePlot):
             print("--kbest-base and --base can not be combined, using --kbest-base as default (--base has no effect)")
         if self.cfg.atr["zeros"] and not self.cfg.atr["unique"]:
             print("--zeros has no effect if --unique is not used")
+        if self.cfg.atr["no_clean"] and self.cfg.atr["flat_clean"]:
+            print("--flat-clean has no effect if --no-clean is used")
 
     def create_plot(self, data: list[tuple[str, list[float], list[float], Optional[int]]]):
         """

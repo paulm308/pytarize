@@ -967,6 +967,18 @@ These arguments are processed by pytarize. Using these arguments alone will not 
             <td colspan="3" valign="top">Disables the removal of datapoints that don't change the score.
             </td>
         </tr>
+        <tr valign="top">
+            <td valign="top"><code>--flat-clean</code></td>
+            <td valign="top"><code>flat_clean</code></td>
+            <td valign="top"><code>bool</code></td>
+            <td valign="top">combinedplot</td>
+            <td valign="top"><pre><code>flat_clean: true</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Enables cleaning that removes datapoints that don't change the score and are not the first ore last datapoint of a flat section of the curve.
+            </td>
+        </tr>
     </tbody>
 </table>
 
