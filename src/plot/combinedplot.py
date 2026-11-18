@@ -145,7 +145,8 @@ class CombinedPlot(BasePlot):
 
         if self.cfg.atr["search_multiple_events"]:
             for i, event_list in enumerate(events):
-                self.search_multiple_events(event_list, folder_names[i])
+                sorted_events = sorted(event_list, key=lambda e: e[0])
+                self.search_multiple_events(sorted_events, folder_names[i])
 
         # compute the individual curves from the events
         res = []
@@ -193,6 +194,11 @@ class CombinedPlot(BasePlot):
             cleaned.append((curve[0], x[mask], y[mask], *curve[3:]))
         res = cleaned
 
+        # add (0, 0) Datapoint.
+        for curve in res:
+            np.insert(curve[1], 0, 0.)
+            np.insert(curve[2], 0, 0.)
+
         # sort curves by area under curve
         res = sorted(res, key=lambda c: np.trapezoid(c[2], c[1]))
 
@@ -221,17 +227,15 @@ class CombinedPlot(BasePlot):
         """
         Searches for datapoints where multiple events happened at the same time.
         """
-        multiple = False
-        scores = []
+        event_ctr = 0
         for i in range(len(events)):
             if i + 1 < len(events) and isclose(events[i][0], events[i + 1][0]):
-                scores.append(events[i][1])
-                multiple = True
+                event_ctr += 1
                 continue
-            elif multiple:
-                print(f"{folder_name} at {events[i][0]} multiple events: {scores}")
-                multiple = False
-                scores = []
+            elif event_ctr > 0:
+                event_ctr += 1
+                print(f"{folder_name} at {events[i][0]} multiple events: {event_ctr}")
+                event_ctr = 0
 
     def relative_result(self, res, sota_xs, sota_ys):
         """
