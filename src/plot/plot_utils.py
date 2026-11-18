@@ -373,4 +373,6 @@ def create_legend_args(cfg: CFG):
         legend_kwargs["loc"] = "center"
         legend_kwargs["bbox_to_anchor"] = (xlegend, ylegend)
     legend_kwargs["reverse"] = True
+    if "legend_kwargs" in cfg.atr.keys() and cfg.atr["legend_kwargs"] is not None:
+        legend_kwargs = cfg.atr["legend_kwargs"] | legend_kwargs
     return legend_kwargs
