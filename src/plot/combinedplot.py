@@ -3,6 +3,7 @@ from src.plot.lineplot import LinePlot
 from typing import Optional
 import numpy as np
 import pandas as pd
+from math import isclose
 
 
 class CombinedPlot(BasePlot):
@@ -142,6 +143,10 @@ class CombinedPlot(BasePlot):
                         kbest_events.append((sorted_times[self.cfg.atr["kbest"] - 1], +1))
                     kbest_events.append((base, -1))
 
+        if self.cfg.atr["search_multiple_events"]:
+            for i, event_list in enumerate(events):
+                self.search_multiple_events(event_list, folder_names[i])
+
         # compute the individual curves from the events
         res = []
         for i, evs in enumerate(events):
@@ -211,6 +216,22 @@ class CombinedPlot(BasePlot):
             if y != 0:
                 return False
         return True
+
+    def search_multiple_events(self, events: list[tuple[float, int]], folder_name: str) -> None:
+        """
+        Searches for datapoints where multiple events happened at the same time.
+        """
+        multiple = False
+        scores = []
+        for i in range(len(events)):
+            if i + 1 < len(events) and isclose(events[i][0], events[i + 1][0]):
+                scores.append(events[i][1])
+                multiple = True
+                continue
+            elif multiple:
+                print(f"{folder_name} at {events[i][0]} multiple events: {scores}")
+                multiple = False
+                scores = []
 
     def relative_result(self, res, sota_xs, sota_ys):
         """

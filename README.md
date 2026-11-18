@@ -979,6 +979,18 @@ These arguments are processed by pytarize. Using these arguments alone will not 
             <td colspan="3" valign="top">Enables cleaning that removes datapoints that don't change the score and are not the first ore last datapoint of a flat section of the curve.
             </td>
         </tr>
+        <tr valign="top">
+            <td valign="top"><code>--search-multiple-events</code></td>
+            <td valign="top"><code>search_multiple_events</code></td>
+            <td valign="top"><code>bool</code></td>
+            <td valign="top">combinedplot</td>
+            <td valign="top"><pre><code>search_multiple_events: true</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Searches for events that happened at the same time.
+            </td>
+        </tr>
     </tbody>
 </table>
 
