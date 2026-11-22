@@ -812,6 +812,17 @@ These arguments are processed by pytarize. Using these arguments alone will not 
             </td>
         </tr>
         <tr valign="top">
+            <td valign="top"><code>--steps</code></td>
+            <td valign="top"><code>steps</code></td>
+            <td valign="top"><code>bool</code></td>
+            <td valign="top">lineplot<br>combinedplot</td>
+            <td valign="top"><pre><code>steps: true</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Creates a right stepwise function.
+        </tr>
+        <tr valign="top">
             <td valign="top"><code>--extend</code></td>
             <td valign="top"><code>extend</code></td>
             <td valign="top"><code>float</code></td>

@@ -86,6 +86,9 @@ class LinePlot(BasePlot):
             kwargs["markerfacecolor"] = "none"
         kwargs["color"] = color
 
+        if self.cfg.atr["steps"]:
+            kwargs["drawstyle"] = "steps-post"
+
         # show solved count in legend:
         if self.cfg.atr["show_solved"] and num_in_label is not None:
             kwargs["label"] = f"{num_in_label} {kwargs['label']}"
