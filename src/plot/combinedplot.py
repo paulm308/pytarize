@@ -194,11 +194,6 @@ class CombinedPlot(BasePlot):
             cleaned.append((curve[0], x[mask], y[mask], *curve[3:]))
         res = cleaned
 
-        # add (0, 0) Datapoint.
-        for curve in res:
-            np.insert(curve[1], 0, 0.)
-            np.insert(curve[2], 0, 0.)
-
         # sort curves by area under curve
         res = sorted(res, key=lambda c: np.trapezoid(c[2], c[1]))
 
