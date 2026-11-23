@@ -197,6 +197,10 @@ class CombinedPlot(BasePlot):
         # sort curves by area under curve
         res = sorted(res, key=lambda c: np.trapezoid(c[2], c[1]))
 
+        if self.cfg.atr["show_final_score"]:
+            for i, curve in enumerate(res):
+                res[i] = curve[0], curve[1], curve[2], int(curve[2][-1])
+
         # create curves relative to the sota curve
         if self.cfg.atr["relative"]:
             res = self.relative_result(res, sota_xs, sota_ys)
@@ -381,6 +385,8 @@ class CombinedPlot(BasePlot):
             print("--zeros has no effect if --unique is not used")
         if self.cfg.atr["no_clean"] and self.cfg.atr["flat_clean"]:
             print("--flat-clean has no effect if --no-clean is used")
+        if self.cfg.atr["show_final_score"] and not self.cfg.atr["show_solved"]:
+            print("--show-final-score (-sfc) has no effect if --show-solved is not used")
 
     def create_plot(self, data: list[tuple[str, list[float], list[float], Optional[int]]]):
         """
