@@ -220,7 +220,7 @@ class CombinedPlot(BasePlot):
                 label = self.cfg.atr["kbest_label"]
             res.append((label, kbest_xs, kbest_ys, kbest_label_number))
 
-        if self.cfg.atr["vws"] is not None:
+        if self.cfg.atr["vws"]:
             label = "VWS"
             if self.cfg.atr["vws_label"] is not None:
                 label = self.cfg.atr["vws_label"]
