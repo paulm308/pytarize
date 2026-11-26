@@ -1014,6 +1014,30 @@ These arguments are processed by pytarize. Using these arguments alone will not 
             <td colspan="3" valign="top">Displays the final aggregated score in the legend. Has to be used together with <code>--show-solved</code>.
             </td>
         </tr>
+        <tr valign="top">
+            <td valign="top"><code>--vws</code></td>
+            <td valign="top"><code>vws</code></td>
+            <td valign="top"><code>bool</code></td>
+            <td valign="top">combinedplot</td>
+            <td valign="top"><pre><code>vws: true</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Plot the curve of the virtual worst solver.
+            </td>
+        </tr>
+        <tr valign="top">
+            <td valign="top"><code>--vws-label</code><code>-sfc</code></td>
+            <td valign="top"><code>vws_label</code></td>
+            <td valign="top"><code>str</code></td>
+            <td valign="top">combinedplot</td>
+            <td valign="top"><pre><code>vws_label: "VWS"</code></pre>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top"><b>Description:</b></td>
+            <td colspan="3" valign="top">Set the label of the virtual worst solver in the legend.
+            </td>
+        </tr>
     </tbody>
 </table>
 

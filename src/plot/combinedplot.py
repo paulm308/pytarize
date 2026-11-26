@@ -49,7 +49,9 @@ class CombinedPlot(BasePlot):
         events = [[] for _ in range(len(folder_names))]
         sota_events = []
         kbest_events = []
+        vws_events = []
         kbest_label_number = 0
+        vws_label_number = 0
 
         base_idx = -1
         if self.cfg.atr["horse"] and self.cfg.atr["base"] is not None and self.cfg.atr["base"] in folder_names:
@@ -76,6 +78,8 @@ class CombinedPlot(BasePlot):
 
             if self.cfg.atr["kbest"] is not None and self.cfg.atr["kbest"] <= len(valid):
                 kbest_label_number += 1
+            if not invalid:
+                vws_label_number += 1
 
             times = [t for _, t in valid]
             best = min(times)
@@ -106,6 +110,9 @@ class CombinedPlot(BasePlot):
                     kbest_events.append((sorted_times[self.cfg.atr["kbest"] - 1], +1))
                     if len(sorted_times) == len(folder_names):
                         kbest_events.append((worst, -1))
+                # vws
+                if len(valid) == len(folder_names):
+                    vws_events.append((worst, 0))
 
             # unique: only the best solver gets credited until the second best finishes
             elif self.cfg.atr["unique"]:
@@ -125,6 +132,10 @@ class CombinedPlot(BasePlot):
                     kbest_events.append((best, +1))
                     if second is not None:
                         kbest_events.append((second, -1))
+                if len(folder_names) == 1:
+                    vws_events.append((worst, +1))
+                elif len(valid) == len(folder_names):
+                    vws_events.append((worst, 0))
 
             # horse: compare relative to the base solver which usually is best
             elif self.cfg.atr["horse"]:
@@ -142,6 +153,23 @@ class CombinedPlot(BasePlot):
                     if self.cfg.atr["kbest"] <= len(sorted_times):
                         kbest_events.append((sorted_times[self.cfg.atr["kbest"] - 1], +1))
                     kbest_events.append((base, -1))
+                # vws:
+                if len(folder_names) == 1 and len(valid) == 1:
+                    vws_events.append((worst, 0))
+                else:
+                    vws_events.append((best, -1))
+                    if len(valid) == len(folder_names):
+                        vws_events.append((worst, +1))
+
+            # cdf:
+            elif self.cfg.atr["cdf"]:
+                for i, t in valid:
+                    events[i].append((t, +1))
+                sota_events.append((best, +1))
+                if self.cfg.atr["kbest"] is not None and self.cfg.atr["kbest"] < len(valid):
+                    kbest_events.append((sorted_times[self.cfg.atr["kbest"] - 1], +1))
+                if len(folder_names) == len(valid):
+                    vws_events.append((worst, +1))
 
         if self.cfg.atr["search_multiple_events"]:
             for i, event_list in enumerate(events):
@@ -173,6 +201,13 @@ class CombinedPlot(BasePlot):
             else:
                 kbest_xs, kbest_ys = self.clean_up_curves(kbest_xs, kbest_ys)
 
+        vws_xs, vws_ys = self.event_to_curve(vws_events)
+        if not (self.is_base_curve(vws_ys) or self.cfg.atr["no_clean"]):
+            if self.cfg.atr["flat_clean"]:
+                vws_xs, vws_ys = self.flat_clean_up_curves(vws_xs, vws_ys)
+            else:
+                vws_xs, vws_ys = self.clean_up_curves(vws_xs, vws_ys)
+
         if self.cfg.atr["sota"]:
             label = "sota"
             if self.cfg.atr["sota_label"] is not None:
@@ -185,6 +220,12 @@ class CombinedPlot(BasePlot):
                 label = self.cfg.atr["kbest_label"]
             res.append((label, kbest_xs, kbest_ys, kbest_label_number))
 
+        if self.cfg.atr["vws"] is not None:
+            label = "VWS"
+            if self.cfg.atr["vws_label"] is not None:
+                label = self.cfg.atr["vws_label"]
+            res.append((label, vws_xs, vws_ys, vws_label_number))
+
         # remove NaNs:
         cleaned = []
         for curve in res:
@@ -196,6 +237,8 @@ class CombinedPlot(BasePlot):
 
         # sort curves by area under curve
         res = sorted(res, key=lambda c: np.trapezoid(c[2], c[1]))
+        if self.cfg.atr["cdf"]:
+            res = sorted(res, key=lambda c: c[2][-1])
 
         if self.cfg.atr["show_final_score"]:
             for i, curve in enumerate(res):
@@ -360,7 +403,7 @@ class CombinedPlot(BasePlot):
         Parameters:
         folder_names (list[str]): The names of the folders that contain a zummary file.
         """
-        if self.cfg.atr["stable"] is False and self.cfg.atr["unique"] is False and self.cfg.atr["horse"] is False:
+        if self.cfg.atr["stable"] is False and self.cfg.atr["unique"] is False and self.cfg.atr["horse"] and self.cfg.atr["cdf"] is False:
             self.cfg.atr["horse"] = True
         elif self.cfg.atr["stable"] + self.cfg.atr["unique"] + self.cfg.atr["horse"] >= 2:
             opts = [[self.cfg.atr["stable"], "--stable"], [self.cfg.atr["unique"], "--unique"], [self.cfg.atr["horse"], "--horse"]]
