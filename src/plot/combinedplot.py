@@ -166,7 +166,7 @@ class CombinedPlot(BasePlot):
                 for i, t in valid:
                     events[i].append((t, +1))
                 sota_events.append((best, +1))
-                if self.cfg.atr["kbest"] is not None and self.cfg.atr["kbest"] < len(valid):
+                if self.cfg.atr["kbest"] is not None and self.cfg.atr["kbest"] <= len(sorted_times):
                     kbest_events.append((sorted_times[self.cfg.atr["kbest"] - 1], +1))
                 if len(folder_names) == len(valid):
                     vws_events.append((worst, +1))
