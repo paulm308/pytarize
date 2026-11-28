@@ -157,7 +157,7 @@ class CombinedPlot(BasePlot):
                 if len(folder_names) == 1 and len(valid) == 1:
                     vws_events.append((worst, 0))
                 else:
-                    vws_events.append((best, -1))
+                    vws_events.append((base, -1))
                     if len(valid) == len(folder_names):
                         vws_events.append((worst, +1))
 
